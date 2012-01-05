@@ -1,0 +1,58 @@
+{% extends "ZymUserBundle::layout.html.twig" %}
+
+{% block title %}{{ 'Users' | trans({}, 'ZymUserBundle') }}{% endblock %}
+
+{% block content %}
+    <div class="page-header">
+        <h1>
+            {{ 'Users' | trans({}, 'ZymUserBundle') }}
+            <small>{{ 'Manage users' | trans({}, 'ZymUserBundle') }}</small>
+        </h1>
+    </div>
+    
+    <div class="btn-group">
+        {% if is_granted('CREATE', ['class', 'Zym\\Bundle\\UserBundle\\Entity\\User']) %}
+        <a class="btn" href="{{ path('zym_user_users_create') }}" class="button">{{ 'Add User' | trans({}, 'ZymUserBundle') }}</a>
+        {% endif %}
+    </div>
+
+    <table class="striped-table">
+        <thead>
+            <tr>
+                <th>#</th>
+                <th>Email</th>
+                <th>Enabled</th>
+                <th>Roles</th>
+                <th>{{ 'Actions' | trans({}, 'ZymUserBundle') }}</th>
+            </tr>
+        </thead>
+        
+        <tbody>
+            {% for user in users %}
+            <tr>
+                <td>{{ user.id |e }}</td>
+                <td><a href="{{ path('zym_user_users_show', { 'id': user.id }) }}">{{ user.email |e }}</a></td>
+                <td>{{ user.enabled ? 'Yes' : 'No' | trans({}, 'ZymUserBundle') }}</td>
+                <td>{{ user.roles | join(', ') }}</td>
+                <td>
+                    <div class="btn-group">
+                        {% if is_granted('VIEW', user) %}
+                        <a class="btn" href="{{ path('zym_user_users_show', { 'id': user.id }) }}">{{ 'View' | trans({}, 'ZymUserBundle') }}</a>
+                        {% endif %}
+                        
+                        {% if is_granted('EDIT', user) %}
+                        <a class="btn" href="{{ path('zym_user_users_edit', { 'id': user.id }) }}">{{ 'Edit' | trans({}, 'ZymUserBundle') }}</a>
+                        {% endif %}
+                        
+                        {% if is_granted('DELETE', user) %}
+                        <a class="btn" href="{{ path('zym_user_users_delete', { "id": user.id }) }}" class="button">{{ 'Delete' | trans({}, 'ZymUserBundle') }}</a>
+                        {% endif %}
+                    </div>
+                </td>
+            </tr>
+            {% endfor %}
+        </tbody>
+    </table>
+    
+    {{ users.render() |raw }}
+{% endblock %}

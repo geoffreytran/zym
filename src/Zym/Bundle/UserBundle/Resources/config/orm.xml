@@ -1,0 +1,25 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+
+<container xmlns="http://symfony.com/schema/dic/services"
+    xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+    xsi:schemaLocation="http://symfony.com/schema/dic/services http://symfony.com/schema/dic/services/services-1.0.xsd">
+
+    <parameters>
+        <parameter key="zym_user.user_manager.default.class">Zym\Bundle\UserBundle\Entity\UserManager</parameter>
+
+        <!-- Legacy support -->
+        <parameter key="fos_user.user_manager.class">%zym_user.user_manager.default.class%</parameter>
+    </parameters>
+
+    <services>
+        <service id="zym_user.user_manager.default" class="%zym_user.user_manager.default.class%" public="false">
+            <argument type="service" id="security.encoder_factory" />
+            <argument type="service" id="fos_user.util.username_canonicalizer" />
+            <argument type="service" id="fos_user.util.email_canonicalizer" />
+            <argument type="service" id="doctrine.orm.entity_manager" />
+            <argument>%fos_user.model.user.class%</argument>
+            <argument type="service" id="knp_paginator" strict="false"  />
+            <argument type="service" id="security.acl.provider" on-invalid="ignore" />
+        </service>
+    </services>
+</container>

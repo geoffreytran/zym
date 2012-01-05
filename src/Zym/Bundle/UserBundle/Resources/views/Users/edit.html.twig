@@ -1,0 +1,51 @@
+{% extends "ZymUserBundle::layout.html.twig" %}
+
+{% block title %}{{ 'Editing User' | trans({}, 'ZymUserBundle') }} {{ user.fullName|e }}{% endblock %}
+
+{% block content %}
+    <div class="page-header">
+        <h1>
+            {{ 'Editing User' | trans({}, 'ZymUserBundle') }} {{ user.fullName|e }}
+            <small>{{ user.username |e }}</small>
+        </h1>
+    </div>
+
+    <div class="btn-group">
+        <a class="btn" href="{{ path('zym_user_users') }}">{{ 'Users' | trans({}, 'ZymUserBundle') }}</a>
+        
+        {% if is_granted('VIEW', user) %}
+        <a class="btn" href="{{ path('zym_user_users_show', { "id": user.id }) }}">{{ 'View' | trans({}, 'ZymUserBundle') }}</a>
+        {% endif %}
+        
+        {% if is_granted('DELETE', user) %}
+        <a class="btn" href="{{ path('zym_user_users_delete', { "id": user.id }) }}">{{ 'Delete' | trans({}, 'ZymUserBundle') }}</a>
+        {% endif %}
+    </div>
+
+    <form action="" method="post" {{ form_enctype(form) }}>
+        <fieldset>
+            <legend>User Information</legend>
+            <dl>
+                {{ form_row(form.firstName) }}
+                {{ form_row(form.lastName) }}
+                {{ form_row(form.email) }}
+                {{ form_row(form.plainPassword) }}
+            </dl>
+        </fieldset>
+
+        <fieldset>
+            <legend>Groups and Permissions</legend>
+            <dl>
+                {{ form_row(form.groups) }}
+            </dl>
+        </fieldset>
+
+        {{ form_rest(form) }}
+    
+        <fieldset class="form-actions">
+             <input class="btn primary" type="submit" value="{{ 'Save changes' | trans({}, 'ZymUserBundle') }}" />
+             <a class="btn" href="{{ path('zym_user_users_show', { "id": user.id }) }}">{{ 'Cancel' | trans({}, 'ZymUserBundle') }}</a>
+            
+         </fieldset>
+    </form>
+{% endblock content %}
