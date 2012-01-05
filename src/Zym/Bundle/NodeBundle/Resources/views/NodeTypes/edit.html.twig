@@ -1,0 +1,21 @@
+{% extends "ZymNodeBundle::layout.html.twig" %}
+
+{% block title %}{{ 'Edit Content Type: "%nodeType%"' | trans({ '%nodeType%': nodeType.name }, 'ZymNodeBundle') }}{% endblock %}
+
+{% block content %}
+    <div class="page-header">
+        <h1>
+            {{ 'Edit Content Type' | trans({}, 'ZymNodeBundle') }}
+            <small>{{ nodeType.name | trans }}</small>
+        </h1>
+    </div>
+    
+    <form action="" method="post" {{ form_enctype(form) }}>
+        {{ form_rest(form) }}
+    
+        <fieldset class="form-actions">
+            <input type="submit" value="{{ 'Save changes' | trans({}, 'ZymNodeBundle') }}" class="btn primary" />
+            <a class="btn" href="{{ path('zym_node_node_types') }}">Cancel</a>
+        </fieldset>
+    </form>
+{% endblock content %}

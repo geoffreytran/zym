@@ -1,0 +1,17 @@
+{% extends "ZymNodeBundle::layout.html.twig" %}
+
+{% block title %}{{ node.title |e }}{% endblock %}
+
+{% block content %}
+    <div class="page-header">
+        <h1>
+            {{ node.title |e }}
+            <small>{{ node.nodeType.name |e }}</small>
+        </h1>
+    </div>
+    
+    {% for field in node.fields %}
+        {{ field |raw }}<br />
+    {% endfor %}
+{% endblock %}
+

@@ -1,0 +1,21 @@
+{% extends "ZymMenuBundle::layout.html.twig" %}
+
+{% block title %}{{ 'Edit Menu' | trans({}, 'RAPPBackendBundle') }}{% endblock %}
+
+{% block content %}
+    <div class="page-header">
+        <h1>
+            {{ 'Edit Menu' | trans({}, 'ZymNodeBundle') |e }}
+            <small>{{ menu.label | trans({}, 'ZymNodeBundle') |e }}</small>
+        </h1>
+    </div>
+    
+    <form action="" method="post" {{ form_enctype(form) }}>
+        {{ form_rest(form) }}
+    
+        <fieldset class="form-actions">
+            <input class="btn primary" type="submit" value="{{ 'Save changes' | trans({}, 'ZymMenuBundle') }}" />
+            <a class="btn" href="{{ path('zym_menus_edit', { 'id': menu.name }) }}">{{ 'Cancel' | trans({}, 'ZymMenuBundle') }}</a>
+        </fieldset>
+    </form>
+{% endblock content %}

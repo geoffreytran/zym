@@ -1,0 +1,57 @@
+{% extends "ZymNodeBundle::layout.html.twig" %}
+
+{% block title %}{{ 'Add Content' | trans({}, 'ZymNodeBundle') }}{% endblock %}
+
+{% block content %}
+    {% if nodeTypes is defined %}
+        <div class="page-header">
+            <h1>
+                {{ 'Add Content' |trans({}, 'ZymNodeBundle') }}
+                <small>{{ 'Select a content type' |trans({}, 'ZymNodeBundle') }}</small>
+            </h1>
+        </div>
+        
+        {% if nodeTypes|length %}
+        <ul>
+            {% for nodeType in nodeTypes %}
+            <li>
+                <a href="{{ path('zym_nodes_add', { 'type': nodeType.type }) }}">{{ nodeType.name }}</a>
+                <div class="description">
+                    {{ nodeType.description | raw }}
+                </div>
+            </li>
+            {% endfor %}
+        </ul>
+        {% else %}
+        <p>No content types have been defined.</p>
+        {% endif %}
+    {% endif %}
+    
+    
+    
+    {% if form is defined %}
+    <div class="page-header">
+        <h1>
+            {{ 'Add Content' |trans({}, 'ZymNodeBundle') }}
+            <small>{{ nodeType.name |trans({}, 'ZymNodeBundle') }}</small>
+        </h1>
+        
+        <div class="description">
+            {{ nodeType.description | raw }}
+        </div>
+    </div>
+
+    <div class="help">
+    </div>
+
+    {{ form_errors(form) }}
+    <form action="" method="post" {{ form_enctype(form) }}>
+        {{ form_rest(form) }}
+    
+        <fieldset class="form-actions">
+            <input type="submit" value="{{ 'Create' | trans({}, 'ZymNodeBundle') }}" class="btn primary" />
+            <a class="btn" href="{{ path('zym_nodes') }}">Cancel</a>
+        </fieldset>
+    </form>
+    {% endif %}
+{% endblock content %}

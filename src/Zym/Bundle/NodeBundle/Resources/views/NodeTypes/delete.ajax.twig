@@ -1,0 +1,21 @@
+<div class="modal-header">
+    <a href="#" class="close" data-dismiss="modal">&times;</a>
+    <h3>{{ 'Confirm Deletion' | trans({}, 'ZymMenuBundle') }}</h3>
+</div>
+
+<div class="modal-body">
+    <p>
+        You are about to delete <strong>"{{ nodeType.name |e }}"</strong>.
+        This action cannot be undone.<br />
+        <strong>Are you sure you want to proceed?</strong>
+    </p>
+</div>
+
+<div class="modal-footer">
+    <form action="{{ path('zym_node_node_types_delete', { 'type' : nodeType }) }}" method="post" {{ form_enctype(form) }}>
+        {{ form_rest(form) }}        
+        
+        <input class="btn danger" type="submit" value="{{ 'Confirm Deletion' | trans({}, 'ZymNodeBundle') }}" />
+        <a href="#" class="btn" data-dismiss="modal">{{ 'Cancel' | trans({}, 'ZymNodeBundle') }}</a>
+    </form>
+</div>

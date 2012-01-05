@@ -1,0 +1,71 @@
+{% extends "ZymNodeBundle::layout.html.twig" %}
+
+{% block title %}{{ 'Content' | trans({}, 'ZymNodeBundle') }}{% endblock %}
+
+{% block content %}
+    <div class="page-header">
+        <h1>
+            {{ 'Content' | trans({}, 'ZymNodeBundle') }}
+            
+            <small>{{ 'Manage content' | trans({}, 'ZymNodeBundle') }}</small>
+        </h1>
+    </div>
+
+    <div class="btn-group">
+        {% if is_granted('CREATE', ['class', 'Zym\\Bundle\\NodeBundle\\Entity\\Node']) %}
+        <a  class="btn" href="{{ path('zym_nodes_add') }}">{{ 'New Content' | trans({}, 'ZymNodeBundle') }}</a>
+        {% endif %}
+    </div>
+    
+    <table class="striped-table">
+        <thead>
+            <tr>
+                <th>#</th>
+                <th>{{ 'Title' |trans({}, 'ZymNodeBundle') }}</th>
+                <th>{{ 'Type' |trans({}, 'ZymNodeBundle') }}</th>
+                <th>{{ 'Actions' |trans({}, 'ZymNodeBundle') }}</th>
+            </tr>
+        </thead>
+        
+        <tbody>
+            {% for node in nodes %}
+            <tr>
+                <td><a href="{{ path('zym_nodes_edit', { 'id': node.id }) }}">{{ node.id |e }}</td>
+                <td>{{ node.title |e }}</td>
+                <td>{{ node.nodeType.name |e }}</td>
+                <td>
+                    <div class="btn-group">
+                        {% if is_granted('VIEW', node) %}
+                        <a class="btn" href="{{ path('zym_nodes_node', { 'id': node.id })}}">{{ 'View' | trans({}, 'ZymNodeBundle') }}</a>
+                        {% endif %}
+                        
+                        {% if is_granted('EDIT', node) %}
+                        <a class="btn" href="{{ path('zym_nodes_edit', { 'id': node.id })}}">
+                            {{ 'Edit' | trans({}, 'ZymNodeBundle') }}
+                        </a>
+                        {% endif %}
+                        
+                        {% if is_granted('DELETE', node) %}
+                        <a class="btn" href="{{ path('zym_node_nodes_delete', { 'id': node.id })}}"  data-toggle="ajax-modal">
+                            {{ 'Delete' | trans({}, 'ZymNodeBundle') }}
+                        </a>
+                        {% endif %}
+                    </div>
+                </td>
+            </tr>
+            {% endfor %}
+        </tbody>
+    </table>
+    
+    {% if nodes | length <= 0 %}
+        <p>
+            {{ 'No content added yet.' | trans({}, 'ZymNodeBundle') }}
+            
+            {% if is_granted('CREATE', ['class', 'Zym\\Bundle\\NodeBundle\\Entity\\Node']) %}
+            <a class="" href="{{ path('zym_nodes_add') }}">{{ 'Create new content.' | trans({}, 'ZymNodeBundle') }}</a>
+            {% endif %}
+        </p>
+    {% endif %}
+    
+    {{ nodes.render() |raw }}    
+{% endblock content %}

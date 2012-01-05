@@ -1,0 +1,64 @@
+{% extends "ZymSecurityBundle::layout.html.twig" %}
+
+{% block title %}{{ 'ACL Roles' | trans({}, 'ZymSecurityBundle') }}{% endblock %}
+
+{% block content %}
+    <div class="page-header">
+        <h1>
+            {{ 'ACL Roles' | trans({}, 'ZymSecurityBundle') }}
+            <small>Manage roles</small>
+        </h1>
+    </div>
+    
+    <p>
+        Roles allow you to fine tune the security and administration of Zym. A role defines a 
+        group of users that have certain privileges as defined on the permissions page. 
+        Examples of roles include: anonymous user, authenticated user, moderator, administrator 
+        and so on. In this area you will define the names and order of the roles on your site. 
+        It is recommended to order your roles from least permissive (anonymous user) to most 
+        permissive (administrator). To delete a role choose "edit role".
+    </p>
+
+    <p>
+        By default, Zym comes with two user roles:
+
+        Anonymous user: this role is used for users that don't have a user account or that are not authenticated.
+        Authenticated user: this role is automatically granted to all logged in users.
+    </p>
+    
+    <div class="btn-group">
+        {% if is_granted('CREATE', ['class', 'Zym\\Bundle\\SecurityBundle\\Entity\\AclSecurityIdentity']) %}
+        <a  class="btn" href="{{ path('zym_security_acl_roles_add') }}">{{ 'New Role' | trans({}, 'ZymSecurityBundle') }}</a>
+        {% endif %}
+    </div>
+    
+    <table class="striped-table">
+        <thead>
+            <tr>
+                <th>#</th>
+                <th>{{ 'Identifier' |trans({}, 'ZymSecurityBundle') }}</th>
+                <th>{{ 'Type' |trans({}, 'ZymSecurityBundle') }}</th>
+                <th>{{ 'Actions' |trans({}, 'ZymSecurityBundle') }}</th>
+            </tr>
+        </thead>
+        
+        <tbody>
+            {% for role in roles %}
+            <tr>
+                <td><a href="">{{ role.id |e }}</td>
+                <td>{{ role.identifier |e }}</td>
+                <td>{{ role.username ? 'User' : 'Role' |e }}</td>
+                <td>
+                    <div class="btn-group">   
+                        {% if is_granted('DELETE', role) %}
+                        <a class="btn" href="{{ path('zym_security_acl_roles_delete', { 'id': role.id })}}" data-toggle="ajax-modal">{{ 'Delete' |trans({}, 'ZymSecurityBundle') }}</a>
+                        {% endif %}                     
+                    </div>
+                </td>
+            </tr>
+            {% endfor %}
+        </tbody>
+    </table>
+    
+    {{ roles.render() |raw }}
+{% endblock content %}

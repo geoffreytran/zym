@@ -1,0 +1,22 @@
+{% extends "ZymSecurityBundle::layout.html.twig" %}
+
+{% block title %}{{ 'Delete Access Rule' | trans({}, 'ZymSecurityBundle') }}{% endblock %}
+
+{% block content %}
+    <h3>{{ 'Confirm Deletion' |trans({}, 'ZymSecurityBundle') }}</h3>
+    
+    <p>
+        You are about to delete <strong>"{{ accessRule.path |e }}"</strong>.
+        This action cannot be undone.<br />
+        <strong>Are you sure you want to proceed?</strong>
+    </p>
+
+    <form action="{{ path('zym_security_access_rules_delete', { 'id' : role.id }) }}" method="post" {{ form_enctype(form) }}>
+        {{ form_rest(form) }}
+        
+        <fieldset class="form-actions">
+            <input class="btn danger" type="submit" value="{{ 'Delete' | trans }}" />
+            <a class="btn" href="{{ path('zym_security_access_rules') }}" class="button">{{ 'Cancel' |trans({}, 'ZymSecurityBundle') }}</a>
+        </fieldset>
+    </form>
+{% endblock content %}

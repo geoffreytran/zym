@@ -1,0 +1,27 @@
+{% extends "ZymNodeBundle::layout.html.twig" %}
+
+{% block title %}{{ 'Delete Node' | trans({}, 'ZymNodeBundle') }}{% endblock %}
+
+{% block content %}
+    <div class="page-header">
+        <h1>
+            {{ 'Confirm Deletion' |trans({}, 'ZymNodeBundle') }}
+            <small>{{ node.title |trans({}, 'ZymNodeBundle') }}</small>
+        </h1>
+    </div>
+    
+    <p>
+        You are about to delete <strong>"{{ node.title |e }}"</strong>.
+        This action cannot be undone.<br />
+        <strong>Are you sure you want to proceed?</strong>
+    </p>
+
+    <form action="{{ path('zym_node_nodes_delete', { 'id' : node.id }) }}" method="post" {{ form_enctype(form) }}>
+        {{ form_rest(form) }}
+        
+        <fieldset class="form-actions">
+            <input class="btn danger" type="submit" value="{{ 'Delete' | trans({}, 'ZymNodeBundle') }}" />
+            <a class="btn" href="{{ path('zym_nodes') }}" class="button">{{ 'Cancel' | trans({}, 'ZymNodeBundle') }}</a>
+        </fieldset>
+    </form>
+{% endblock content %}

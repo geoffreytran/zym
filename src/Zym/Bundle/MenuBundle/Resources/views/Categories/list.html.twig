@@ -1,0 +1,27 @@
+{% extends "ZymMenuBundle::layout.html.twig" %}
+
+{% block title %}{{ 'Menus' | trans({}, 'ZymMenuBundle') }}{% endblock %}
+
+{% block content %}
+    <div class="page-header">
+        <h1>
+            {{ menuItem.label | trans }}
+            <small></small>
+        </h1>
+    </div>
+    
+    <div class="row">
+        {% for child in menuItem.children %}
+        <div class="span6">
+            <h2><a href="{{ child.uri }}">{{ child.label }}</a></h2>
+            <ul>
+                {% for c in child.children %}
+                <li>
+                    <a href="{{ c.uri }}">{{ c.label }}</a>
+                </li>
+                {% endfor %}
+            </ul>
+        </div>
+        {% endfor %}
+    </div>
+{% endblock %}

@@ -1,0 +1,70 @@
+{% extends "ZymSecurityBundle::layout.html.twig" %}
+
+{% block title %}{{ 'Access Rules' | trans({}, 'ZymSecurityBundle') }}{% endblock %}
+
+{% block content %}
+    <div class="page-header">
+        <h1>
+            {{ 'Access Rules' | trans({}, 'ZymSecurityBundle') }}
+            <small>{{ 'Manage access rules' | trans({}, 'ZymSecurityBundle') }}</small>
+        </h1>
+    </div>
+    
+    <div class="btn-group">
+        {% if is_granted('CREATE', ['class', 'Zym\\Bundle\\SecurityBundle\\Entity\\AccessRule']) %}
+        <a class="btn" href="{{ path('zym_security_access_rules_add') }}">{{ 'New Rule' | trans({}, 'ZymSecurityBundle') }}</a>
+        {% endif %}
+    </div>
+    
+    <table class="striped-table">
+        <thead>
+            <tr>
+                <th>#</th>
+                <th>{{ 'Path' |trans({}, 'ZymSecurityBundle') }}</th>
+                <th>{{ 'Roles' |trans({}, 'ZymSecurityBundle') }}</th>
+                <th>{{ 'Actions' |trans({}, 'ZymSecurityBundle') }}</th>
+            </tr>
+        </thead>
+        
+        <tbody>
+            {% for rule in accessRules %}
+            <tr>
+                <td>
+                    <a href="{{ path('zym_security_access_rules_edit', { 'id': rule.id }) }}">{{ rule.id |e }}</a>
+                </td>
+                <td>{{ rule.path |e }}</td>
+                <td>{{ rule.roles |join(', ') |e }}</td>
+                <td>
+                    <div class="btn-group">
+                        {% if is_granted('EDIT', rule) %}
+                        <a class="btn" href="{{ path('zym_security_access_rules_edit', { 'id': rule.id })}}">
+                            {{ 'Edit' | trans({}, 'ZymSecurityBundle') }}
+                        </a>
+                        {% endif %}
+                        
+                        {% if is_granted('DELETE', rule) %}
+                        <a class="btn" href="{{ path('zym_security_access_rules_delete', { 'id': rule.id })}}"  data-toggle="ajax-modal">
+                            {{ 'Delete' | trans({}, 'ZymSecurityBundle') }}
+                        </a>
+                        {% endif %}
+                    </div>
+                </td>
+            </tr>
+            {% endfor %}
+        </tbody>
+    </table>
+    
+    {% if accessRules | length <= 0 %}
+        <p>
+            {{ 'There are no current access rules.' | trans({}, 'ZymSecurityBundle') }}
+            
+            {% if is_granted('CREATE', ['class', 'Zym\\Bundle\\SecurityBundle\\Entity\\AccessRule']) %}
+            <a class="" href="{{ path('zym_security_access_rules_add') }}">{{ 'Create a new access rule.' | trans({}, 'ZymSecurityBundle') }}</a>
+            {% endif %}
+        </p>
+    {% endif %}
+    
+    {{ accessRules.render() |raw }}
+    
+    
+{% endblock content %}

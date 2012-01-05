@@ -1,0 +1,26 @@
+{% extends "ZymMenuBundle::layout.html.twig" %}
+
+{% block title %}{{ 'Add a Menu' | trans({}, 'ZymMenuBundle') }}{% endblock %}
+
+{% block content %}
+    <div class="page-header">
+        <h1>
+            {{ 'New Menu' | trans({}, 'ZymMenuBundle') }}
+            <small>{{ 'Create a new menu' | trans({}, 'ZymMenuBundle') }}</small>
+        </h1>
+    </div>
+
+    <p>
+        {% trans from 'ZymMenuBundle' %}Menus are a collection of links (menu items) used to navigate a website.{% endtrans %}
+    </p>
+
+    <form action="" method="post" {{ form_enctype(form) }}>
+        {{ form_rest(form) }}
+    
+        <fieldset class="form-actions">
+            <input class="btn primary" type="submit" value="{{ 'Create' | trans({}, 'ZymMenuBundle') }}" />
+            <a class="btn" href="{{ path('zym_menus') }}">{{ 'Cancel' | trans({}, 'ZymMenuBundle') }}</a>
+            
+        </fieldset>
+    </form>
+{% endblock content %}

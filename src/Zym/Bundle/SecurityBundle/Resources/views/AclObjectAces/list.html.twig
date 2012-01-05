@@ -1,0 +1,119 @@
+{% extends "ZymSecurityBundle::layout.html.twig" %}
+
+{% block title %}{{ 'ACL Object Aces' | trans({}, 'ZymSecurityBundle') }}{% endblock %}
+
+{% block content %}
+    <div class="page-header">
+        <h1>
+            {{ 'ACL Object Aces' | trans({}, 'ZymSecurityBundle') }}
+            <small>{{ 'Manage permissions' | trans({}, 'ZymSecurityBundle') }}
+        </h1>
+    </div>
+    
+    <div class="btn-group">
+        {% if is_granted('CREATE', ['class', 'Zym\\Bundle\\SecurityBundle\\Entity\\AclClass']) %}
+        <a  class="btn" href="{{ path('zym_security_acl_entries_add') }}">{{ 'New Role' | trans({}, 'ZymSecurityBundle') }}</a>
+        {% endif %}
+    </div>
+    
+    <h3>
+        {{ oid.type }}
+        <small>{{ oid.identifier }}</small>
+    </h3>
+    
+    <h4>Class Aces</h4>
+    <table class="striped-table bordered-table">
+        <thead>
+            <tr>
+                <th>{{ 'Role' |trans({}, 'ZymSecurityBundle') }}</th>
+                <th>{{ 'Mask' |trans({}, 'ZymSecurityBundle') }}</th>
+                <th>{{ 'Granting' |trans({}, 'ZymSecurityBundle') }}</th>
+                <th>{{ 'Granting Strategy' |trans({}, 'ZymSecurityBundle') }}</th>
+                <!--
+                <th>{{ 'Audit Failure' |trans({}, 'ZymSecurityBundle') }}</th>
+                <th>{{ 'Audit Success' |trans({}, 'ZymSecurityBundle') }}</th>
+                -->
+                <th>{{ 'Actions' |trans({}, 'ZymSecurityBundle') }}</th>
+            </tr>
+        </thead>
+        
+        <tbody>
+                {% for aceOrder, ace in acl.classAces %}
+                <tr>
+                    <td>{{ ace.securityIdentity.role |e }}</td>
+                    <td>{{ ace.mask |e }}</td>
+                    <td>{{ ace.granting ? 'Yes' : 'No' }}</td>
+                    <td>{{ ace.strategy |e }}</td>
+                    <!--
+                    <td>{{ ace.auditFailure ? 'Yes' : 'No' }}</td>
+                    <td>{{ ace.auditSuccess ? 'Yes' : 'No' }}</td>
+                    -->
+                    <td>
+                        <div class="btn-group">
+                            {% if is_granted('VIEW', oid.type) %}
+                            <a class="btn" href="">{{ 'View' |trans({}, 'ZymSecurityBundle') }}</a>
+                            {% endif %}
+                            
+                            {% if is_granted('OPERATOR', oid.type) %}
+                            <a class="btn" href="{{ path('zym_security_acl_entries_edit', { 'classType': oid.type, 'index': aceOrder }) }}">{{ 'Edit' |trans({}, 'ZymSecurityBundle') }}</a>
+                            <a class="btn" href="" data-toggle="ajax-modal">{{ 'Delete' |trans({}, 'ZymSecurityBundle') }}</a>
+                            {% endif %}
+                        </div>
+                    </td>
+                </tr>
+                {% endfor %}
+        </tbody>
+    </table>
+    
+    <h4>Object Aces</h4>
+    <table class="striped-table bordered-table">
+        <thead>
+            <tr>
+                <th>{{ 'Role' |trans({}, 'ZymSecurityBundle') }}</th>
+                <th>{{ 'Mask' |trans({}, 'ZymSecurityBundle') }}</th>
+                <th>{{ 'Granting' |trans({}, 'ZymSecurityBundle') }}</th>
+                <th>{{ 'Granting Strategy' |trans({}, 'ZymSecurityBundle') }}</th>
+                <!--
+                <th>{{ 'Audit Failure' |trans({}, 'ZymSecurityBundle') }}</th>
+                <th>{{ 'Audit Success' |trans({}, 'ZymSecurityBundle') }}</th>
+                -->
+                <th>{{ 'Actions' |trans({}, 'ZymSecurityBundle') }}</th>
+            </tr>
+        </thead>
+        
+        <tbody>
+                {% for aceOrder, ace in acl.objectAces %}
+                <tr>
+                    <td>
+                        {% if ace.securityIdentity.role is defined %}
+                            {{ ace.securityIdentity.role |e }}
+                        {% elseif ace.securityIdentity.username is defined %}
+                            {{ ace.securityIdentity.username |e }}
+                        {% else %}
+                            {{ 'Unknown Security Identifier' |trans({}, 'ZymSecurityBundle') }}
+                        {% endif %}
+                    </td>
+                    <td>{{ ace.mask |e }}</td>
+                    <td>{{ ace.granting ? 'Yes' : 'No' }}</td>
+                    <td>{{ ace.strategy |e }}</td>
+                    <!--
+                    <td>{{ ace.auditFailure ? 'Yes' : 'No' }}</td>
+                    <td>{{ ace.auditSuccess ? 'Yes' : 'No' }}</td>
+                    -->
+                    <td>
+                        <div class="btn-group">
+                            {% if is_granted('VIEW', oid.type) %}
+                            <a class="btn" href="">{{ 'View' |trans({}, 'ZymSecurityBundle') }}</a>
+                            {% endif %}
+                            
+                            {% if is_granted('OPERATOR', oid.type) %}
+                            <a class="btn" href="{{ path('zym_security_acl_entries_edit', { 'classType': oid.type, 'index': aceOrder }) }}">{{ 'Edit' |trans({}, 'ZymSecurityBundle') }}</a>
+                            <a class="btn" href="" data-toggle="ajax-modal">{{ 'Delete' |trans({}, 'ZymSecurityBundle') }}</a>
+                            {% endif %}
+                        </div>
+                    </td>
+                </tr>
+                {% endfor %}
+        </tbody>
+    </table>    
+{% endblock content %}

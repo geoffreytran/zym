@@ -1,0 +1,63 @@
+{% extends "ZymMenuBundle::layout.html.twig" %}
+
+{% block title %}{{ 'Showing Menu' | trans({}, 'RAPPBackendBundle') }}{% endblock %}
+
+
+{% macro loopMenuItem(menuItem) %}
+    {% if menuItem.children %}
+        <ul>
+            {% for c in menuItem.children %}
+            <li>
+                <a href="{{ path('zym_menus_item_edit', { 'menu': menuItem.menu.name, 'id': c.id })}}">
+                    {{ c.label | e }}
+                </a>
+                {{ _self.loopMenuItem(c)}}
+            </li>
+            {% endfor %}
+        </ul>
+    {% endif %}
+{% endmacro %}
+
+{% block content %}
+    <div class="page-header">
+        <h1>
+            {{ menu.label | trans({}, 'ZymNodeBundle') |e }}
+            <small>{{ menu.name | trans({}, 'ZymNodeBundle') |e }}</small>
+        </h1>
+    </div>
+    
+    <div class="btn-group">        
+        {% if is_granted('EDIT', menu) %}
+        <a class="btn" href="{{ path('zym_menus_edit', { 'id': menu.name }) }}">{{ 'Edit' | trans({}, 'ZymMenuBundle') }}</a>
+        {% endif %}
+
+        {% if is_granted('DELETE', menu) %}
+        <a class="btn" href="{{ path('zym_menus_delete', { 'id': menu.name }) }}">{{ 'Delete' | trans({}, 'ZymMenuBundle') }}</a>
+        {% endif %}
+    </div>
+    
+    <div class="description">
+        {{ menu.description | raw }}
+    </div>
+
+    <h3>Menu Items</h3>
+    
+    <div class="btn-group">
+        {% if is_granted('EDIT', menu) and is_granted('CREATE', ['class', 'Zym\\Bundle\\MenuBundle\\Entity\\MenuItem']) %}
+        <a href="{{ path('zym_menus_item_add', { 'id': menu.name }) }}" class="btn">{{ 'Add Menu Item' | trans({}, 'ZymMenuBundle') }}</a>
+        {% endif %}
+    </div>
+    
+    <ul>
+        {% for menuItem in  menu.children %}
+        <li>
+            <a href="{{ path('zym_menus_item_edit', { 'menu': menu.name, 'id': menuItem.id })}}">
+                {{ menuItem.label }}
+            </a>
+            {{ _self.loopMenuItem(menuItem) }}
+        </li>
+        {% endfor %}
+    </ul>
+
+
+{% endblock content %}

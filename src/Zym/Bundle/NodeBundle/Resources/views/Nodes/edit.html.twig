@@ -1,0 +1,25 @@
+{% extends "ZymNodeBundle::layout.html.twig" %}
+
+{% block title %}{{ 'Edit "%title%"' | trans({ '%title%': node.title }, 'ZymNodeBundle') }}{% endblock %}
+
+{% block content %}
+    <div class="page-header">
+        <h1>
+            {{ 'Edit %nodeType%' | trans({ '%nodeType%': node.nodeType.name }, 'ZymNodeBundle') }}
+            <small>{{ node.title |e }}</small>
+        </h1>
+    </div>
+    
+    <div class="btn-group">
+        <a class="btn" href="{{ path('zym_security_acl_object_aces', { 'type': 'Zym\\Bundle\\NodeBundle\\Entity\\Node', 'identifier': node.id }) }}">Permissions</a>
+    </div>
+    
+    <form action="" method="post" {{ form_enctype(form) }}>
+        {{ form_rest(form) }}
+    
+        <fieldset class="form-actions">
+            <input type="submit" value="{{ 'Save changes' | trans({}, 'ZymNodeBundle') }}" class="btn primary" />
+            <a class="btn" href="{{ path('zym_nodes') }}">Cancel</a>
+        </fieldset>
+    </form>
+{% endblock content %}

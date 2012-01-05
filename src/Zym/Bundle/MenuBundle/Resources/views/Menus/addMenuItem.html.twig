@@ -1,0 +1,29 @@
+{% extends "ZymMenuBundle::layout.html.twig" %}
+
+{% block title %}{{ 'Add a Menu Item' | trans({}, 'ZymMenuBundle') }}{% endblock %}
+
+{% block content %}
+    <div class="page-header">
+        <h1>
+            {{ 'Add Menu Item' |trans({}, 'ZymMenuBundle') }}
+            <small>{{ menu.label |e }}</small>
+        </h1>
+    </div>
+
+    {% if form is defined %}
+    <form action="" method="post" {{ form_enctype(form) }}>
+        {{ form_rest(form) }}
+        {{ form_row(form.parent, { 'empty_value': '---' }) }}
+        
+        <fieldset class="form-actions">
+            <input type="submit" value="{{ 'Create' | trans({}, 'ZymMenuBundle') }}" class="btn primary" />
+            <a class="btn" href="{{ path('zym_menus_add') }}">{{ 'Cancel' | trans({}, 'ZymMenuBundle') }}</a>
+        </fieldset>
+    </form>
+    {% else %}
+    <ul>
+        <li><a href="{{ path('zym_menus_item_add', { 'id': menu.name, 'type': 'routed'}) }}">{{ 'Routed Menu Item' | trans({}, 'ZymMenuBundle') }}</a></li>
+        <li><a href="{{ path('zym_menus_item_add', { 'id': menu.name, 'type': 'static'}) }}">{{ 'Static Menu Item' | trans({}, 'ZymMenuBundle') }}</a></li>
+    </ul>
+    {% endif %}
+{% endblock content %}

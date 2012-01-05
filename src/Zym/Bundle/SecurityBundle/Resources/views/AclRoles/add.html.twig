@@ -1,0 +1,17 @@
+{% extends "ZymSecurityBundle::layout.html.twig" %}
+
+{% block title %}{{ 'New Role' | trans({}, 'ZymSecurityBundle') }}{% endblock %}
+
+{% block content %}
+    <div class="page-header">
+        <h1>{{ 'New Role' |trans({}, 'ZymSecurityBundle') }}</h1>
+    </div>
+    
+    <form action="" method="post" {{ form_enctype(form) }}>
+        {{ form_rest(form) }}
+    
+        <fieldset class="form-actions">
+            <input class="btn primary"  type="submit" value="{{ 'Create' | trans({}, 'ZymSecurityBundle') }}" />
+        </fieldset>
+    </form>
+{% endblock content %}
