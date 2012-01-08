@@ -9,16 +9,18 @@
             <small>{{ 'Manage permissions' | trans({}, 'ZymSecurityBundle') }}
         </h1>
     </div>
-    
-    <div class="btn-group">
-        {% if is_granted('CREATE', ['class', 'Zym\\Bundle\\SecurityBundle\\Entity\\AclClass']) %}
-        <a  class="btn" href="{{ path('zym_security_acl_entries_add') }}">{{ 'New Role' | trans({}, 'ZymSecurityBundle') }}</a>
-        {% endif %}
+
+    <div class="btn-toolbar">
+        <div class="btn-group">
+            {% if is_granted('CREATE', ['class', 'Zym\\Bundle\\SecurityBundle\\Entity\\AclClass']) %}
+            <a  class="btn" href="{{ path('zym_security_acl_entries_add') }}">{{ 'New Role' | trans({}, 'ZymSecurityBundle') }}</a>
+            {% endif %}
+        </div>
     </div>
-    
+
     {% for oid in acls %}
     <h3>{{ oid.type }}</h3>
-    
+
     <h4>Class Aces</h4>
     <table class="striped-table bordered-table">
         <thead>
@@ -34,7 +36,7 @@
                 <th>{{ 'Actions' |trans({}, 'ZymSecurityBundle') }}</th>
             </tr>
         </thead>
-        
+
         <tbody>
                 {% for aceOrder, ace in acls.offsetGet(oid).classAces %}
                 <tr>
@@ -51,7 +53,7 @@
                             {% if is_granted('VIEW', oid.type) %}
                             <a class="btn" href="">{{ 'View' |trans({}, 'ZymSecurityBundle') }}</a>
                             {% endif %}
-                            
+
                             {% if is_granted('OPERATOR', oid.type) %}
                             <a class="btn" href="{{ path('zym_security_acl_entries_edit', { 'classType': oid.type, 'index': aceOrder }) }}">{{ 'Edit' |trans({}, 'ZymSecurityBundle') }}</a>
                             <a class="btn" href="" data-toggle="ajax-modal">{{ 'Delete' |trans({}, 'ZymSecurityBundle') }}</a>
@@ -63,6 +65,6 @@
         </tbody>
     </table>
     {% endfor %}
-    
-    
+
+
 {% endblock content %}

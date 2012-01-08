@@ -9,13 +9,15 @@
             <small>{{ 'Manage content types' | trans({}, 'ZymNodeBundle') }}</small>
         </h1>
     </div>
-    
-    <div class="btn-group">
-        {% if is_granted('CREATE', ['class', 'Zym\\Bundle\\NodeBundle\\Entity\\NodeType']) %}
-        <a  class="btn" href="{{ path('zym_node_node_types_add') }}">{{ 'New Content Type' | trans({}, 'ZymNodeBundle') }}</a>
-        {% endif %}
+
+    <div class="btn-toolbar">
+        <div class="btn-group">
+            {% if is_granted('CREATE', ['class', 'Zym\\Bundle\\NodeBundle\\Entity\\NodeType']) %}
+            <a  class="btn" href="{{ path('zym_node_node_types_add') }}">{{ 'New Content Type' | trans({}, 'ZymNodeBundle') }}</a>
+            {% endif %}
+        </div>
     </div>
-    
+
     <table class="striped-table">
         <thead>
             <tr>
@@ -24,18 +26,18 @@
                 <th>{{ 'Actions' |trans({}, 'ZymNodeBundle') }}</th>
             </tr>
         </thead>
-        
+
         <tbody>
             {% for nodeType in nodeTypes %}
             <tr>
                 <td><a href="{{ path('zym_node_node_types_edit', { 'type': nodeType }) }}">{{ nodeType.type |e }}</td>
                 <td>{{ nodeType.name |e }}</td>
                 <td>
-                    <div class="btn-group">                        
+                    <div class="btn-group">
                         {% if is_granted('EDIT', nodeType) %}
                         <a class="btn" href="{{ path('zym_node_node_types_edit', { 'type': nodeType }) }}">{{ 'Edit' | trans({}, 'ZymNodeBundle') }}</a>
                         {% endif %}
-                        
+
                         {% if is_granted('DELETE', nodeType) %}
                         <a class="btn" href="{{ path('zym_node_node_types_delete', { 'type': nodeType })}}" data-toggle="ajax-modal">{{ 'Delete' | trans({}, 'ZymNodeBundle') }}</a>
                         {% endif %}
@@ -45,6 +47,6 @@
             {% endfor %}
         </tbody>
     </table>
-    
+
     {{ nodeTypes.render() |raw }}
 {% endblock content %}

@@ -8,10 +8,13 @@
             {{ 'Menus' | trans({}, 'ZymMenuBundle') }}
             <small>{{ 'Manage navigation' | trans({}, 'ZymMenuBundle') }}</small>
         </h1>
-        <div class="btn-group pull-right">
-            {% if is_granted('CREATE', ['class', 'Zym\\Bundle\\MenuBundle\\Entity\\Menu']) %}
-            <a class="btn" href="{{ path('zym_menus_add') }}">{{ 'New Menu' | trans({}, 'ZymMenuBundle') }}</a>
-            {% endif %}
+
+        <div class="btn-toolbar">
+            <div class="btn-group pull-right">
+                {% if is_granted('CREATE', ['class', 'Zym\\Bundle\\MenuBundle\\Entity\\Menu']) %}
+                <a class="btn" href="{{ path('zym_menus_add') }}">{{ 'New Menu' | trans({}, 'ZymMenuBundle') }}</a>
+                {% endif %}
+            </div>
         </div>
         <div class="clearfix" style="clear:both"></div>
     </div>
@@ -25,7 +28,7 @@
                 <th>{{ 'Actions' | trans({}, 'ZymMenuBundle') }}</th>
             </tr>
         </thead>
-        
+
         <tbody>
         {% for menu in menus %}
             {% if is_granted('VIEW', menu) %}
@@ -37,7 +40,7 @@
                 <td>
                     <div class="btn-group" style="width: 200px">
                         <a class="btn" href="{{ path('zym_menus_show', { 'id': menu.name }) }}">{{ 'View' | trans({}, 'ZymMenuBundle') }}</a>
-                        
+
                         {% if is_granted('EDIT', menu) %}
                         <a class="btn" href="{{ path('zym_menus_edit', { 'id': menu.name }) }}">{{ 'Edit' | trans({}, 'ZymMenuBundle') }}</a>
                         {% endif %}
@@ -52,16 +55,16 @@
         {% endfor %}
         </tbody>
     </table>
-    
+
     {% if menus | length <= 0 %}
         <p>
             {{ 'No menus added yet.' | trans({}, 'ZymMenuBundle') }}
-            
+
             {% if is_granted('CREATE', ['class', 'Zym\\Bundle\\MenuBundle\\Entity\\Menu']) %}
             <a class="" href="{{ path('zym_menus_add') }}">{{ 'Create a menu.' | trans({}, 'ZymMenuBundle') }}</a>
             {% endif %}
         </p>
     {% endif %}
-    
+
     {{ menus.render() |raw }}
 {% endblock %}

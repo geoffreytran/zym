@@ -9,13 +9,15 @@
             <small>{{ 'Manage access rules' | trans({}, 'ZymSecurityBundle') }}</small>
         </h1>
     </div>
-    
-    <div class="btn-group">
-        {% if is_granted('CREATE', ['class', 'Zym\\Bundle\\SecurityBundle\\Entity\\AccessRule']) %}
-        <a class="btn" href="{{ path('zym_security_access_rules_add') }}">{{ 'New Rule' | trans({}, 'ZymSecurityBundle') }}</a>
-        {% endif %}
+
+    <div class="btn-toolbar">
+        <div class="btn-group">
+            {% if is_granted('CREATE', ['class', 'Zym\\Bundle\\SecurityBundle\\Entity\\AccessRule']) %}
+            <a class="btn" href="{{ path('zym_security_access_rules_add') }}">{{ 'New Rule' | trans({}, 'ZymSecurityBundle') }}</a>
+            {% endif %}
+        </div>
     </div>
-    
+
     <table class="striped-table">
         <thead>
             <tr>
@@ -25,7 +27,7 @@
                 <th>{{ 'Actions' |trans({}, 'ZymSecurityBundle') }}</th>
             </tr>
         </thead>
-        
+
         <tbody>
             {% for rule in accessRules %}
             <tr>
@@ -41,7 +43,7 @@
                             {{ 'Edit' | trans({}, 'ZymSecurityBundle') }}
                         </a>
                         {% endif %}
-                        
+
                         {% if is_granted('DELETE', rule) %}
                         <a class="btn" href="{{ path('zym_security_access_rules_delete', { 'id': rule.id })}}"  data-toggle="ajax-modal">
                             {{ 'Delete' | trans({}, 'ZymSecurityBundle') }}
@@ -53,18 +55,18 @@
             {% endfor %}
         </tbody>
     </table>
-    
+
     {% if accessRules | length <= 0 %}
         <p>
             {{ 'There are no current access rules.' | trans({}, 'ZymSecurityBundle') }}
-            
+
             {% if is_granted('CREATE', ['class', 'Zym\\Bundle\\SecurityBundle\\Entity\\AccessRule']) %}
             <a class="" href="{{ path('zym_security_access_rules_add') }}">{{ 'Create a new access rule.' | trans({}, 'ZymSecurityBundle') }}</a>
             {% endif %}
         </p>
     {% endif %}
-    
+
     {{ accessRules.render() |raw }}
-    
-    
+
+
 {% endblock content %}
