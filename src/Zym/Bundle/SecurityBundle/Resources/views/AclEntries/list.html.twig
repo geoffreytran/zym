@@ -13,7 +13,9 @@
     <div class="btn-toolbar">
         <div class="btn-group">
             {% if is_granted('CREATE', ['class', 'Zym\\Bundle\\SecurityBundle\\Entity\\AclClass']) %}
-            <a  class="btn" href="{{ path('zym_security_acl_entries_add') }}">{{ 'New Role' | trans({}, 'ZymSecurityBundle') }}</a>
+            <a  class="btn" href="{{ path('zym_security_acl_entries_add') }}">
+                <i class="plus"></i> {{ 'New Permission' | trans({}, 'ZymSecurityBundle') }}
+            </a>
             {% endif %}
         </div>
     </div>
@@ -50,13 +52,13 @@
                     -->
                     <td>
                         <div class="btn-group">
-                            {% if is_granted('VIEW', oid.type) %}
+                            {% if is_granted('VIEW', ['class', oid.type]) %}
                             <a class="btn" href="">{{ 'View' |trans({}, 'ZymSecurityBundle') }}</a>
                             {% endif %}
 
-                            {% if is_granted('OPERATOR', oid.type) %}
+                            {% if is_granted('OPERATOR', ['class', oid.type]) %}
                             <a class="btn" href="{{ path('zym_security_acl_entries_edit', { 'classType': oid.type, 'index': aceOrder }) }}">{{ 'Edit' |trans({}, 'ZymSecurityBundle') }}</a>
-                            <a class="btn" href="" data-toggle="ajax-modal">{{ 'Delete' |trans({}, 'ZymSecurityBundle') }}</a>
+                            <a class="btn" href="{{ path('zym_security_acl_entries_delete', { 'classType': oid.type, 'index': aceOrder }) }}" data-toggle="ajax-modal">{{ 'Delete' |trans({}, 'ZymSecurityBundle') }}</a>
                             {% endif %}
                         </div>
                     </td>

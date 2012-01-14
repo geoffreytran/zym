@@ -1,0 +1,33 @@
+{% extends "ZymUserBundle::layout.html.twig" %}
+
+{% block title %}{{ 'Editing Group' | trans({}, 'ZymUserBundle') }} {{ group.name|e }}{% endblock %}
+
+{% block content %}
+    <div class="page-header">
+        <h1>
+            {{ 'Editing Group' | trans({}, 'ZymUserBundle') }}
+            <small>{{ group.name |e }}</small>
+        </h1>
+    </div>
+
+    <div class="btn-group">
+        <a class="btn" href="{{ path('zym_user_groups') }}">{{ 'Groups' | trans({}, 'ZymUserBundle') }}</a>
+
+        {% if is_granted('VIEW', group) %}
+        <a class="btn" href="{{ path('zym_user_groups_show', { "id": group.id }) }}">{{ 'View' | trans({}, 'ZymUserBundle') }}</a>
+        {% endif %}
+
+        {% if is_granted('DELETE', group) %}
+        <a class="btn" href="{{ path('zym_user_groups_delete', { "id": group.id }) }}">{{ 'Delete' | trans({}, 'ZymUserBundle') }}</a>
+        {% endif %}
+    </div>
+
+    <form class="horizontal-form" action="" method="post" {{ form_enctype(form) }}>
+        {{ form_rest(form) }}
+
+        <fieldset class="form-actions">
+             <input class="btn primary large" type="submit" value="{{ 'Save changes' | trans({}, 'ZymUserBundle') }}" />
+             <a class="btn large" href="{{ path('zym_user_groups_show', { "id": group.id }) }}">{{ 'Cancel' | trans({}, 'ZymUserBundle') }}</a>
+         </fieldset>
+    </form>
+{% endblock content %}

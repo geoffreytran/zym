@@ -24,7 +24,7 @@ use Symfony\Component\HttpKernel\Bundle\Bundle,
  * @author    Geoffrey Tran
  * @copyright Copyright (c) 2011 Zym. (http://www.zym.com/)
  *
- * @ORM\Entity()
+ * @ORM\Entity(repositoryClass="GroupRepository")
  * @ORM\Table(name="groups")
  */
 class Group extends BaseGroup
@@ -35,4 +35,16 @@ class Group extends BaseGroup
      * @ORM\GeneratedValue(strategy="AUTO")
      */
     protected $id;
+
+    /**
+     * Construct
+     *
+     * @param string $name
+     * @param array $roles
+     */
+    public function __construct($name = null, $roles = array())
+    {
+        $this->name = $name;
+        $this->roles = $roles;
+    }
 }

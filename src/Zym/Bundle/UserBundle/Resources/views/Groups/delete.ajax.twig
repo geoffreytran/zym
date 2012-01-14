@@ -5,14 +5,14 @@
 
 <div class="modal-body">
     <p>
-        You are about to delete <strong>"{{ user.username |e }}"</strong>.
+        You are about to delete <strong>"{{ group.name |e }}"</strong>.
         This action cannot be undone.<br />
         <strong>Are you sure you want to proceed?</strong>
     </p>
 </div>
 
 <div class="modal-footer">
-    <form action="{{ path('zym_user_users_delete', { 'id' : user.id }) }}" method="post" {{ form_enctype(form) }}>
+    <form action="{{ path('zym_user_groups_delete', { 'id' : group.id }) }}" method="post" {{ form_enctype(form) }}>
         {{ form_rest(form) }}
         <input class="btn danger" type="submit" value="{{ 'Confirm Deletion' | trans({}, 'ZymUserBundle') }}" />
         <a href="#" class="btn" data-dismiss="modal">{{ 'Cancel' | trans({}, 'ZymUserBundle') }}</a>

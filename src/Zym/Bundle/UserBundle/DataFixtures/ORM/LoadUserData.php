@@ -36,22 +36,25 @@ class LoadUserData extends AbstractFixture
         $user->setEmail('root@localhost');
         $user->setConfirmationToken(null);
         $user->setEnabled(true);
+        $user->addRole('ROLE_USER');
+        $user->addRole('ROLE_ADMIN');
         $user->addRole('ROLE_SUPER_ADMIN');
-        
+        $user->addRole('ROLE_ALLOWED_TO_SWITCH');
+
         $userManager = $this->container->get('fos_user.user_manager');
         $userManager->addUser($user);
     }
-    
+
     /**
      * Get the order in which fixtures will be loaded
-     * 
+     *
      * @return integer
      */
     public function getOrder()
     {
         return 2; // the order in which fixtures will be loaded
     }
-    
+
     /**
      * Set the container
      *

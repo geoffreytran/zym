@@ -5,7 +5,7 @@ use Zym\Security\Http\AccessMap;
 use Symfony\Component\HttpKernel\Event\GetResponseEvent;
 use Symfony\Component\HttpKernel\HttpKernelInterface;
 
-class AccessMapListener 
+class AccessMapListener
 {
     /**
      * Access Map
@@ -13,14 +13,14 @@ class AccessMapListener
      * @var AccessMap
      */
     protected $accessMap;
-    
+
     /**
      * Access Rule Provider
      *
      * @var AccessRuleProviderInterface
      */
     protected $accessRuleProvider;
-    
+
     /**
      * Construct
      *
@@ -32,7 +32,7 @@ class AccessMapListener
         $this->accessMap          = $accessMap;
         $this->accessRuleProvider = $accessRuleProvider;
     }
-    
+
     /**
      * onKernelRequest
      *
@@ -44,10 +44,10 @@ class AccessMapListener
             // return immediately
             return;
         }
-        
+
         $accessMap          = $this->accessMap;
         $accessRuleProvider = $this->accessRuleProvider;
-        foreach ($accessRuleProvider->getRules() as $rule) {            
+        foreach ($accessRuleProvider->getRules() as $rule) {
             $accessMap->prepend($rule->getRequestMatcher(), $rule->getRoles(), $rule->getChannel());
         }
     }

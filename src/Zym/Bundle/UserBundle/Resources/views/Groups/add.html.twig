@@ -1,0 +1,21 @@
+{% extends "ZymUserBundle::layout.html.twig" %}
+
+{% block title %}{{ 'Add a group' | trans({}, 'ZymUserBundle') }}{% endblock %}
+
+{% block content %}
+    <div class="page-header">
+        <h1>
+            {{ 'New Group' | trans({}, 'ZymUserBundle') }}
+            <small>{{ 'Create a group' | trans({}, 'ZymUserBundle') }}</small>
+        </h1>
+    </div>
+
+    <form class="horizontal-form" action="" method="post" {{ form_enctype(form) }}>
+        {{ form_rest(form) }}
+
+        <fieldset class="form-actions">
+            <input class="btn primary large" type="submit" value="{{ 'Create' | trans({}, 'ZymUserBundle') }}" />
+            <a class="btn large" href="{{ path('zym_user_groups') }}">{{ 'Cancel' | trans({}, 'ZymUserBundle') }}</a>
+        </fieldset>
+    </form>
+{% endblock content %}

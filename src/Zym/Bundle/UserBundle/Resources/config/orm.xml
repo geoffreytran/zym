@@ -6,6 +6,7 @@
 
     <parameters>
         <parameter key="zym_user.user_manager.default.class">Zym\Bundle\UserBundle\Entity\UserManager</parameter>
+        <parameter key="zym_user.group_manager.default.class">Zym\Bundle\UserBundle\Entity\GroupManager</parameter>
 
         <!-- Legacy support -->
         <parameter key="fos_user.user_manager.class">%zym_user.user_manager.default.class%</parameter>
@@ -18,6 +19,13 @@
             <argument type="service" id="fos_user.util.email_canonicalizer" />
             <argument type="service" id="doctrine.orm.entity_manager" />
             <argument>%fos_user.model.user.class%</argument>
+            <argument type="service" id="knp_paginator" strict="false"  />
+            <argument type="service" id="security.acl.provider" on-invalid="ignore" />
+        </service>
+
+        <service id="zym_user.group_manager.default" class="%zym_user.group_manager.default.class%" public="false">
+            <argument type="service" id="doctrine.orm.entity_manager" />
+            <argument>%fos_user.model.group.class%</argument>
             <argument type="service" id="knp_paginator" strict="false"  />
             <argument type="service" id="security.acl.provider" on-invalid="ignore" />
         </service>

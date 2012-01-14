@@ -40,13 +40,13 @@ class NodesController extends Controller
      * @Template()
      */
     public function listAction()
-    {   
+    {
         $request  = $this->get('request');
         $page     = $request->query->get('page', 1);
         $limit    = $request->query->get('limit', 50);
         $orderBy  = $request->query->get('orderBy');
         $filterBy = $request->query->get('filterBy');
-        
+
         $nodeManager = $this->get('zym_node.node_manager');
         $nodes       = $nodeManager->findNodes($filterBy, $page, $limit, $orderBy);
 
@@ -54,7 +54,7 @@ class NodesController extends Controller
             'nodes' => $nodes
         );
     }
-    
+
     /**
      * @Route(
      *     "/{id}.{_format}",
@@ -94,11 +94,12 @@ class NodesController extends Controller
 
     /**
      * @Route(
-     *     "/add/{type}", 
-     *     name="zym_nodes_add", 
-     *     defaults={ 
-     *         "type" = null 
-     *     } 
+     *     "/add.{_format}/{type}",
+     *     name="zym_nodes_add",
+     *     defaults={
+     *         "type" = null,
+     *         "_format" = "html"
+     *     }
      * )
      * @Template()
      * @SecureParam(name="nodeType", permissions="VIEW")
@@ -129,7 +130,7 @@ class NodesController extends Controller
 
                     $this->get('session')
                          ->setFlash($translator->trans('Successfully created'), 'success');
-                         
+
                     return $this->redirect($this->generateUrl('zym_nodes'));
                 }
             }
@@ -175,7 +176,7 @@ class NodesController extends Controller
                 return $this->redirect($this->generateUrl('zym_nodes'));
             }
         }
-        
+
         return array(
             'node' => $origNode,
             'form' => $form->createView()
@@ -192,8 +193,8 @@ class NodesController extends Controller
      *     requirements={ "_method" = "DELETE"}
      * )
      * @Route(
-     *     "/{id}/delete.{_format}", 
-     *     name="zym_node_nodes_delete", 
+     *     "/{id}/delete.{_format}",
+     *     name="zym_node_nodes_delete",
      *     defaults = {
      *         "_format" = "html"
      *     },
@@ -215,7 +216,7 @@ class NodesController extends Controller
         $form        = $this->createForm(new Form\DeleteType(), $node);
 
         $request     = $this->get('request');
-        
+
         if ($request->getMethod() == 'POST') {
             $form->bindRequest($request);
 

@@ -21,8 +21,6 @@ use Symfony\Component\Security\Core\Encoder\EncoderFactoryInterface;
 use Symfony\Component\Security\Core\SecurityContextInterface;
 use Symfony\Component\Security\Acl\Domain\ObjectIdentity;
 use Symfony\Component\Security\Acl\Model\MutableAclProviderInterface;
-use Symfony\Component\Security\Acl\Domain\UserSecurityIdentity;
-use Symfony\Component\Security\Acl\Permission\MaskBuilder;
 
 use Doctrine\ORM\EntityManager;
 use Doctrine\ORM\EntityRepository;
@@ -30,17 +28,17 @@ use Doctrine\ORM\EntityRepository;
 use Knp\Component\Pager\Paginator;
 use Knp\Component\Pager\Pagination\PaginationInterface;
 
-use FOS\UserBundle\Entity\UserManager as AbstractUserManager;
-use FOS\UserBundle\Model\UserInterface;
+use FOS\UserBundle\Entity\GroupManager as AbstractGroupManager;
+use FOS\UserBundle\Model\GroupInterface;
 use FOS\UserBundle\Util\CanonicalizerInterface;
 
 /**
- * User Manager
+ * Group Manager
  *
  * @author    Geoffrey Tran
  * @copyright Copyright (c) 2011 Zym. (http://www.rapp.com/)
  */
-class UserManager extends AbstractUserManager
+class GroupManager extends AbstractGroupManager
 {
     /**
      * Repository
@@ -64,33 +62,19 @@ class UserManager extends AbstractUserManager
     protected $aclProvider;
 
     /**
-     * Field Manager
-     *
-     * @var FieldManager
-     */
-    protected $fieldManager;
-
-    /**
      * Constructor.
      *
-     * @param EncoderFactoryInterface $encoderFactory
-     * @param CanonicalizerInterface  $usernameCanonicalizer
-     * @param CanonicalizerInterface  $emailCanonicalizer
      * @param EntityManager           $em
      * @param string                  $class
      * @param PaginatorAdapter $paginatorAdapter
      * @param MutableAclInterface $aclProvider
      * @param FieldManager             $fieldManager
      */
-    public function __construct(EncoderFactoryInterface $encoderFactory,
-                                CanonicalizerInterface $usernameCanonicalizer,
-                                CanonicalizerInterface $emailCanonicalizer,
-                                EntityManager $em, $class,
+    public function __construct(EntityManager $em, $class,
                                 Paginator $paginator,
-                                MutableAclProviderInterface $aclProvider,
-                                FieldManager $fieldManager = null)
+                                MutableAclProviderInterface $aclProvider)
     {
-        parent::__construct($encoderFactory, $usernameCanonicalizer, $emailCanonicalizer, $em, $class);
+        parent::__construct($em, $class);
 
         $this->setRepository($em->getRepository($class));
 
@@ -102,50 +86,44 @@ class UserManager extends AbstractUserManager
         }
 
         $this->setAclProvider($aclProvider);
-        $this->fieldManager = $fieldManager;
-
     }
 
     /*
-     * Create a user
+     * Create a Group
      *
-     * @param User $user
-     * @return User
+     * @param Group $Group
+     * @return Group
      */
-    public function addUser(User $user)
+    public function addGroup(Group $Group)
     {
-        $this->createEntity($user);
+        $this->createEntity($Group);
 
-        return $user;
+        return $Group;
     }
 
     /**
-     * Save a user
+     * Save a Group
      *
-     * @param User $user
+     * @param Group $Group
      * @param boolean $andFlush
      */
-    public function saveUser(User $user, $andFlush = true)
+    public function saveGroup(Group $Group, $andFlush = true)
     {
-        $this->saveEntity($user, $andFlush);
-
-        if ($this->fieldManager !== null) {
-            $this->fieldManager->saveFields($user->getFields(), $andFlush);
-        }
+        $this->saveEntity($Group, $andFlush);
     }
 
     /**
-     * Delete a user
+     * Delete a Group
      *
-     * @param User $user
+     * @param Group $Group
      */
-    public function deleteUser(UserInterface $user)
+    public function deleteGroup(GroupInterface $Group)
     {
-        $this->deleteEntity($user);
+        $this->deleteEntity($Group);
     }
 
     /**
-     * Find users
+     * Find Groups
      *
      * @param array $criteria
      * @param integer $page
@@ -153,64 +131,31 @@ class UserManager extends AbstractUserManager
      * @param array $orderBy
      * @return Paginator
      */
-    public function findUsers(array $criteria = null, $page = 1, $limit = 50, array $orderBy = null)
+    public function findGroups(array $criteria = null, $page = 1, $limit = 50, array $orderBy = null)
     {
-        return $this->repository->findUsers($criteria, $page, $limit, $orderBy);
+        return $this->repository->findGroups($criteria, $page, $limit, $orderBy);
     }
 
     /**
-     * Find a user by criteria
+     * Find a Group by criteria
      *
      * @param array $criteria
-     * @return User
+     * @return Group
      */
-    public function findUserBy(array $criteria)
+    public function findGroupBy(array $criteria)
     {
         return $this->repository->findOneBy($criteria);
-    }
-
-    /**
-     * Loads a user by username or email
-     *
-     * It is strongly discouraged to call this method manually as it bypasses
-     * all ACL checks.
-     *
-     * @param string $username
-     * @return UserInterface
-     */
-    public function loadUserByUsername($username)
-    {
-        // Allow a user to login with username or e-mail address
-        $user = $this->findUserByUsernameOrEmail($username);
-
-        if (!$user) {
-            return parent::loadUserByUsername($username);
-        }
-
-        return $user;
     }
 
     /**
      * Find a node by criteria
      *
      * @param array $criteria
-     * @return UserManager
+     * @return GroupManager
      */
     public function findOneBy(array $criteria)
     {
         return $this->repository->findOneBy($criteria);
-    }
-
-    /**
-     * Set the field manager
-     *
-     * @param FieldManager $fieldManager
-     * @return UserManager
-     */
-    public function setFieldManager(FieldManager $fieldManager)
-    {
-        $this->fieldManager = $fieldManager;
-        return $this;
     }
 
     /**
@@ -226,7 +171,7 @@ class UserManager extends AbstractUserManager
      * Set the repository
      *
      * @param EntityRepository $repository
-     * @return UserManager
+     * @return GroupManager
      */
     protected function setRepository(EntityRepository $repository)
     {
@@ -258,7 +203,7 @@ class UserManager extends AbstractUserManager
      * Set the acl provider
      *
      * @param MutableAclProviderInterface $aclProvider
-     * @return UserManager
+     * @return GroupManager
      */
     public function setAclProvider(MutableAclProviderInterface $aclProvider)
     {
@@ -289,21 +234,6 @@ class UserManager extends AbstractUserManager
 
             try {
                 $acl = $aclProvider->createAcl($oid);
-
-                // Users shouldn't be able to change there own roles
-                $builder = new MaskBuilder();
-                $builder->add('view')
-                        ->add('edit');
-
-                $mask = $builder->get();
-                $acl->insertObjectAce(UserSecurityIdentity::fromAccount($entity), $mask);
-
-                $builder = new MaskBuilder();
-                $builder->add('delete');
-
-                $mask = $builder->get();
-                $acl->insertObjectAce(UserSecurityIdentity::fromAccount($entity), $mask, 0, false);
-
                 $aclProvider->updateAcl($acl);
             } catch (AclAlreadyExistsException $e) {
 

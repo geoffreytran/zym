@@ -33,7 +33,7 @@ class AccessRule implements AccessRuleInterface
      * @ORM\GeneratedValue(strategy="AUTO")
      */
     protected $id;
-    
+
     /**
      * Path
      *
@@ -42,7 +42,7 @@ class AccessRule implements AccessRuleInterface
      * @ORM\Column(type="string")
      */
     protected $path;
-    
+
     /**
      * Roles
      *
@@ -51,7 +51,7 @@ class AccessRule implements AccessRuleInterface
      * @ORM\Column(type="array")
      */
     protected $roles = array();
-    
+
     /**
      * Requires Channel (http/https, etc...)
      *
@@ -60,7 +60,7 @@ class AccessRule implements AccessRuleInterface
      * @ORM\Column(type="string", name="channel", nullable=true)
      */
     protected $channel;
-    
+
     /**
      * Host
      *
@@ -69,7 +69,7 @@ class AccessRule implements AccessRuleInterface
      * @ORM\Column(type="string", nullable=true)
      */
     protected $host;
-    
+
     /**
      * Methods
      *
@@ -78,7 +78,7 @@ class AccessRule implements AccessRuleInterface
      * @ORM\Column(type="array", nullable=true)
      */
     protected $methods;
-    
+
     /**
      * IP
      *
@@ -87,7 +87,7 @@ class AccessRule implements AccessRuleInterface
      * @ORM\Column(type="string", nullable=true)
      */
     protected $ip;
-    
+
     /**
      * Attributes
      *
@@ -96,12 +96,12 @@ class AccessRule implements AccessRuleInterface
      * @ORM\Column(type="array", nullable=false)
      */
     protected $attributes = array();
-    
+
     public function __construct()
     {
         $this->roles = new ArrayCollection(array());
     }
-    
+
     /**
      * Get the ID
      *
@@ -111,7 +111,7 @@ class AccessRule implements AccessRuleInterface
     {
         return $this->id;
     }
-    
+
     /**
      * Get the request matcher
      *
@@ -124,18 +124,18 @@ class AccessRule implements AccessRuleInterface
         $methods    = $this->methods;
         $ip         = $this->ip;
         $attributes = $this->attributes;
-        
-        $requestMatcher = new RequestMatcher($path, $host, (array)$methods, $ip, (array)$attributes);
-        
+
+        $requestMatcher = new RequestMatcher($path, $host, $methods, $ip, (array)$attributes);
+
         return $requestMatcher;
     }
-    
+
     public function setPath($path)
     {
         $this->path = $path;
         return $this;
     }
-    
+
     /**
      * Get the path
      *
@@ -145,7 +145,7 @@ class AccessRule implements AccessRuleInterface
     {
         return $this->path;
     }
-    
+
     public function setRoles($roles)
     {
         foreach ($roles as $key => $role) {
@@ -153,11 +153,11 @@ class AccessRule implements AccessRuleInterface
                 $roles[$key] = $role->getIdentity();
             }
         }
-        
+
         $this->roles = $roles;
         return $this;
     }
-    
+
     /**
      * Get the roles
      *
@@ -167,13 +167,13 @@ class AccessRule implements AccessRuleInterface
     {
         return $this->roles;
     }
-    
+
     public function setChannel($channel)
     {
         $this->channel = $channel;
         return $this;
     }
-    
+
     /**
      * Get the required channel
      *
@@ -183,13 +183,13 @@ class AccessRule implements AccessRuleInterface
     {
         return $this->channel;
     }
-    
+
     public function setHost($host)
     {
         $this->host = $host;
         return $this;
     }
-    
+
     /**
      * Get the host
      *
@@ -199,7 +199,7 @@ class AccessRule implements AccessRuleInterface
     {
         return $this->host;
     }
-    
+
     /**
      * Get the methods
      *
@@ -207,9 +207,9 @@ class AccessRule implements AccessRuleInterface
      */
     public function getMethods()
     {
-        return (array)$this->methods;
+        return $this->methods;
     }
-    
+
     /**
      * Get the IP
      *
@@ -219,7 +219,7 @@ class AccessRule implements AccessRuleInterface
     {
         return $this->ip;
     }
-    
+
     /**
      * Get the attributes
      *
@@ -229,7 +229,7 @@ class AccessRule implements AccessRuleInterface
     {
         return (array)$this->attributes;
     }
-    
+
     /**
      * onPrePersist
      *

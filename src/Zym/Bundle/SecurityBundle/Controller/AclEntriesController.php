@@ -38,8 +38,8 @@ class AclEntriesController extends Controller
     /**
      * @Route(
      *     ".{_format}",
-     *     name="zym_security_acl_entries"),
-     *     defaults={ "_format" = "html" }
+     *     name="zym_security_acl_entries",
+     *     defaults = { "_format" = "html" }
      * )
      * @Template()
      */
@@ -107,13 +107,20 @@ class AclEntriesController extends Controller
     }
 
     /**
-     * @Route("/{classType}/edit/{index}", name="zym_security_acl_entries_edit")
+     * @Route("/{classType}/{index}/edit", name="zym_security_acl_entries_edit")
      * @Template()
      *
-     * @SecureParam(name="aclClass", permissions="EDIT")
+     * @SecureParam(name="aclClass", permissions="OPERATOR")
      */
     public function editAction(Entity\AclClass $aclClass, $index)
     {
+        $securityContext = $this->get('security.context');
+
+        // check for create access
+        if (!$securityContext->isGranted('OPERATOR', new ObjectIdentity('class', $aclClass->getClassType()))) {
+            throw new \Symfony\Component\Security\Core\Exception\AccessDeniedException();
+        }
+
         $origAclClass = clone $aclClass;
 
         $aclProvider = $this->get('security.acl.provider');
@@ -154,12 +161,12 @@ class AclEntriesController extends Controller
      * @param Entity\AclClass $aclClass
      *
      * @Route(
-     *     "/{id}",
+     *     "/{classType}/{index}",
      *     requirements={ "_method" = "DELETE"}
      * )
      *
      * @Route(
-     *     "/{id}/delete.{_format}",
+     *     "/{classType}/{index}/delete.{_format}",
      *     name="zym_security_acl_entries_delete",
      *     defaults = {
      *         "_format" = "html"
@@ -171,9 +178,9 @@ class AclEntriesController extends Controller
      *
      * @Template()
      *
-     * SecureParam(name="aclClass", permissions="DELETE")
+     * @SecureParam(name="aclClass", permissions="DELETE")
      */
-    public function deleteAction(Entity\AclClass $aclClass)
+    public function deleteAction(Entity\AclClass $aclClass, $index)
     {
         $origNode = clone $aclClass;
 

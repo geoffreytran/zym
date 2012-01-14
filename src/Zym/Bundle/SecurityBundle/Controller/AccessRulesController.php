@@ -10,7 +10,7 @@
  * @category  Zym
  * @copyright Copyright (c) 2011 Zym. (http://www.zym.com/)
  */
- 
+
 namespace Zym\Bundle\SecurityBundle\Controller;
 
 use Zym\Bundle\SecurityBundle\Form;
@@ -41,13 +41,13 @@ class AccessRulesController extends Controller
      * @Template()
      */
     public function listAction()
-    {   
+    {
         $request  = $this->get('request');
         $page     = $request->query->get('page', 1);
         $limit    = $request->query->get('limit', 50);
         $orderBy  = $request->query->get('orderBy');
         $filterBy = $request->query->get('filterBy');
-        
+
         $accessRuleManager = $this->get('zym_security.access_rule_manager');
         $accessRules       = $accessRuleManager->findAccessRules($filterBy, $page, $limit, $orderBy);
 
@@ -84,7 +84,7 @@ class AccessRulesController extends Controller
 
                 $this->get('session')
                      ->setFlash($translator->trans('Created the new access rule successfully.'), 'success');
-                     
+
                 return $this->redirect($this->generateUrl('zym_security_access_rules'));
             }
         }
@@ -97,6 +97,7 @@ class AccessRulesController extends Controller
     /**
      * @Route("/{id}/edit", name="zym_security_access_rules_edit")
      * @Template()
+     * @SecureParam(name="accessRule", permissions="EDIT")
      */
     public function editAction(Entity\AccessRule $accessRule)
     {
@@ -120,7 +121,7 @@ class AccessRulesController extends Controller
                 return $this->redirect($this->generateUrl('zym_security_access_rules'));
             }
         }
-        
+
         return array(
             'accessRule' => $origAccessRule,
             'form'       => $form->createView()
@@ -137,8 +138,8 @@ class AccessRulesController extends Controller
      * )
      *
      * @Route(
-     *     "/{id}/delete.{_format}", 
-     *     name="zym_security_access_rules_delete", 
+     *     "/{id}/delete.{_format}",
+     *     name="zym_security_access_rules_delete",
      *     defaults = {
      *         "_format" = "html"
      *     },
@@ -149,7 +150,7 @@ class AccessRulesController extends Controller
      *
      * @Template()
      *
-     * SecureParam(name="aclClass", permissions="DELETE")
+     * @SecureParam(name="accessRule", permissions="DELETE")
      */
     public function deleteAction(Entity\AccessRule $accessRule)
     {
@@ -157,11 +158,11 @@ class AccessRulesController extends Controller
 
         /* @var $accessRuleManager Entity\AccessRuleManager */
         $accessRuleManager = $this->get('zym_security.access_rule_manager');
-        
+
         $form        = $this->createForm(new Form\DeleteType(), $accessRule);
 
         $request     = $this->get('request');
-        
+
         if ($request->getMethod() == 'POST') {
             $form->bindRequest($request);
 

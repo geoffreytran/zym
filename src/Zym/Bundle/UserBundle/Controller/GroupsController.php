@@ -14,7 +14,6 @@ namespace Zym\Bundle\UserBundle\Controller;
 
 use Zym\Bundle\UserBundle\Form,
     Zym\Bundle\UserBundle\Entity,
-    Zym\Bundle\CMSBundle\Entity\AuditLog,
     Symfony\Bundle\FrameworkBundle\Controller\Controller,
     Symfony\Component\Security\Acl\Domain\ObjectIdentity,
     JMS\SecurityExtraBundle\Annotation\Secure,
@@ -25,17 +24,17 @@ use Zym\Bundle\UserBundle\Form,
     Sensio\Bundle\FrameworkExtraBundle\Configuration\ParamConverter;
 
 /**
- * Users Controller
+ * Groups Controller
  *
  * @author    Geoffrey Tran
  * @copyright Copyright (c) 2011 Zym. (http://www.zym.com/)
  */
-class UsersController extends Controller
+class GroupsController extends Controller
 {
     /**
      * @Route(
      *     ".{_format}",
-     *     name="zym_user_users",
+     *     name="zym_user_groups",
      *     defaults={
      *         "_format" = "html"
      *     },
@@ -53,45 +52,43 @@ class UsersController extends Controller
         $orderBy  = $request->query->get('orderBy');
         $filterBy = $request->query->get('filterBy');
 
-        $userManager = $this->container->get('fos_user.user_manager');
-        /* @var $userManager \Zym\Bundle\UserBundle\Entity\UserManager */
+        $groupManager = $this->container->get('fos_user.group_manager');
+        /* @var $groupManager \Zym\Bundle\GroupBundle\Entity\GroupManager */
 
-        $users = $userManager->findUsers($filterBy, $page, $limit, $orderBy);
+        $groups = $groupManager->findGroups($filterBy, $page, $limit, $orderBy);
 
         return array(
-            'users' => $users
+            'groups' => $groups
         );
     }
 
     /**
-     * @Route("/create", name="zym_user_users_create")
+     * @Route("/add", name="zym_user_groups_add")
      * @Template()
      */
-    public function createAction()
+    public function addAction()
     {
         $securityContext = $this->get('security.context');
 
         // check for edit access
-        if (!$securityContext->isGranted('CREATE', new ObjectIdentity('class', 'Zym\Bundle\UserBundle\Entity\User'))) {
+        if (!$securityContext->isGranted('CREATE', new ObjectIdentity('class', 'Zym\Bundle\UserBundle\Entity\Group'))) {
             throw new \Symfony\Component\Security\Core\Exception\AccessDeniedException();
         }
 
-        $user = new Entity\User();
-        $form = $this->createForm(new Form\UserType(), $user);
+        $group = new Entity\Group();
+        $form = $this->createForm(new Form\GroupType(), $group);
 
         $request = $this->get('request');
         if ($request->getMethod() == 'POST') {
             $form->bindRequest($request);
 
             if ($form->isValid()) {
-                $userManager = $this->get('fos_user.user_manager');
-                /* @var $userManager \Zym\Bundle\UserBundle\Entity\UserManager */
+                $groupManager = $this->get('fos_user.group_manager');
+                /* @var $groupManager \Zym\Bundle\GroupBundle\Entity\GroupManager */
 
-                $user->setConfirmationToken(null);
-                $user->setEnabled(true);
-                $userManager->addUser($user);
+                $groupManager->addGroup($group);
 
-                return $this->redirect($this->generateUrl('zym_user_users'));
+                return $this->redirect($this->generateUrl('zym_user_groups'));
             }
         }
 
@@ -101,13 +98,13 @@ class UsersController extends Controller
     }
 
     /**
-     * Show a user
+     * Show a group
      *
-     * @param Entity\User $user
+     * @param Entity\Group $group
      *
      * @Route(
      *     "/{id}.{_format}",
-     *     name="zym_user_users_show",
+     *     name="zym_user_groups_show",
      *     defaults = {
      *         "_format" = "html"
      *     },
@@ -116,69 +113,67 @@ class UsersController extends Controller
      *         "_format" = "html|json"
      *     }
      * )
-     * @ParamConverter("user", class="ZymUserBundle:User")
      * @Template()
      *
-     * SecureParam(name="user", permissions="VIEW")
+     * SecureParam(name="group", permissions="VIEW")
      */
-    public function showAction(Entity\User $user)
+    public function showAction(Entity\Group $group)
     {
-        return array('user' => $user);
+        return array('group' => $group);
     }
 
     /**
-     * Edit a user
+     * Edit a group
      *
-     * @param Entity\User $user
+     * @param Entity\Group $group
      *
      * @Route(
      *     "/{id}/edit",
-     *     name="zym_user_users_edit",
+     *     name="zym_user_groups_edit",
      *     requirements = {
      *         "id" = "\d+"
      *     }
      * )
-     * @ParamConverter("user", class="ZymUserBundle:User")
      * @Template()
      *
-     * @SecureParam(name="user", permissions="EDIT")
+     * @SecureParam(name="group", permissions="EDIT")
      */
-    public function editAction(Entity\User $user)
+    public function editAction(Entity\Group $group)
     {
-        $originalUser = clone $user;
-        $form         = $this->createForm(new Form\EditUserType(), $user);
+        $originalGroup = clone $group;
+        $form         = $this->createForm(new Form\GroupType(), $group);
 
         $request = $this->get('request');
         if ($request->getMethod() == 'POST') {
             $form->bindRequest($request);
 
             if ($form->isValid()) {
-                $userManager = $this->get('fos_user.user_manager');
-                /* @var $userManager \Zym\Bundle\UserBundle\Entity\UserManager */
+                $groupManager = $this->get('fos_user.group_manager');
+                /* @var $groupManager \Zym\Bundle\GroupBundle\Entity\GroupManager */
 
-                $userManager->saveUser($user);
+                $groupManager->saveGroup($group);
 
                 return $this->redirect($this->generateUrl(
-                    'zym_user_users_show',
-                    array('id' => $user->getId())
+                    'zym_user_groups_show',
+                    array('id' => $group->getId())
                 ));
             }
         }
 
         return array(
-            'user' => $originalUser,
+            'group' => $originalGroup,
             'form' => $form->createView()
         );
     }
 
     /**
-     * Delete a user
+     * Delete a group
      *
-     * @param Entity\User $user
+     * @param Entity\Group $group
      *
      * @Route(
      *     "/{id}/delete.{_format}",
-     *     name="zym_user_users_delete",
+     *     name="zym_user_groups_delete",
      *     defaults={ "_format" = "html" },
      *     requirements = {
      *         "id" = "\d+"
@@ -186,30 +181,30 @@ class UsersController extends Controller
      * )
      * @Template()
      *
-     * @SecureParam(name="user", permissions="DELETE")
+     * @SecureParam(name="group", permissions="DELETE")
      */
-    public function deleteAction(Entity\User $user)
+    public function deleteAction(Entity\Group $group)
     {
-        $form = $this->createForm(new Form\DeleteType(), $user);
+        $form = $this->createForm(new Form\DeleteType(), $group);
 
         $request = $this->get('request');
         if ($request->getMethod() == 'POST') {
             $form->bindRequest($request);
 
             if ($form->isValid()) {
-                $userManager = $this->get('fos_user.user_manager');
-                /* @var $userManager \FOS\UserBundle\Entity\UserManager */
-                $userManager->deleteUser($user);
+                $groupManager = $this->get('fos_user.group_manager');
+                /* @var $groupManager \FOS\GroupBundle\Entity\GroupManager */
+                $groupManager->deleteGroup($group);
 
                 return $this->redirect($this->generateUrl(
-                    'zym_user_users',
-                    array('id' => $user->getId())
+                    'zym_user_groups',
+                    array('id' => $group->getId())
                 ));
             }
         }
 
         return array(
-            'user' => $user,
+            'group' => $group,
             'form' => $form->createView()
         );
     }

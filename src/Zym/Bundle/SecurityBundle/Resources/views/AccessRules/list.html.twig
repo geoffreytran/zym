@@ -35,7 +35,7 @@
                     <a href="{{ path('zym_security_access_rules_edit', { 'id': rule.id }) }}">{{ rule.id |e }}</a>
                 </td>
                 <td>{{ rule.path |e }}</td>
-                <td>{{ rule.roles |join(', ') |e }}</td>
+                <td>{{ rule.roles |join(', <br>') |raw }}</td>
                 <td>
                     <div class="btn-group">
                         {% if is_granted('EDIT', rule) %}

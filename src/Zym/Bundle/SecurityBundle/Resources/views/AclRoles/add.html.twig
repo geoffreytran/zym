@@ -6,12 +6,13 @@
     <div class="page-header">
         <h1>{{ 'New Role' |trans({}, 'ZymSecurityBundle') }}</h1>
     </div>
-    
+
     <form action="" method="post" {{ form_enctype(form) }}>
         {{ form_rest(form) }}
-    
+
         <fieldset class="form-actions">
             <input class="btn primary"  type="submit" value="{{ 'Create' | trans({}, 'ZymSecurityBundle') }}" />
+            <a class="btn" href="{{ path('zym_security_acl_roles') }}">{{ 'Cancel' | trans({}, 'ZymSecurityBundle') }}</a>
         </fieldset>
     </form>
 {% endblock content %}

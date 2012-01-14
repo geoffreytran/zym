@@ -9,13 +9,13 @@
             <small>{{ accessRule.path |e }}</small>
         </h1>
     </div>
-    
-    <form action="" method="post" {{ form_enctype(form) }}>
+
+    <form class="horizontal-form" action="" method="post" {{ form_enctype(form) }}>
         {{ form_rest(form) }}
-    
+
         <fieldset class="form-actions">
-            <input type="submit" value="{{ 'Save changes' | trans({}, 'ZymSecurityBundle') }}" class="btn primary" />
-            <a class="btn" href="{{ path('zym_security_access_rules') }}">Cancel</a>
+            <input class="btn primary" type="submit" value="{{ 'Save changes' | trans({}, 'ZymSecurityBundle') }}" />
+            <a class="btn" href="{{ path('zym_security_access_rules') }}">{{ 'Cancel' | trans({}, 'ZymSecurityBundle') }}</a>
         </fieldset>
     </form>
 {% endblock content %}
