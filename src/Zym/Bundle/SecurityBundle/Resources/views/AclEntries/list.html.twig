@@ -14,7 +14,7 @@
         <div class="btn-group">
             {% if is_granted('CREATE', ['class', 'Zym\\Bundle\\SecurityBundle\\Entity\\AclClass']) %}
             <a  class="btn" href="{{ path('zym_security_acl_entries_add') }}">
-                <i class="plus"></i> {{ 'New Permission' | trans({}, 'ZymSecurityBundle') }}
+                <i class="icon plus"></i> {{ 'New Permission' | trans({}, 'ZymSecurityBundle') }}
             </a>
             {% endif %}
         </div>
@@ -24,7 +24,7 @@
     <h3>{{ oid.type }}</h3>
 
     <h4>Class Aces</h4>
-    <table class="striped-table bordered-table">
+    <table class="table striped-table bordered-table">
         <thead>
             <tr>
                 <th>{{ 'Role' |trans({}, 'ZymSecurityBundle') }}</th>

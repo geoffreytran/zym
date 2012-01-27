@@ -13,8 +13,10 @@
 
 namespace Zym\Bundle\FrameworkBundle\Entity;
 
+use Zym\Bundle\FrameworkBundle\Modal\Criteria;
 use Zym\Bundle\FrameworkBundle\Model\PageableRepositoryInterface;
 use Doctrine\ORM\EntityRepository;
+use Doctrine\ORM\Query\Expr;
 use Knp\Component\Pager\Paginator;
 use Knp\Component\Pager\Pagination\PaginationInterface;
 
@@ -28,12 +30,12 @@ abstract class AbstractEntityRepository extends EntityRepository
                                         implements PageableRepositoryInterface
 {
     /**
-     * Paginator 
+     * Paginator
      *
      * @var Paginator
      */
     private $paginator;
-    
+
     /**
      * Find
      *
@@ -53,7 +55,7 @@ abstract class AbstractEntityRepository extends EntityRepository
     }
 
     /**
-     * Get the paginator 
+     * Get the paginator
      *
      * @return Paginator
      */
@@ -63,7 +65,7 @@ abstract class AbstractEntityRepository extends EntityRepository
     }
 
     /**
-     * Set the paginator 
+     * Set the paginator
      *
      * @param Paginator $paginator
      * @return AbstractEntityRepository
@@ -86,7 +88,15 @@ abstract class AbstractEntityRepository extends EntityRepository
         if ($criteria) {
             foreach ($criteria as $key => $value) {
                 $paramName = 'qo_' . $key;
-                $qb->andWhere(sprintf('%s.%s = :%s', $qb->getRootAlias(), $key, $paramName));
+                $x         = $qb->getRootAlias() . '.' . $key;
+
+                if ($value instanceof Criteria\Comparison) {
+                    $expr = new Expr\Comparison($x, $value->getOperator(), $paramName);
+                } else {
+                    $expr = $qb->expr()->eq($x, ':' . $paramName);
+                }
+
+                $qb->andWhere($expr);
                 $qb->setParameter($paramName, $value);
             }
         }

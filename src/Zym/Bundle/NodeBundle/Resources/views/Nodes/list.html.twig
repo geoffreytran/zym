@@ -15,13 +15,13 @@
     <div class="btn-toolbar">
         <div class="btn-group">
             {% if is_granted('CREATE', ['class', 'Zym\\Bundle\\NodeBundle\\Entity\\Node']) %}
-            <a  class="btn" href="{{ path('zym_nodes_add') }}" data-toggle="ajax-modal"><i class="plus"></i>{{ 'New Content' | trans({}, 'ZymNodeBundle') }}</a>
+            <a  class="btn" href="{{ path('zym_nodes_add') }}" data-toggle="ajax-modal"><i class="icon plus"></i>{{ 'New Content' | trans({}, 'ZymNodeBundle') }}</a>
             {% endif %}
         </div>
     </div>
     </div>
 
-    <table class="striped-table">
+    <table class="table striped-table">
         <thead>
             <tr>
                 <th>#</th>

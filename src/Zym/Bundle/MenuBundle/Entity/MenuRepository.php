@@ -36,8 +36,8 @@ class MenuRepository extends AbstractEntityRepository
     {
         return $this->findEntities($criteria, $page, $limit, $orderBy);
     }
-    
-    /** 
+
+    /**
      * Whether a menu exists
      *
      * @param array $criteria
@@ -47,11 +47,11 @@ class MenuRepository extends AbstractEntityRepository
     {
         $qb = $this->createQueryBuilder('m');
         $qb->select('COUNT(m.name)');
-        
+
         $this->setQueryOptions($qb, $criteria);
 
         $query = $qb->getQuery();
 
-        return (bool) $query->getResult();
+        return (bool) $query->getSingleScalarResult();
     }
 }

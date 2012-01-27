@@ -13,7 +13,7 @@
     <div class="btn-toolbar">
         <div class="btn-group">
             {% if is_granted('CREATE', ['class', 'Zym\\Bundle\\UserBundle\\Entity\\Group']) %}
-            <a class="btn" href="{{ path('zym_user_groups_add') }}"><i class="plus"></i>  {{ 'Add Group' | trans({}, 'ZymUserBundle') }}</a>
+            <a class="btn" href="{{ path('zym_user_groups_add') }}"><i class="icon plus"></i>  {{ 'Add Group' | trans({}, 'ZymUserBundle') }}</a>
             {% endif %}
         </div>
         <div class="btn-group">
@@ -23,13 +23,13 @@
             </a>
             <ul class="dropdown-menu">
                 <li>
-                    <a href="{{ path('zym_security_acl_roles_add') }}"><i class="plus"></i> {{ 'Add Role' | trans({}, 'ZymUserBundle') }}</a
+                    <a href="{{ path('zym_security_acl_roles_add') }}"><i class="icon plus"></i> {{ 'Add Role' | trans({}, 'ZymUserBundle') }}</a
                 </li>
             </ul>
         </div>
     </div>
 
-    <table class="striped-table">
+    <table class="table striped-table">
         <thead>
             <tr>
                 <th>#</th>
@@ -48,15 +48,15 @@
                 <td>
                     <div class="btn-group">
                         {% if is_granted('VIEW', group) %}
-                        <a class="btn" href="{{ path('zym_user_groups_show', { 'id': group.id }) }}"><i class="share"></i> {{ 'View' | trans({}, 'ZymUserBundle') }}</a>
+                        <a class="btn" href="{{ path('zym_user_groups_show', { 'id': group.id }) }}"><i class="icon share"></i> {{ 'View' | trans({}, 'ZymUserBundle') }}</a>
                         {% endif %}
 
                         {% if is_granted('EDIT', group) %}
-                        <a class="btn" href="{{ path('zym_user_groups_edit', { 'id': group.id }) }}"><i class="edit"></i> {{ 'Edit' | trans({}, 'ZymUserBundle') }}</a>
+                        <a class="btn" href="{{ path('zym_user_groups_edit', { 'id': group.id }) }}"><i class="icon edit"></i> {{ 'Edit' | trans({}, 'ZymUserBundle') }}</a>
                         {% endif %}
 
                         {% if is_granted('DELETE', group) %}
-                        <a class="btn" href="{{ path('zym_user_groups_delete', { "id": group.id }) }}" data-toggle="ajax-modal"><i class="remove"></i> {{ 'Delete' | trans({}, 'ZymUserBundle') }}</a>
+                        <a class="btn" href="{{ path('zym_user_groups_delete', { "id": group.id }) }}" data-toggle="ajax-modal"><i class="icon remove"></i> {{ 'Delete' | trans({}, 'ZymUserBundle') }}</a>
                         {% endif %}
                     </div>
                 </td>
