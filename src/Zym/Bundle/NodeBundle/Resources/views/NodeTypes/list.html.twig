@@ -13,12 +13,33 @@
     <div class="btn-toolbar">
         <div class="btn-group">
             {% if is_granted('CREATE', ['class', 'Zym\\Bundle\\NodeBundle\\Entity\\NodeType']) %}
-            <a  class="btn" href="{{ path('zym_node_node_types_add') }}">{{ 'New Content Type' | trans({}, 'ZymNodeBundle') }}</a>
+            <a  class="btn" href="{{ path('zym_node_node_types_add') }}">
+                <i class="icon plus"></i>
+                {{ 'New Content Type' | trans({}, 'ZymNodeBundle') }}
+            </a>
             {% endif %}
+        </div>
+
+        <div class="btn-group">
+            <a class="btn" href="{{ path('zym_nodes') }}">
+                <i class="icon cog"></i>
+                {{ 'Content' | trans({}, 'ZymNodeBundle') }}
+            </a>
+            <a class="btn dropdown-toggle" data-toggle="dropdown" href="#">
+                <span class="caret"></span>
+            </a>
+            <ul class="dropdown-menu">
+                <li>
+                    <a href="{{ path('zym_nodes_add') }}" data-toggle="ajax-modal">
+                        <i class="icon plus"></i>
+                        {{ 'Add Content' | trans({}, 'ZymNodeBundle') }}
+                    </a>
+                </li>
+            </ul>
         </div>
     </div>
 
-    <table class="table striped-table">
+    <table class="table table-striped">
         <thead>
             <tr>
                 <th>#</th>
@@ -35,11 +56,17 @@
                 <td>
                     <div class="btn-group">
                         {% if is_granted('EDIT', nodeType) %}
-                        <a class="btn" href="{{ path('zym_node_node_types_edit', { 'type': nodeType }) }}">{{ 'Edit' | trans({}, 'ZymNodeBundle') }}</a>
+                        <a class="btn" href="{{ path('zym_node_node_types_edit', { 'type': nodeType }) }}">
+                            <i class="icon edit"></i>
+                            {{ 'Edit' | trans({}, 'ZymNodeBundle') }}
+                        </a>
                         {% endif %}
 
                         {% if is_granted('DELETE', nodeType) %}
-                        <a class="btn" href="{{ path('zym_node_node_types_delete', { 'type': nodeType })}}" data-toggle="ajax-modal">{{ 'Delete' | trans({}, 'ZymNodeBundle') }}</a>
+                        <a class="btn" href="{{ path('zym_node_node_types_delete', { 'type': nodeType })}}" data-toggle="ajax-modal">
+                            <i class="icon remove"></i>
+                            {{ 'Delete' | trans({}, 'ZymNodeBundle') }}
+                        </a>
                         {% endif %}
                     </div>
                 </td>

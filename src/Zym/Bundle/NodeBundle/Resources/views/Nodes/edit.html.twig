@@ -9,14 +9,27 @@
             <small>{{ node.title |e }}</small>
         </h1>
     </div>
-    
-    <div class="btn-group">
-        <a class="btn" href="{{ path('zym_security_acl_object_aces', { 'type': 'Zym\\Bundle\\NodeBundle\\Entity\\Node', 'identifier': node.id }) }}">Permissions</a>
+
+    <div class="btn-toolbar">
+        <div class="btn-group">
+            <a class="btn" href="{{ path('zym_node_node_types') }}">
+                <i class="icon arrow-left"></i>
+                {{ 'Content' | trans({}, 'ZymNodeBundle') }}
+            </a>
+        </div>
+
+        <div class="btn-group">
+            <a class="btn" href="{{ path('zym_security_acl_object_aces', { 'type': 'Zym\\Bundle\\NodeBundle\\Entity\\Node', 'identifier': node.id }) }}">
+                <i class="icon lock"></i>
+                {{ 'Permissions' | trans({}, 'ZymNodeBundle') }}
+            </a>
+        </div>
     </div>
-    
+
+
     <form action="" method="post" {{ form_enctype(form) }}>
         {{ form_rest(form) }}
-    
+
         <fieldset class="form-actions">
             <input type="submit" value="{{ 'Save changes' | trans({}, 'ZymNodeBundle') }}" class="btn primary" />
             <a class="btn" href="{{ path('zym_nodes') }}">Cancel</a>

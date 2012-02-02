@@ -35,36 +35,36 @@ class LoadNodeTypeData extends AbstractFixture
         $nodeType->setType('basic_page');
         $nodeType->setName('Basic Page');
         $nodeType->setDescription('<p>Use basic pages for your static content, such as an &quot;About Us&quot; page.</p>');
-        
+
         $nodeTypeManager = $this->container->get('zym_node.node_type_manager');
         $nodeTypeManager->createNodeType($nodeType);
-        
+
         $bodyFieldType = new FieldEntity\FieldType();
         $bodyFieldType->setMachineName('body');
         $bodyFieldType->setType('Zym\Bundle\FieldBundle\Entity\LongTextField');
         $bodyFieldType->setValueCount(1);
         $manager->persist($bodyFieldType);
-        
+
         $bodyFieldConfig = new Entity\NodeFieldConfig();
         $bodyFieldConfig->setNodeType($nodeType);
         $bodyFieldConfig->setFieldType($bodyFieldType);
         $bodyFieldConfig->setLabel('Body');
         $bodyFieldConfig->setWidget('textarea');
         $manager->persist($bodyFieldConfig);
-        
-        $manager->flush();        
+
+        $manager->flush();
     }
-    
+
     /**
      * Get the order in which fixtures will be loaded
-     * 
+     *
      * @return integer
      */
     public function getOrder()
     {
         return 1; // the order in which fixtures will be loaded
     }
-    
+
     /**
      * Set the container
      *
