@@ -77,10 +77,11 @@ class MenuProvider implements MenuProviderInterface, ContainerAwareInterface
      * Retrieves a menu by its name
      *
      * @param string $name
+     * @param array  $options
      * @return \Knp\Menu\ItemInterface
      * @throws \InvalidArgumentException if the menu does not exists
      */
-    public function get($name)
+    public function get($name, array $options = array())
     {
         if (isset($this->menus[$name])) {
             return $this->menus[$name];
@@ -110,9 +111,10 @@ class MenuProvider implements MenuProviderInterface, ContainerAwareInterface
      * Checks whether a menu exists in this provider
      *
      * @param string $name
+     * @param array  $options
      * @return bool
      */
-    public function has($name)
+    public function has($name, array $options = array())
     {
         if (isset($this->menus[$name])) {
             return true;
