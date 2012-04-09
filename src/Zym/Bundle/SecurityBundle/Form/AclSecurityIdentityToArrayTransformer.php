@@ -31,13 +31,13 @@ class AclSecurityIdentityToArrayTransformer implements DataTransformerInterface
      * @throws UnexpectedTypeException if the given value is not a string or number
      */
     public function transform($value)
-    {   
+    { 
         $roles = array();
 
-        $entities = $this->choiceList->getEntities();
+        $entities = $this->choiceList->getChoices();
         foreach ($entities as $entity) {
             if (in_array($entity->getIdentifier(), (array)$value)) {
-                $roles[] = $entity->getId();
+                $roles[] = (string)$entity->getId();
             }
         }
         
@@ -61,7 +61,7 @@ class AclSecurityIdentityToArrayTransformer implements DataTransformerInterface
             throw new UnexpectedTypeException($keys, 'array');
         }
 
-        $entities = $this->choiceList->getEntitiesByKeys($value);
+        $entities = $this->choiceList->getChoicesForValues($value);
         if (count($value) !== count($entities)) {
             throw new TransformationFailedException('Not all entities matching the keys were found.');
         }

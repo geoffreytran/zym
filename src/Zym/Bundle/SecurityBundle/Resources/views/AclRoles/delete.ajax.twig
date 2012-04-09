@@ -14,7 +14,7 @@
 <div class="modal-footer">
     <form action="{{ path('zym_security_acl_roles_delete', { 'id' : role.id }) }}" method="post" {{ form_enctype(form) }}>
         {{ form_rest(form) }}        
-        <input class="btn danger" type="submit" value="{{ 'Confirm Deletion' | trans({}, 'ZymSecurityBundle') }}" />
+        <input class="btn btn-danger" type="submit" value="{{ 'Confirm Deletion' | trans({}, 'ZymSecurityBundle') }}" />
         <a class="btn" href="{{ path('zym_security_acl_roles') }}" class="button">{{ 'Cancel' |trans({}, 'ZymSecurityBundle') }}</a>
     </form>
 </div>

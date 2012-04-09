@@ -12,9 +12,10 @@
  */
 namespace Zym\Bundle\UserBundle\Form;
 
-use Zym\Bundle\SecurityBundle\Form\AclSecurityIdentityEntityType;
+use Symfony\Component\Form\Extension\Core\ChoiceList\ChoiceList;
 use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\FormBuilder;
+use Doctrine\ORM\EntityRepository;
 
 /**
  * User Form
@@ -31,11 +32,25 @@ class UserType extends AbstractType
             ->add('lastName', 'text', array('label' => 'Last Name'))
             ->add('email', 'email')
             ->add('plainPassword', 'repeated', array(
-                'type'        => 'password',
-                'first_name'  =>'Password',
-                'second_name' =>'Confirm Password',
+                'type'            => 'password',
+                'first_name'      =>'password',
+                'second_name'     =>'confirmPassword',
+                'second_options'  => array('label' => 'Confirm Password'),
+                'error_bubbling'  => true,
+                'invalid_message' => 'Passwords do not match'
             ))
-            ->add('roles', new AclSecurityIdentityEntityType())
+            ->add('roles', 'acl_security_identity_entity', array(
+                'class'             => 'ZymSecurityBundle:AclSecurityIdentity',
+                'property'          => 'identifier',
+                'multiple'          => true,
+                'data_class'        => 'Zym\\Bundle\\SecurityBundle\\Entity\\AclSecurityIdentity',
+                'query_builder'     => function(EntityRepository $er) {
+                    return $er->createQueryBuilder('r')
+                              ->where('r.username = 0');
+                },
+               // 'value_strategy'    => ChoiceList::COPY_CHOICE,
+                //'index_strategy'    => ChoiceList::COPY_CHOICE,
+            ))
             ->add('groups', 'entity', array(
                 'class'    => 'Zym\Bundle\UserBundle\Entity\Group',
                 'property' => 'name',

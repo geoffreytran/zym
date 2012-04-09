@@ -15,6 +15,7 @@ namespace Zym\Bundle\UserBundle\Form;
 use Zym\Bundle\SecurityBundle\Form\AclSecurityIdentityEntityType;
 use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\FormBuilder;
+use Doctrine\ORM\EntityRepository;
 
 /**
  * Group Form
@@ -28,7 +29,15 @@ class GroupType extends AbstractType
     {
         $builder
             ->add('name', 'text')
-            ->add('roles', new AclSecurityIdentityEntityType());
+            ->add('roles', 'acl_security_identity_entity', array(
+                'class'             => 'ZymSecurityBundle:AclSecurityIdentity',
+                'property'          => 'identifier',
+                'multiple'          => true,
+                'data_class'        => 'Zym\\Bundle\\SecurityBundle\\Entity\\AclSecurityIdentity',
+                'query_builder'     => function(EntityRepository $er) {
+                    return $er->createQueryBuilder('r')
+                              ->where('r.username = 0');
+            }));
     }
 
     /**

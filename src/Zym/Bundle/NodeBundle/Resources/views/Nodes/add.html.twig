@@ -45,12 +45,12 @@
     </div>
 
     {{ form_errors(form) }}
-    <form action="" method="post" {{ form_enctype(form) }}>
+    <form class="form-horizontal" action="" method="post" {{ form_enctype(form) }}>
         {{ form_rest(form) }}
     
         <fieldset class="form-actions">
-            <input type="submit" value="{{ 'Create' | trans({}, 'ZymNodeBundle') }}" class="btn primary" />
-            <a class="btn" href="{{ path('zym_nodes') }}">Cancel</a>
+            <button class="btn btn-primary" type="submit">{{ 'Create' | trans({}, 'ZymNodeBundle') }}</button>
+            <button class="btn" onclick="history.back();">{{ 'Cancel' | trans({}, 'ZymNodeBundle') }}</button>
         </fieldset>
     </form>
     {% endif %}

@@ -10,7 +10,7 @@
         </h1>
     </div>
 
-    <form action="" method="post" {{ form_enctype(form) }}>
+    <form class="form-horizontal" action="" method="post" {{ form_enctype(form) }}>
         <fieldset>
             <legend>{{ 'User Information' | trans({}, 'ZymUserBundle') }}</legend>
             {{ form_row(form.firstName) }}
@@ -27,8 +27,8 @@
         {{ form_rest(form) }}
     
         <fieldset class="form-actions">
-            <input class="btn primary" type="submit" value="{{ 'Create' | trans({}, 'ZymUserBundle') }}" />
-            <a class="btn" href="{{ path('zym_user_users') }}">{{ 'Cancel' | trans({}, 'ZymUserBundle') }}</a>
+            <button class="btn btn-primary" type="submit">{{ 'Create' | trans({}, 'ZymUserBundle') }}</button>
+            <button class="btn" onclick="history.back();">{{ 'Cancel' | trans({}, 'ZymUserBundle') }}</button>
         </fieldset>
     </form>
 {% endblock content %}

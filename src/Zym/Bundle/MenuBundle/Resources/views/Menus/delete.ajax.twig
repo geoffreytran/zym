@@ -15,7 +15,7 @@
     <form action="{{ path('zym_menus_delete', { 'id' : menu.name }) }}" method="post" {{ form_enctype(form) }}>
         {{ form_rest(form) }}        
         
-        <input class="btn danger" type="submit" value="{{ 'Confirm Deletion' | trans({}, 'ZymMenuBundle') }}" />
+        <input class="btn btn-danger" type="submit" value="{{ 'Confirm Deletion' | trans({}, 'ZymMenuBundle') }}" />
         <a href="#" class="btn" data-dismiss="modal">{{ 'Cancel' | trans({}, 'ZymMenuBundle') }}</a>
     </form>
 </div>

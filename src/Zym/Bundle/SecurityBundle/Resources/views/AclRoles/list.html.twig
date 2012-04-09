@@ -30,7 +30,7 @@
         <div class="btn-group">
             {% if is_granted('CREATE', ['class', 'Zym\\Bundle\\SecurityBundle\\Entity\\AclSecurityIdentity']) %}
             <a  class="btn" href="{{ path('zym_security_acl_roles_add') }}">
-                <i class="icon plus"></i>
+                <i class="icon-plus"></i>
                                 {{ 'New Role' | trans({}, 'ZymSecurityBundle') }}
             </a>
             {% endif %}
@@ -57,7 +57,7 @@
                     <div class="btn-group">
                         {% if is_granted('DELETE', role) %}
                         <a class="btn" href="{{ path('zym_security_acl_roles_delete', { 'id': role.id })}}" data-toggle="ajax-modal">
-                            <i class="icon remove"></i>
+                            <i class="icon-remove"></i>
                             {{ 'Delete' |trans({}, 'ZymSecurityBundle') }}
                         </a>
                         {% endif %}

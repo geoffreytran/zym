@@ -14,13 +14,12 @@
         {% trans from 'ZymMenuBundle' %}Menus are a collection of links (menu items) used to navigate a website.{% endtrans %}
     </p>
 
-    <form action="" method="post" {{ form_enctype(form) }}>
+    <form class="form-horizontal" action="" method="post" {{ form_enctype(form) }}>
         {{ form_rest(form) }}
     
         <fieldset class="form-actions">
-            <input class="btn primary" type="submit" value="{{ 'Create' | trans({}, 'ZymMenuBundle') }}" />
-            <a class="btn" href="{{ path('zym_menus') }}">{{ 'Cancel' | trans({}, 'ZymMenuBundle') }}</a>
-            
+            <button class="btn btn-primary" type="submit">{{ 'Create' | trans({}, 'ZymMenuBundle') }}</button>
+            <button class="btn" onclick="history.back();">{{ 'Cancel' | trans({}, 'ZymMenuBundle') }}</button>
         </fieldset>
     </form>
 {% endblock content %}

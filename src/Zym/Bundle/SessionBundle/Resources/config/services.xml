@@ -5,37 +5,37 @@
     xsi:schemaLocation="http://symfony.com/schema/dic/services http://symfony.com/schema/dic/services/services-1.0.xsd">
 
     <parameters>
-        <parameter key="zym_session.storage.pdo.class">Symfony\Component\HttpFoundation\SessionStorage\PdoSessionStorage</parameter>
-        <parameter key="zym_session.storage.pdo.db_options" type="collection">
+        <parameter key="zym_session.storage.handler.pdo.class">Symfony\Component\HttpFoundation\Session\Storage\Handler\PdoSessionHandler</parameter>
+        <parameter key="zym_session.storage.handler.pdo.db_options" type="collection">
             <parameter key="db_table">sessions</parameter>
             <parameter key="db_id_col">id</parameter>
             <parameter key="db_data_col">value</parameter>
             <parameter key="db_time_col">time</parameter>
         </parameter>
         
-        <parameter key="zym_session.storage.pdo.params" type="collection">
+        <parameter key="zym_session.storage.handler.pdo.params" type="collection">
             <parameter key="host">%db.default.host%</parameter>
             <parameter key="dbname">%db.default.dbname%</parameter>
         </parameter>
-        <parameter key="zym_session.storage.pdo.username">%db.default.user%</parameter>
-        <parameter key="zym_session.storage.pdo.password">%db.default.password%</parameter>
-        <parameter key="zym_session.storage.pdo.driver_options" type="collection">%db.default.driver_options%</parameter>
+        <parameter key="zym_session.storage.handler.pdo.username">%db.default.user%</parameter>
+        <parameter key="zym_session.storage.handler.pdo.password">%db.default.password%</parameter>
+        <parameter key="zym_session.storage.handler.pdo.driver_options" type="collection">%db.default.driver_options%</parameter>
     </parameters>
 
     <services>
-        <service id="zym_session.storage.pdo.driver" class="stdClass" factory-service="doctrine.dbal.default_connection" factory-method="getDriver" />
-        <service id="zym_session.storage.pdo.connection" class="stdClass" factory-service="zym_session.storage.pdo.driver" factory-method="connect">
-            <argument>%zym_session.storage.pdo.params%</argument>
-            <argument>%zym_session.storage.pdo.username%</argument>
-            <argument>%zym_session.storage.pdo.password%</argument>
-            <argument>%zym_session.storage.pdo.driver_options%</argument>
+        <service id="zym_session.storage.handler.pdo.driver" class="stdClass" factory-service="doctrine.dbal.default_connection" factory-method="getDriver" />
+        <service id="zym_session.storage.handler.pdo.connection" class="stdClass" factory-service="zym_session.storage.handler.pdo.driver" factory-method="connect">
+            <argument>%zym_session.storage.handler.pdo.params%</argument>
+            <argument>%zym_session.storage.handler.pdo.username%</argument>
+            <argument>%zym_session.storage.handler.pdo.password%</argument>
+            <argument>%zym_session.storage.handler.pdo.driver_options%</argument>
         </service>
         
-        <service id="zym_session.storage.pdo" class="%zym_session.storage.pdo.class%">
-            <argument type="service" id="zym_session.storage.pdo.connection" />
+        <service id="zym_session.storage.handler.pdo" class="%zym_session.storage.handler.pdo.class%">
+            <argument type="service" id="zym_session.storage.handler.pdo.connection" />
+            <argument>%zym_session.storage.handler.pdo.db_options%</argument>
 
             <argument>%session.storage.options%</argument>
-            <argument>%zym_session.storage.pdo.db_options%</argument>
         </service>
     </services>
 </container>

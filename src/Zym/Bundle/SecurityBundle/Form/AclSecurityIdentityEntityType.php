@@ -1,7 +1,7 @@
 <?php
 namespace Zym\Bundle\SecurityBundle\Form;
 
-//use Symfony\Bridge\Doctrine\Form\Type\EntityType;
+use Symfony\Bridge\Doctrine\Form\Type\EntityType;
 use Doctrine\ORM\EntityRepository;
 use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\FormBuilder;
@@ -18,7 +18,7 @@ class AclSecurityIdentityEntityType extends AbstractType
      * @param array $options
      */
     public function buildForm(FormBuilder $builder, array $options)
-    {
+    {      
         if ($options['multiple']) {
             $builder->addEventListener(FormEvents::BIND_NORM_DATA, function(Event $event) use ($options){
                 $event->stopPropagation();
@@ -35,7 +35,7 @@ class AclSecurityIdentityEntityType extends AbstractType
             'class'             => 'ZymSecurityBundle:AclSecurityIdentity',
             'property'          => 'identifier',
             'multiple'          => true,
-            'data_class'        => 'Zym\Bundle\SecurityBundle\Entity\AclSecurityIdentity',
+            'data_class'        => 'Zym\\Bundle\\SecurityBundle\\Entity\\AclSecurityIdentity',
             'query_builder'     => function(EntityRepository $er) {
                 return $er->createQueryBuilder('r')
                           ->where('r.username = 0');
@@ -44,7 +44,7 @@ class AclSecurityIdentityEntityType extends AbstractType
 
         $options = array_replace($defaultOptions, $options);
 
-        return $defaultOptions;
+        return $options;
     }
     
     /**

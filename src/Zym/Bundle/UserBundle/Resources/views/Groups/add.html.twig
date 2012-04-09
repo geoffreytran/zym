@@ -10,11 +10,11 @@
         </h1>
     </div>
 
-    <form class="horizontal-form" action="" method="post" {{ form_enctype(form) }}>
+    <form class="form-horizontal" action="" method="post" {{ form_enctype(form) }}>
         {{ form_rest(form) }}
 
         <fieldset class="form-actions">
-            <input class="btn primary large" type="submit" value="{{ 'Create' | trans({}, 'ZymUserBundle') }}" />
+            <input class="btn btn-primary large" type="submit" value="{{ 'Create' | trans({}, 'ZymUserBundle') }}" />
             <a class="btn large" href="{{ path('zym_user_groups') }}">{{ 'Cancel' | trans({}, 'ZymUserBundle') }}</a>
         </fieldset>
     </form>

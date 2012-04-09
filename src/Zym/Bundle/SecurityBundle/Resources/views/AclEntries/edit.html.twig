@@ -13,7 +13,7 @@
     <div class="btn-toolbar">
         <div class="btn-group">
             <a class="btn" href="javascript: history.back();">
-                <i class="icon arrow-left"></i>
+                <i class="icon-arrow-left"></i>
                 {{ 'Back' | trans({}, 'ZymSecurityBundle') }}
             </a>
         </div>
@@ -23,8 +23,8 @@
         {{ form_rest(form) }}
 
         <fieldset class="form-actions">
-            <input type="submit" value="{{ 'Save changes' | trans({}, 'ZymSecurityBundle') }}" class="btn primary" />
-            <a class="btn" href="{{ path('zym_security_acl_entries') }}">{{ 'Cancel' | trans({}, 'ZymSecurityBundle') }}</a>
+            <button class="btn btn-primary" type="submit">{{ 'Save changes' | trans({}, 'ZymSecurityBundle') }}</button>
+            <button class="btn" onclick="history.back();">{{ 'Cancel' | trans({}, 'ZymSecurityBundle') }}</button>
         </fieldset>
     </form>
 {% endblock content %}

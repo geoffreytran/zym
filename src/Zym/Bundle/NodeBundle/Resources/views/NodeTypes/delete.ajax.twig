@@ -15,7 +15,7 @@
     <form action="{{ path('zym_node_node_types_delete', { 'type' : nodeType }) }}" method="post" {{ form_enctype(form) }}>
         {{ form_rest(form) }}        
         
-        <input class="btn danger" type="submit" value="{{ 'Confirm Deletion' | trans({}, 'ZymNodeBundle') }}" />
+        <input class="btn btn-danger" type="submit" value="{{ 'Confirm Deletion' | trans({}, 'ZymNodeBundle') }}" />
         <a href="#" class="btn" data-dismiss="modal">{{ 'Cancel' | trans({}, 'ZymNodeBundle') }}</a>
     </form>
 </div>

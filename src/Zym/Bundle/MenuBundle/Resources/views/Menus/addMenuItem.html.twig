@@ -11,13 +11,13 @@
     </div>
 
     {% if form is defined %}
-    <form action="" method="post" {{ form_enctype(form) }}>
+    <form class="form-horizontal" action="" method="post" {{ form_enctype(form) }}>
         {{ form_rest(form) }}
         {{ form_row(form.parent, { 'empty_value': '---' }) }}
         
         <fieldset class="form-actions">
-            <input type="submit" value="{{ 'Create' | trans({}, 'ZymMenuBundle') }}" class="btn primary" />
-            <a class="btn" href="{{ path('zym_menus_add') }}">{{ 'Cancel' | trans({}, 'ZymMenuBundle') }}</a>
+            <button class="btn btn-primary" type="submit">{{ 'Create' | trans({}, 'ZymMenuBundle') }}</button>
+            <button class="btn" onclick="history.go(-2);">{{ 'Cancel' | trans({}, 'ZymMenuBundle') }}</button>
         </fieldset>
     </form>
     {% else %}

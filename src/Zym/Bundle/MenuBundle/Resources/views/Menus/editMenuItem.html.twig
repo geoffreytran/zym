@@ -1,12 +1,12 @@
 {% extends "ZymMenuBundle::layout.html.twig" %}
 
-{% block title %}{{ 'Edit a Menu Item' | trans({}, 'RAPPBackendBundle') }}{% endblock %}
+{% block title %}{{ 'Edit a Menu Item' | trans({}, 'ZymMenuBundle') }}{% endblock %}
 
 {% block content %}
     <div class="page-header">
         <h1>
-            {{ 'Edit Menu Item' | trans({}, 'ZymNodeBundle') |e }}
-            <small>{{ menuItem.label | trans({}, 'ZymNodeBundle') |e }}</small>
+            {{ 'Edit Menu Item' | trans({}, 'ZymMenuBundle') |e }}
+            <small>{{ menuItem.label | trans({}, 'ZymMenuBundle') |e }}</small>
         </h1>
     </div>
     
@@ -15,8 +15,8 @@
         {{ form_row(form.parent, { 'empty_value': '---' }) }}
     
         <fieldset class="form-actions">
-            <input type="submit" value="{{ 'Save changes' | trans({}, 'ZymMenuBundle') }}" class="btn primary" />
-            <a class="btn danger" href="{{ path('zym_menus_item_delete', { 'menu': menu.name, 'id': menuItem.id })}}">{{ 'Delete' | trans({}, 'ZymMenuBundle') }}</a>
+            <button class="btn btn-primary" type="submit">{{ 'Save changes' | trans({}, 'ZymMenuBundle') }}</button>
+            <button class="btn" onclick="history.back();">{{ 'Cancel' | trans({}, 'ZymMenuBundle') }}</button>
         </fieldset>
     </form>
 {% endblock content %}

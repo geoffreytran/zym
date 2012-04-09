@@ -11,8 +11,8 @@
         {{ form_rest(form) }}
 
         <fieldset class="form-actions">
-            <input class="btn primary"  type="submit" value="{{ 'Create' | trans({}, 'ZymSecurityBundle') }}" />
-            <a class="btn" href="{{ path('zym_security_access_rules') }}">{{ 'Cancel' | trans({}, 'ZymSecurityBundle') }}</a>
+            <button class="btn btn-primary" type="submit">{{ 'Create' | trans({}, 'ZymSecurityBundle') }}</button>
+            <button class="btn" onclick="history.back();">{{ 'Cancel' | trans({}, 'ZymSecurityBundle') }}</button>
         </fieldset>
     </form>
 {% endblock content %}

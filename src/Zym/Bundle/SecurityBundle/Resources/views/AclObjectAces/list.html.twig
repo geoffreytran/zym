@@ -13,7 +13,7 @@
     <div class="btn-toolbar">
         <div class="btn-group">
             <a class="btn" href="javascript: history.back();">
-                <i class="icon arrow-left"></i>
+                <i class="icon-arrow-left"></i>
                 {{ 'Back' | trans({}, 'ZymSecurityBundle') }}
             </a>
         </div>
@@ -21,7 +21,7 @@
         <div class="btn-group">
             {% if is_granted('MASTER', oid) %}
             <a  class="btn" href="{{ path('zym_security_acl_entries_add', { "classType": oid.type }) }}">
-                <i class="icon plus"></i>
+                <i class="icon-plus"></i>
                 {{ 'New Permission' | trans({}, 'ZymSecurityBundle') }}
             </a>
             {% endif %}
@@ -64,18 +64,18 @@
                         <div class="btn-group">
                             {% if is_granted('VIEW', oid.type) %}
                             <a class="btn" href="">
-                                <i class="icon share"></i>
+                                <i class="icon-share"></i>
                                 {{ 'View' |trans({}, 'ZymSecurityBundle') }}
                             </a>
                             {% endif %}
 
                             {% if is_granted('OPERATOR', oid.type) %}
                             <a class="btn" href="{{ path('zym_security_acl_entries_edit', { 'classType': oid.type, 'index': aceOrder }) }}">
-                                <i class="icon edit"></i>
+                                <i class="icon-edit"></i>
                                 {{ 'Edit' |trans({}, 'ZymSecurityBundle') }}
                             </a>
                             <a class="btn" href="" data-toggle="ajax-modal">
-                                <i class="icon remove"></i>
+                                <i class="icon-remove"></i>
                                 {{ 'Delete' |trans({}, 'ZymSecurityBundle') }}
                             </a>
                             {% endif %}
@@ -125,17 +125,17 @@
                         <div class="btn-group">
                             {% if is_granted('VIEW', oid.type) %}
                             <a class="btn" href="">
-                                <i class="icon share"></i>
+                                <i class="icon-share"></i>
                                 {{ 'View' |trans({}, 'ZymSecurityBundle') }}</a>
                             {% endif %}
 
                             {% if is_granted('OPERATOR', oid.type) %}
                             <a class="btn" href="{{ path('zym_security_acl_entries_edit', { 'classType': oid.type, 'index': aceOrder }) }}">
-                                <i class="icon edit"></i>
+                                <i class="icon-edit"></i>
                                 {{ 'Edit' |trans({}, 'ZymSecurityBundle') }}
                             </a>
                             <a class="btn" href="" data-toggle="ajax-modal">
-                                <i class="icon remove"></i>
+                                <i class="icon-remove"></i>
                                 {{ 'Delete' |trans({}, 'ZymSecurityBundle') }}
                             </a>
                             {% endif %}

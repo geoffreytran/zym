@@ -13,32 +13,32 @@
     <div class="btn-toolbar">
         <div class="btn-group">
             <a class="btn" href="{{ path('zym_node_node_types') }}">
-                <i class="icon arrow-left"></i>
+                <i class="icon-arrow-left"></i>
                 {{ 'Content Types' | trans({}, 'ZymNodeBundle') }}
             </a>
         </div>
 
         <div class="btn-group">
             <a class="btn" href="{{ path('zym_field_fields', { "fieldConfigType": "Zym\\Bundle\\NodeBundle\\Entity\\NodeFieldConfig"}) }}">
-                <i class="icon list"></i>
+                <i class="icon-list"></i>
                 {{ 'Manage Fields' | trans({}, 'ZymNodeBundle') }}
             </a>
         </div>
 
         <div class="btn-group">
             <a class="btn" href="{{ path('zym_security_acl_object_aces', { 'type': 'Zym\\Bundle\\NodeBundle\\Entity\\NodeType', 'identifier': nodeType.type }) }}">
-                <i class="icon lock"></i>
+                <i class="icon-lock"></i>
                 {{ 'Permissions' | trans({}, 'ZymNodeBundle') }}
             </a>
         </div>
     </div>
 
-    <form action="" method="post" {{ form_enctype(form) }}>
+    <form class="form-horizontal" action="" method="post" {{ form_enctype(form) }}>
         {{ form_rest(form) }}
 
         <fieldset class="form-actions">
-            <input type="submit" value="{{ 'Save changes' | trans({}, 'ZymNodeBundle') }}" class="btn primary" />
-            <a class="btn" href="{{ path('zym_node_node_types') }}">Cancel</a>
+            <button class="btn btn-primary" type="submit">{{ 'Save changes' | trans({}, 'ZymNodeBundle') }}</button>
+            <button class="btn" onclick="history.back();">{{ 'Cancel' | trans({}, 'ZymNodeBundle') }}</button>
         </fieldset>
     </form>
 {% endblock content %}
