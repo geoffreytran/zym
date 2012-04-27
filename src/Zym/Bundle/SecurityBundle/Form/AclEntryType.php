@@ -38,10 +38,9 @@ class AclEntryType extends AbstractType
         
     }
 
-    public function getDefaultOptions(array $options)
+    public function getDefaultOptions()
     {
-        return array(
-        );
+        return array();
     }
 
     /**

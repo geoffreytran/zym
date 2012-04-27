@@ -29,7 +29,7 @@ class AclSecurityIdentityEntityType extends AbstractType
         $builder->appendClientTransformer(new AclSecurityIdentityToArrayTransformer($options['choice_list']));        
     }
     
-    public function getDefaultOptions(array $options)
+    public function getDefaultOptions()
     {
         $defaultOptions = array(
             'class'             => 'ZymSecurityBundle:AclSecurityIdentity',
@@ -42,9 +42,7 @@ class AclSecurityIdentityEntityType extends AbstractType
             }
         );
 
-        $options = array_replace($defaultOptions, $options);
-
-        return $options;
+        return $defaultOptions;
     }
     
     /**

@@ -24,7 +24,7 @@ class AclSecurityIdentityType extends AbstractType
         
     }
 
-    public function getDefaultOptions(array $options)
+    public function getDefaultOptions()
     {
         return array(
             'data_class' => 'Zym\Bundle\SecurityBundle\Entity\AclSecurityIdentity',
