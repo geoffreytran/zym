@@ -33,7 +33,7 @@ class FieldConfigsType extends AbstractType
         }
     }
 
-    public function getDefaultOptions(array $options)
+    public function getDefaultOptions()
     {
         return array(
             'data_class' => 'Acme\TaskBundle\Entity\Category',
