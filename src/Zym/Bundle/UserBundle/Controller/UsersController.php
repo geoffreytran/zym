@@ -119,7 +119,7 @@ class UsersController extends Controller
      * @ParamConverter("user", class="ZymUserBundle:User")
      * @Template()
      *
-     * SecureParam(name="user", permissions="VIEW")
+     * @SecureParam(name="user", permissions="VIEW")
      */
     public function showAction(Entity\User $user)
     {

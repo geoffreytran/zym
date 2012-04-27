@@ -127,11 +127,30 @@ class UserManager extends AbstractUserManager
      */
     public function saveUser(User $user, $andFlush = true)
     {
-        $this->saveEntity($user, $andFlush);
+        $this->updateCanonicalFields($user);
+        $this->updatePassword($user);
+        
+        if ($this->em->getUnitOfWork()->getEntityState($user) == \Doctrine\ORM\UnitOfWork::STATE_NEW) {
+            $this->createEntity($user, $andFlush);
+
+        } else {
+            $this->saveEntity($user, $andFlush);
+        }
 
         if ($this->fieldManager !== null) {
             $this->fieldManager->saveFields($user->getFields(), $andFlush);
         }
+    }
+
+    /**
+     * Updates a user.
+     *
+     * @param UserInterface $user
+     * @param Boolean       $andFlush Whether to flush the changes (default true)
+     */
+    public function updateUser(UserInterface $user, $andFlush = true)
+    {
+        $this->saveUser($user, $andFlush);
     }
 
     /**

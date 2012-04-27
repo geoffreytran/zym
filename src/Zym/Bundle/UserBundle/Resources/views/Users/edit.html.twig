@@ -16,6 +16,34 @@
                 <i class="icon-arrow-left"></i> {{ 'Back' | trans({}, 'ZymUserBundle') }}
             </a>
         </div>
+        
+        <div class="btn-group">
+
+        
+            <a class="btn dropdown-toggle" data-toggle="dropdown" href="#">
+                <i class="icon-edit"></i> {{ 'Edit' | trans({}, 'ZymUserBundle') }} <span class="caret"></span>
+            </a>
+        
+            <ul class="dropdown-menu">
+                <li>
+                    <a href="{{ path('zym_user_groups_add') }}"><i class="icon-off"></i> {{ 'Disable User' | trans({}, 'ZymUserBundle') }}</a>
+                </li>
+                <li>
+                    <a href="{{ path('zym_user_groups_add') }}"><i class="icon-lock"></i> {{ 'Activate User' | trans({}, 'ZymUserBundle') }}</a>
+                </li>
+        
+        
+                {% if is_granted('DELETE', user) %}
+                <li class="divider"></li>
+        
+                <li>
+                    <a href="{{ path('zym_user_users_delete', { "id": user.id }) }}" data-toggle="ajax-modal">
+                        <i class="icon-remove"></i> {{ 'Delete' | trans({}, 'ZymUserBundle') }}
+                    </a>
+                </li>
+                {% endif %}
+            </ul>
+        </div>
 
         <div class="btn-group">
             {% if is_granted('VIEW', user) %}

@@ -23,7 +23,8 @@ class ZymSecurityExtension extends Extension
         $config = $this->processConfiguration($configuration, $configs);
 
         $loader = new Loader\XmlFileLoader($container, new FileLocator(__DIR__.'/../Resources/config'));
-        $loader->load('acl.xml');
+        $loader->load('security_acl_dbal.xml');
+        $loader->load('security_acl.xml');
         $loader->load('services.xml');
     }
 }

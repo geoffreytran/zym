@@ -51,8 +51,8 @@ class AclRolesController extends Controller
         $page     = $request->query->get('page', 1);
         $limit    = $request->query->get('limit', 50);
         $orderBy  = $request->query->get('orderBy');
-        $filterBy = $request->query->get('filterBy');
-        
+        $filterBy = array_merge(array('username' => 0), (array)$request->query->get('filterBy'));
+
         $roleManager = $this->get('zym_security.acl_security_identity_manager');
         $roles       = $roleManager->findAclSecurityIdentities($filterBy, $page, $limit, $orderBy);
 

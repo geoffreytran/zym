@@ -18,6 +18,7 @@ use Zym\Bundle\SecurityBundle\Entity;
 
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use Symfony\Component\Security\Acl\Domain\ObjectIdentity;
+use Symfony\Component\Security\Acl\Exception\AclNotFoundException;
 
 use JMS\SecurityExtraBundle\Annotation\Secure;
 use JMS\SecurityExtraBundle\Annotation\SecureParam;
@@ -55,7 +56,18 @@ class AclEntriesController extends Controller
 
         $oids = array();
         foreach ($aclClasses as $aclClass) {
-            $oids[] = new ObjectIdentity('class', $aclClass->getClassType());
+            $oid = new ObjectIdentity('class', $aclClass->getClassType());
+            
+            try {
+                $aclProvider->findAcl($oid);
+            } catch (AclNotFoundException $e) {
+                // Missing class level entry, add it
+                $acl = $aclProvider->createAcl($oid);
+                $aclProvider->updateAcl($acl);
+                continue;
+            }
+            
+            $oids[] = $oid;
         }
 
         $acls = $aclProvider->findAcls($oids);

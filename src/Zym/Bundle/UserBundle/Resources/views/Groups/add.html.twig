@@ -14,8 +14,8 @@
         {{ form_rest(form) }}
 
         <fieldset class="form-actions">
-            <input class="btn btn-primary large" type="submit" value="{{ 'Create' | trans({}, 'ZymUserBundle') }}" />
-            <a class="btn large" href="{{ path('zym_user_groups') }}">{{ 'Cancel' | trans({}, 'ZymUserBundle') }}</a>
+            <button class="btn btn-primary" type="submit">{{ 'Create' | trans({}, 'ZymUserBundle') }}</button>
+            <button class="btn" onclick="history.back();">{{ 'Cancel' | trans({}, 'ZymUserBundle') }}</button>
         </fieldset>
     </form>
 {% endblock content %}
