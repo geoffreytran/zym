@@ -201,7 +201,7 @@ class FieldConfig extends    FormFieldType
     /**
      * {@inheritdoc}
      */
-    public function getDefaultOptions(array $options)
+    public function getDefaultOptions()
     {
         $defaultOptions = array(
             'required'          => $this->required,
@@ -211,8 +211,7 @@ class FieldConfig extends    FormFieldType
         $defaultOptions = array_merge(
             parent::getDefaultOptions(array()),
             $defaultOptions,
-            $this->getWidgetOptions(),
-            $options
+            $this->getWidgetOptions()
         );
 
         return $defaultOptions;
