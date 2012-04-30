@@ -32,6 +32,7 @@ use Doctrine\ORM\Mapping as ORM;
  *
  * @ORM\InheritanceType("SINGLE_TABLE")
  * @ORM\DiscriminatorColumn(name="object_type", type="string")
+ * @ORM\DiscriminatorMap({"Zym\Bundle\UserBundle\Entity\User" = "Zym\Bundle\UserBundle\Entity\User"})
  *
  * @UniqueEntity(fields="username", message="This email is already used.")
  * @UniqueEntity(fields="email",    message="This email is already used.")
