@@ -10,7 +10,7 @@ use Doctrine\Common\Collections\Collection;
 use Doctrine\Common\Collections\ArrayCollection;
 use Symfony\Component\Form\Extension\Core\Type\FieldType as FormFieldType;
 use Symfony\Component\Form\AbstractType as FormAbstractType;
-use Symfony\Component\Form\FormBuilder;
+use Symfony\Component\Form\FormBuilderInterface;
 
 /**
  * @ORM\Entity()
@@ -179,7 +179,7 @@ class FieldConfig extends    FormFieldType
     /**
      * {@inheritdoc}
      */
-    public function buildForm(FormBuilder $builder, array $options)
+    public function buildForm(FormBuilderInterface $builder, array $options)
     {
         $valueCount = $this->fieldType->getValueCount();
         
@@ -220,7 +220,7 @@ class FieldConfig extends    FormFieldType
     /**
      * {@inheritdoc}
      */
-    public function getParent(array $options)
+    public function getParent()
     {
         return $this->widget;
     }

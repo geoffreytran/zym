@@ -4,7 +4,7 @@ namespace Zym\Bundle\NodeBundle\Form;
 use Zym\Bundle\NodeBundle\Entity;
 use Zym\Bundle\FieldBundle\Entity\FieldConfig;
 use Symfony\Component\Form\AbstractType;
-use Symfony\Component\Form\FormBuilder;
+use Symfony\Component\Form\FormBuilderInterface;
 
 class NodeType extends AbstractType
 {
@@ -14,7 +14,7 @@ class NodeType extends AbstractType
      * @param FormBuilder $builder
      * @param array $options
      */
-    public function buildForm(FormBuilder $builder, array $options)
+    public function buildForm(FormBuilderInterface $builder, array $options)
     {
         /* @var $node Entity\Node */
         $node = $builder->getData();

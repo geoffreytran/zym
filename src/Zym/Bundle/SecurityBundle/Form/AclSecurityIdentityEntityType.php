@@ -4,7 +4,7 @@ namespace Zym\Bundle\SecurityBundle\Form;
 use Symfony\Bridge\Doctrine\Form\Type\EntityType;
 use Doctrine\ORM\EntityRepository;
 use Symfony\Component\Form\AbstractType;
-use Symfony\Component\Form\FormBuilder;
+use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\Form\FormEvents;
 use Symfony\Component\EventDispatcher\Event;
 
@@ -17,7 +17,7 @@ class AclSecurityIdentityEntityType extends AbstractType
      * @param FormBuilder $builder
      * @param array $options
      */
-    public function buildForm(FormBuilder $builder, array $options)
+    public function buildForm(FormBuilderInterface $builder, array $options)
     {      
         if ($options['multiple']) {
             $builder->addEventListener(FormEvents::BIND_NORM_DATA, function(Event $event) use ($options){
@@ -48,7 +48,7 @@ class AclSecurityIdentityEntityType extends AbstractType
     /**
      * {@inheritdoc}
      */
-    public function getParent(array $options)
+    public function getParent()
     {
         return 'entity';
     }
