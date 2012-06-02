@@ -2,6 +2,7 @@
 namespace Zym\Bundle\UserBundle\DataFixtures\ORM;
 
 use Zym\Bundle\UserBundle\Entity;
+use Doctrine\Common\Persistence\ObjectManager;
 use Doctrine\Common\DataFixtures\AbstractFixture;
 use Doctrine\Common\DataFixtures\FixtureInterface;
 use Doctrine\Common\DataFixtures\OrderedFixtureInterface;
@@ -26,9 +27,9 @@ class LoadUserData extends AbstractFixture
     /**
      * Load
      *
-     * @param object $manager
+     * @param ObjectManager $manager
      */
-    public function load($manager)
+    public function load(ObjectManager $manager)
     {
         $user = new Entity\User();
         $user->setUsername('root');

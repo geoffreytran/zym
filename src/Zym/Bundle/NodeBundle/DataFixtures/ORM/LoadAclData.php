@@ -1,6 +1,7 @@
 <?php
 namespace Zym\Bundle\NodeBundle\DataFixtures\ORM;
 
+use Doctrine\Common\Persistence\ObjectManager;
 use Doctrine\Common\DataFixtures\AbstractFixture;
 use Doctrine\Common\DataFixtures\FixtureInterface;
 use Doctrine\Common\DataFixtures\OrderedFixtureInterface;
@@ -25,9 +26,9 @@ class LoadAclData extends AbstractFixture
     /**
      * Load
      *
-     * @param object $manager
+     * @param ObjectManager $manager
      */
-    public function load($manager)
+    public function load(ObjectManager $manager)
     {
         $aclProvider = $this->container->get('security.acl.provider');
         

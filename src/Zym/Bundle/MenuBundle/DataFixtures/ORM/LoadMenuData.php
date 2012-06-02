@@ -2,6 +2,7 @@
 namespace Zym\Bundle\MenuBundle\DataFixtures\ORM;
 
 use Zym\Bundle\MenuBundle\Entity;
+use Doctrine\Common\Persistence\ObjectManager;
 use Doctrine\Common\DataFixtures\AbstractFixture;
 use Doctrine\Common\DataFixtures\FixtureInterface;
 use Doctrine\Common\DataFixtures\OrderedFixtureInterface;
@@ -26,9 +27,9 @@ class LoadMenuData extends AbstractFixture
     /**
      * Load
      *
-     * @param object $manager
+     * @param ObjectManager $manager
      */
-    public function load($manager)
+    public function load(ObjectManager $manager)
     {
         $menuManager = $this->container->get('zym_menu.menu_manager');
         $menuFactory = $this->container->get('knp_menu.factory');
