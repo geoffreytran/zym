@@ -14,7 +14,7 @@ namespace Zym\Bundle\MenuBundle\Form\MenuItem;
 
 use Zym\Bundle\MenuBundle\Form\MenuItemType;
 use Symfony\Component\Form\AbstractType;
-use Symfony\Component\Form\FormBuilder;
+use Symfony\Component\Form\FormBuilderInterface;
 
 /**
  * Static Menu Item Form
@@ -25,7 +25,7 @@ use Symfony\Component\Form\FormBuilder;
 class StaticMenuItemType extends MenuItemType
 {
 
-    public function buildForm(FormBuilder $builder, array $options)
+    public function buildForm(FormBuilderInterface $builder, array $options)
     {
         parent::buildForm($builder, $options);
 

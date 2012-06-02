@@ -3,17 +3,17 @@ namespace Zym\Bundle\SecurityBundle\Form;
 
 use Zym\Bundle\SecurityBundle\Entity;
 use Symfony\Component\Form\AbstractType;
-use Symfony\Component\Form\FormBuilder;
+use Symfony\Component\Form\FormBuilderInterface;
 
 class AccessRuleType extends AbstractType
 {
     /**
      * Build form
      *
-     * @param FormBuilder $builder
+     * @param FormBuilderInterface $builder
      * @param array $options
      */
-    public function buildForm(FormBuilder $builder, array $options)
+    public function buildForm(FormBuilderInterface $builder, array $options)
     {
         
         $builder->add('path', 'text')

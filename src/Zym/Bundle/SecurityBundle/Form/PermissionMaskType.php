@@ -2,7 +2,7 @@
 namespace Zym\Bundle\SecurityBundle\Form;
 
 use Symfony\Component\Form\AbstractType;
-use Symfony\Component\Form\FormBuilder;
+use Symfony\Component\Form\FormBuilderInterface;
 
 class PermissionMaskType extends AbstractType
 {
@@ -12,7 +12,7 @@ class PermissionMaskType extends AbstractType
      * @param FormBuilder $builder
      * @param array $options
      */
-    public function buildForm(FormBuilder $builder, array $options)
+    public function buildForm(FormBuilderInterface $builder, array $options)
     {
         $builder->appendClientTransformer(new PermissionMaskTransformer());
         
