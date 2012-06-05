@@ -27,6 +27,8 @@ class AclSchemaListener extends BaseAclSchemaListener
 
 	public function __construct(ContainerInterface $container)
 	{
+    	parent::__construct($container);
+    	
 		$this->container = $container;
 	}
 
@@ -46,9 +48,4 @@ class AclSchemaListener extends BaseAclSchemaListener
             default:
         }
     }
-
-	// public function postGenerateSchema(GenerateSchemaEventArgs $args)
-	// {
-	// 	// Do nothing
-	// }
 }

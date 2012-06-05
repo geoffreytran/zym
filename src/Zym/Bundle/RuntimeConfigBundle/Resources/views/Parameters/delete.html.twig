@@ -1,0 +1,22 @@
+{% extends "ZymRuntimeConfigBundle::layout.html.twig" %}
+
+{% block title %}{{ 'Delete Parameter' | trans({}, 'ZymRuntimeConfigBundle') }}{% endblock %}
+
+{% block content %}
+    <h3>{{ 'Confirm Deletion' | trans({}, 'ZymRuntimeConfigBundle') }}</h3>
+
+    <p>
+        You are about to delete parameter <strong>"{{ parameter.name |e }}"</strong>.
+        This action cannot be undone.<br />
+        <strong>Are you sure you want to proceed?</strong>
+    </p>
+
+    <form action="" method="post" {{ form_enctype(form) }}>
+        {{ form_rest(form) }}
+        
+        <fieldset class="form-actions">
+            <button class="btn btn-danger" type="submit">{{ 'Confirm Deletion' | trans({}, 'ZymRuntimeConfigBundle') }}</button>
+            <button class="btn" onclick="history.back();">{{ 'Cancel' | trans({}, 'ZymRuntimeConfigBundle') }}</button>
+        </fieldset>
+    </form>
+{% endblock content %}

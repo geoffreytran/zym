@@ -28,7 +28,7 @@ class Parameter extends BaseParameter
     protected $name;
     
     /**
-     * @ORM\Column(type="array", nullable=true)
+     * @ORM\Column(type="json", nullable=true)
      * @Assert\MaxLength(groups={"Entity"}, limit=255)
      */
     protected $value = array();
@@ -40,7 +40,7 @@ class Parameter extends BaseParameter
      */
     public function getObjectIdentifier()
     {
-        return $this->getName();
+        return md5($this->getName());
     }
 
     public function validateValueAsYaml(ExecutionContext $context)

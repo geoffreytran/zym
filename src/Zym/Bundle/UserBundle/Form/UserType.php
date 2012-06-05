@@ -43,7 +43,7 @@ class UserType extends AbstractType
                 'class'             => 'ZymSecurityBundle:AclSecurityIdentity',
                 'property'          => 'identifier',
                 'multiple'          => true,
-                'data_class'        => 'Zym\\Bundle\\SecurityBundle\\Entity\\AclSecurityIdentity',
+                'data_class'        => null, //'Zym\\Bundle\\SecurityBundle\\Entity\\AclSecurityIdentity',
                 'query_builder'     => function(EntityRepository $er) {
                     return $er->createQueryBuilder('r')
                               ->where('r.username = 0');

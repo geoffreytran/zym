@@ -72,7 +72,7 @@ class Menu extends BaseMenuItem implements DomainObjectInterface
      *
      * @var array
      *
-     * @ORM\Column(type="array")
+     * @ORM\Column(type="json")
      */
     protected $options = array();
     
@@ -81,7 +81,7 @@ class Menu extends BaseMenuItem implements DomainObjectInterface
      *
      * @var array
      *
-     * @ORM\Column(type="array");
+     * @ORM\Column(type="json");
      */
     protected $attributes = array();
 

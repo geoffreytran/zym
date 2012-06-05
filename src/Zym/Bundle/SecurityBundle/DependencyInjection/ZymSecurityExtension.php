@@ -39,12 +39,12 @@ class ZymSecurityExtension extends Extension
         }
     
         $container
-            ->getDefinition('security.acl.dbal.schema_listener')
+            ->getDefinition('zym_security.acl.dbal.schema_listener')
             ->addTag('doctrine.event_listener', array(
                 'connection' => $connection,
                 'event'      => 'postGenerateSchemaTable',
                 'lazy'       => true
             ))
-        ;
+        ;        
     }
 }

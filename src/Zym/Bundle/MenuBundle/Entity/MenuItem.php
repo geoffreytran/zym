@@ -85,7 +85,7 @@ abstract class MenuItem extends BaseMenuItem
      *
      * @var array
      *
-     * @ORM\Column(type="array", name="label_attributes")
+     * @ORM\Column(type="json", name="label_attributes")
      */
     protected $labelAttributes = array();
 
@@ -94,7 +94,7 @@ abstract class MenuItem extends BaseMenuItem
      *
      * @var string
      *
-     * @ORM\Column(type="array")
+     * @ORM\Column(type="json")
      */
     protected $attributes = array();
     
@@ -125,7 +125,7 @@ abstract class MenuItem extends BaseMenuItem
      *
      * @var array
      *
-     * @ORM\Column(type="array")
+     * @ORM\Column(type="json")
      */
     protected $options = array();
 

@@ -1,0 +1,37 @@
+{% extends "ZymRuntimeConfigBundle::layout.html.twig" %}
+
+{% block title %}{{ 'Edit Parameter' | trans({}, 'ZymRuntimeConfigBundle') }}{% endblock %}
+
+{% block content %}
+    <div class="page-header">
+        <h1>
+            {{ 'Edit Parameter' | trans({}, 'ZymRuntimeConfigBundle') |e }}
+            <small>{{ parameter.name | trans({}, 'ZymRuntimeConfigBundle') |e }}</small>
+        </h1>
+    </div>
+
+    <div class="btn-toolbar">
+        <div class="btn-group">
+            <a class="btn" href="javascript: history.back();">
+                <i class="icon-arrow-left"></i>
+                {{ 'Back' | trans({}, 'ZymRuntimeConfigBundle') }}
+            </a>
+        </div>
+
+        <div class="btn-group">
+            <a class="btn" href="{{ path('zym_security_acl_object_aces', { 'type': 'Zym\\Bundle\\RuntimeConfigBundle\\Entity\\Parameter', 'identifier': parameter.objectIdentifier }) }}">
+                <i class="icon-lock"></i>
+                {{ 'Permissions' | trans({}, 'ZymRuntimeConfigBundle') }}
+            </a>
+        </div>
+    </div>
+
+    <form action="" method="post" {{ form_enctype(form) }}>
+        {{ form_rest(form) }}
+
+        <fieldset class="form-actions">
+            <button class="btn btn-primary" type="submit">{{ 'Save changes' | trans({}, 'ZymRuntimeConfigBundle') }}</button>
+            <button class="btn" onclick="history.back();">{{ 'Cancel' | trans({}, 'ZymRuntimeConfigBundle') }}</button>
+        </fieldset>
+    </form>
+{% endblock content %}

@@ -112,6 +112,4 @@ class DoctrineOrmLoader extends BaseLoader
         $this->entityManager = $entityManager;
         return $this;
     }
-
-
 }
