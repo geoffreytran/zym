@@ -74,6 +74,11 @@ class FieldManager extends AbstractEntityManager
         }
         
         foreach ($fields as $field) {
+            if ($field instanceof \ArrayAccess || is_array($field)) {
+                $this->saveFields($field, false);
+                continue;
+            }
+            
             $this->saveField($field, false);
         }
         

@@ -184,19 +184,6 @@ class FieldConfig extends    FormFieldType
         $valueCount = $this->fieldType->getValueCount();
         
     }
-
-    /**
-     * {@inheritdoc}
-     */
-    public function getAdllowedOptionValues(array $options)
-    {
-        return array(
-            'type' => array(
-                'fractional',
-                'integer',
-            ),
-        );
-    }
     
     /**
      * {@inheritdoc}
@@ -209,7 +196,7 @@ class FieldConfig extends    FormFieldType
         );
         
         $defaultOptions = array_merge(
-            parent::getDefaultOptions(array()),
+            parent::getDefaultOptions(),
             $defaultOptions,
             $this->getWidgetOptions()
         );

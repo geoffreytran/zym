@@ -2,6 +2,7 @@
 namespace Zym\Bundle\NodeBundle\Form;
 
 use Zym\Bundle\NodeBundle\Entity;
+use Zym\Bundle\FieldBundle\Form\FieldCollectionItemType;
 use Zym\Bundle\FieldBundle\Entity\FieldConfig;
 use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\FormBuilderInterface;
@@ -30,7 +31,16 @@ class NodeType extends AbstractType
         foreach ($node->getFieldConfigs() as $fieldConfig) {
             /* @var $field FieldConfig */
             $machineName = $fieldConfig->getFieldType()->getMachineName();
-            $builder->add($machineName, $fieldConfig, array('property_path' => 'fields.' . $machineName . '.data'));
+            $valueCount  = $fieldConfig->getFieldType()->getValueCount();
+            
+            if ($valueCount > 1) {
+                $builder->add($machineName, 'collection', array(
+                    'type'          => new FieldCollectionItemType($fieldConfig),
+                    'property_path' => 'fields.' . $machineName
+                ));
+            } else {
+                $builder->add($machineName, $fieldConfig, array('property_path' => 'fields.' . $machineName . '.data'));
+            }
         }
     }
 

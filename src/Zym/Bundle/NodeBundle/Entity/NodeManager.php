@@ -71,6 +71,7 @@ class NodeManager extends AbstractEntityManager
      */
     public function createNode(Node $node)
     {
+        //var_dump($node);exit;
         parent::createEntity($node);
 
         return $node;

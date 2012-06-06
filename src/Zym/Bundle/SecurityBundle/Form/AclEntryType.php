@@ -18,7 +18,7 @@ class AclEntryType extends AbstractType
     {
         
         $builder->add('securityIdentity', 'text', array(
-                    'label' => 'SecurityIdentity',
+                    'label' => 'Security Identity',
                     'property_path' => 'securityIdentity.role',
                     'read_only' => true
                 ))

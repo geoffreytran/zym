@@ -11,7 +11,13 @@
     </div>
     
     {% for field in node.fields %}
-        {{ field |raw }}<br />
+        {% if field.arrayCopy is defined %}
+            {% for fieldItem in field %}
+                {{ fieldItem |raw }}<br />
+            {% endfor %}
+        {% else %}
+            {{ field |raw }}<br />
+        {% endif %}
     {% endfor %}
 {% endblock %}
 

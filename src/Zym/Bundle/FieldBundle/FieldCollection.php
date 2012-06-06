@@ -52,7 +52,7 @@ class FieldCollection implements Collection
     public function __construct(FieldableInterface $entity, EntityManager $entityManager = null)
     {
         $this->entityManager = $entityManager;
-        $this->entity        = $entity;
+        $this->entity        = $entity;        
     }
     
     /**
@@ -86,13 +86,15 @@ class FieldCollection implements Collection
         // Separate fields into field map
         foreach ($fields as $field) {
             /** @var $field FieldInterface */
-            $machineName = $field->getFieldConfig()
-                                 ->getFieldType()
-                                 ->getMachineName();
             
-            if ($field->getFieldConfig()->getFieldType()->getValueCount() != 1) { 
+            $fieldType   = $field->getFieldConfig()
+                                 ->getFieldType();
+            $machineName = $fieldType->getMachineName();
+            $valueCount  = $fieldType->getValueCount();
+                                
+            if ($valueCount != 1) { 
                 if (!isset($fieldMap[$machineName])) {
-                    $fieldMap[$machineName] = array();
+                    $fieldMap[$machineName] = new \ArrayObject(array(), \ArrayObject::ARRAY_AS_PROPS);
                 }
             
                 $fieldMap[$machineName][] = $field;
@@ -106,20 +108,35 @@ class FieldCollection implements Collection
         foreach ($fieldConfigs as $fieldConfig) {
             /** @var $fieldConfig FieldConfigInterface */
             
-            $machineName = $fieldConfig->getFieldType()
-                                       ->getMachineName();
+            $fieldType   = $fieldConfig->getFieldType();
+            $machineName = $fieldType->getMachineName();
+            $valueCount  = $fieldType->getValueCount();
+            $fieldClass  = $fieldType->getType();
 
             if (!isset($fieldMap[$machineName])) {
-                $fieldClass             = $fieldConfig->getFieldType()->getType();
-                $field                  = new $fieldClass();
-                $field->setEntity($entity);
-                $field->setFieldConfig($fieldConfig);
                 
-                if ($fieldConfig->getFieldType()->getValueCount() != 1) {
-                    $fieldMap[$machineName] = array($field);
+                if ($valueCount != 1) {
+                    $fieldMap[$machineName] = new \ArrayObject(array(), \ArrayObject::ARRAY_AS_PROPS);                 
                 } else {
+                    $field = new $fieldClass();
+                    $field->setEntity($entity);
+                    $field->setFieldConfig($fieldConfig);
+                    
                     $fieldMap[$machineName] = $field;
                 }
+            }  
+            
+            $currentValueCount = count($fieldMap[$machineName]) ;
+            if ($currentValueCount < $valueCount) {
+                
+                $addCount = $valueCount - $currentValueCount;
+                for ($i=0; $i < $addCount; $i++) {
+                    $field = new $fieldClass();
+                    $field->setEntity($entity);
+                    $field->setFieldConfig($fieldConfig);
+                    
+                    $fieldMap[$machineName][] = $field;    
+                }  
             }
         }
         

@@ -54,6 +54,32 @@ class ParametersController extends Controller
             'parameters' => $parameters
         );
     }
+    
+    /**
+     * Show a parameter
+     *
+     * @param Entity\Parameter $parameter
+     *
+     * @Route(
+     *     "/{name}/view.{_format}",
+     *     name="zym_runtime_config_parameters_show",
+     *     defaults = {
+     *         "_format" = "html"
+     *     },
+     *     requirements = {
+     *         "id" = "\d+",
+     *         "_format" = "html|json"
+     *     }
+     * )
+     * @ParamConverter("parameter", class="ZymRuntimeConfigBundle:Parameter")
+     * @Template()
+     *
+     * @SecureParam(name="parameter", permissions="VIEW")
+     */
+    public function showAction(Entity\Parameter $parameter)
+    {
+        return array('parameter' => $parameter);
+    }
 
     /**
      * @Route(

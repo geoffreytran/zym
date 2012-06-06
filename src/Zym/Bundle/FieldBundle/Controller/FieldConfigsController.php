@@ -28,18 +28,18 @@ use Sensio\Bundle\FrameworkExtraBundle\Configuration\Template;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\ParamConverter;
 
 /**
- * Fields Controller
+ * Field Configs Controller
  *
  * @author    Geoffrey Tran
  * @copyright Copyright (c) 2011 Zym. (http://www.zym.com/)
  */
-class FieldsController extends Controller
+class FieldConfigsController extends Controller
 {
     /**
      * @Route("/{fieldConfigType}", name="zym_field_fields")
      * @Template()
      */
-    public function listAction($fieldConfigType)
+    public function listAction(Entity\FieldConfig $fieldConfig)
     {
         $request  = $this->get('request');
         $page     = $request->query->get('page', 1);
@@ -47,8 +47,8 @@ class FieldsController extends Controller
         $orderBy  = $request->query->get('orderBy');
         $filterBy = $request->query->get('filterBy');
 
-        $nodeManager = $this->get('zym_node.node_manager');
-        $nodes       = $nodeManager->findNodes($filterBy, $page, $limit, $orderBy);
+        $nodeManager = $this->get('zym_field.field_manager');
+        $nodes       = $nodeManager->findFields($filterBy, $page, $limit, $orderBy);
 
         return array(
             'nodes' => $nodes

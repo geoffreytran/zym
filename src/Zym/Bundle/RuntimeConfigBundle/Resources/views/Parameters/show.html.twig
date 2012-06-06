@@ -1,28 +1,12 @@
-{% extends "ZymMenuBundle::layout.html.twig" %}
+{% extends "ZymRuntimeConfigBundle::layout.html.twig" %}
 
-{% block title %}{{ 'Showing Menu' | trans({}, 'ZymMenuBundle') }}{% endblock %}
-
-
-{% macro loopMenuItem(menuItem) %}
-    {% if menuItem.children %}
-        <ul>
-            {% for c in menuItem.children %}
-            <li>
-                <a href="{{ path('zym_menus_item_edit', { 'menu': menuItem.menu.name, 'id': c.id })}}">
-                    {{ c.label | e }}
-                </a>
-                {{ _self.loopMenuItem(c)}}
-            </li>
-            {% endfor %}
-        </ul>
-    {% endif %}
-{% endmacro %}
+{% block title %}{{ 'Viewing Parameter' | trans({}, 'ZymRuntimeConfigBundle') }}{% endblock %}
 
 {% block content %}
     <div class="page-header">
         <h1>
-            {{ menu.label | trans({}, 'ZymMenuBundle') |e }}
-            <small>{{ menu.name | trans({}, 'ZymMenuBundle') |e }}</small>
+            {{ 'Viewing Parameter' | trans({}, 'ZymRuntimeConfigBundle') |e }}
+            <small>{{ parameter.name | trans({}, 'ZymRuntimeConfigBundle') |e }}</small>
         </h1>
     </div>
 
@@ -30,15 +14,15 @@
         <div class="btn-group">
             <a class="btn" href="javascript: history.back();">
                 <i class="icon-arrow-left"></i>
-                {{ 'Back' | trans({}, 'ZymMenuBundle') }}
+                {{ 'Back' | trans({}, 'ZymRuntimeConfigBundle') }}
             </a>
         </div>
 
         <div class="btn-group">
-            {% if is_granted('EDIT', menu) %}
-            <a class="btn" href="{{ path('zym_menus_edit', { 'id': menu.name }) }}">
+            {% if is_granted('EDIT', parameter) %}
+            <a class="btn" href="{{ path('zym_runtime_config_parameters_edit', { 'name': parameter.name }) }}">
                 <i class="icon-edit"></i>
-                {{ 'Edit' | trans({}, 'ZymMenuBundle') }}
+                {{ 'Edit' | trans({}, 'ZymRuntimeConfigBundle') }}
             </a>
             {% endif %}
 
@@ -47,14 +31,11 @@
             </a>
 
             <ul class="dropdown-menu">
-
-                {% if is_granted('DELETE', menu) %}
-                <li class="divider"></li>
-
+                {% if is_granted('DELETE', parameter) %}
                 <li>
-                    <a href="{{ path('zym_menus_delete', { 'id': menu.name }) }}" data-toggle="ajax-modal">
+                    <a href="{{ path('zym_runtime_config_parameters_delete', { 'name': parameter.name }) }}" data-toggle="ajax-modal">
                         <i class="icon-remove"></i>
-                        {{ 'Delete' | trans({}, 'ZymMenuBundle') }}
+                        {{ 'Delete' | trans({}, 'ZymRuntimeConfigBundle') }}
                     </a>
                 </li>
                 {% endif %}
@@ -62,34 +43,18 @@
         </div>
 
         <div class="btn-group">
-            <a class="btn" href="{{ path('zym_security_acl_object_aces', { 'type': 'Zym\\Bundle\\MenuBundle\\Entity\\Menu', 'identifier': menu.name }) }}">
+            <a class="btn" href="{{ path('zym_security_acl_object_aces', { 'type': 'Zym\\Bundle\\RuntimeConfigBundle\\Entity\\Parameter', 'identifier': parameter.objectIdentifier }) }}">
                 <i class="icon-lock"></i>
-                {{ 'Permissions' | trans({}, 'ZymMenuBundle') }}
+                {{ 'Permissions' | trans({}, 'ZymRuntimeConfigBundle') }}
             </a>
         </div>
     </div>
 
-
-    <div class="description">
-        {{ menu.description | raw }}
-    </div>
-
-    <h3>Menu Items</h3>
-
-    <div class="btn-group">
-        {% if is_granted('EDIT', menu) and is_granted('CREATE', ['class', 'Zym\\Bundle\\MenuBundle\\Entity\\MenuItem']) %}
-        <a href="{{ path('zym_menus_item_add', { 'id': menu.name }) }}" class="btn">{{ 'Add Menu Item' | trans({}, 'ZymMenuBundle') }}</a>
-        {% endif %}
-    </div>
-
-    <ul>
-        {% for menuItem in  menu.children %}
-        <li>
-            <a href="{{ path('zym_menus_item_edit', { 'menu': menu.name, 'id': menuItem.id })}}">
-                {{ menuItem.label }}
-            </a>
-            {{ _self.loopMenuItem(menuItem) }}
-        </li>
-        {% endfor %}
-    </ul>
+    <h2>JSON Data</h2>
+    <pre>
+        {{- parameter.value | json_encode |e -}}
+    </pre>
+    
+    <h2>Interpreted</h2>
+    {% debug parameter.value %}
 {% endblock content %}

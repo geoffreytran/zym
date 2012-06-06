@@ -36,12 +36,12 @@
             {% if is_granted('VIEW', parameter) %}
             <tr>
                 <td>
-                    <a href="{ path('zym_runtime_config_parameters_show', { 'id': parameter.name }) }}">{{ parameter.name |e }}</a>
+                    <a href="{{ path('zym_runtime_config_parameters_show', { 'name': parameter.name, '_format': 'html' }) }}">{{ parameter.name |e }}</a>
                     <div class="description">{{ parameter.value | json_encode |e }}</div>
                 </td>
                 <td>
                     <div class="btn-group" style="width: 300px">
-                        <a class="btn" href="{ path('zym_runtime_config_parameters_show', { 'id': parameter.name }) }}">
+                        <a class="btn" href="{{ path('zym_runtime_config_parameters_show', { 'name': parameter.name, '_format': 'html' }) }}">
                             <i class="icon-share"></i>
                             {{ 'View' | trans({}, 'ZymRuntimeConfigBundle') }}
                         </a>
