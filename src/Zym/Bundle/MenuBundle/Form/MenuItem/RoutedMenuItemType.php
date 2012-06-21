@@ -30,9 +30,11 @@ class RoutedMenuItemType extends MenuItemType
     {
         parent::buildForm($builder, $options);
 
-        $builder->add('uri', 'text', array());
+        $builder->add('uri', 'text', array(
+            'disabled' => true
+        ));
 
-        // $builder->add('route', 'text', array())
+        $builder->add('route', 'text', array());
         //         ->add('routeParameters', 'collection', array(
         //             'type' => ''
         //         ));

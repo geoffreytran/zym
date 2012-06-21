@@ -22,8 +22,16 @@
     </form>
     {% else %}
     <ul>
-        <li><a href="{{ path('zym_menus_item_add', { 'id': menu.name, 'type': 'routed'}) }}">{{ 'Routed Menu Item' | trans({}, 'ZymMenuBundle') }}</a></li>
-        <li><a href="{{ path('zym_menus_item_add', { 'id': menu.name, 'type': 'static'}) }}">{{ 'Static Menu Item' | trans({}, 'ZymMenuBundle') }}</a></li>
+        <li>
+            <a href="{{ path('zym_menus_item_add', { 'id': menu.name, 'type': 'routed'}) }}">
+                {{ 'Routed Menu Item' | trans({}, 'ZymMenuBundle') }}
+            </a>
+        </li>
+        <li>
+            <a href="{{ path('zym_menus_item_add', { 'id': menu.name, 'type': 'static'}) }}">
+                {{ 'Static Menu Item' | trans({}, 'ZymMenuBundle') }}
+            </a>
+        </li>
     </ul>
     {% endif %}
 {% endblock content %}
