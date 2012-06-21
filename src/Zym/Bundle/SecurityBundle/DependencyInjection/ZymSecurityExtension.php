@@ -37,6 +37,10 @@ class ZymSecurityExtension extends Extension
         if ($container->hasAlias('security.acl.dbal.connection')) {
             $connection = $container->getParameter('security.acl.dbal.connection');
         }
+        
+        if ($connection === null && $container->hasParameter('doctrine.default_connection')) {
+            $connection = $container->getParameter('doctrine.default_connection');
+        }
     
         $container
             ->getDefinition('zym_security.acl.dbal.schema_listener')
