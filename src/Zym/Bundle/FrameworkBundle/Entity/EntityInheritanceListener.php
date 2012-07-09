@@ -80,14 +80,20 @@ class EntityInheritanceListener implements EventSubscriber
         // Loop through all the registered entities
         foreach($this->allClassNamesCache as $name) {
             // Reflect them
-            $r = new \ReflectionClass($name);
-
-            // and if it has a parent and the parent is our current entity
-            if ($r->isSubclassOf($class)) {
-                // now store the name of the sub class in the array.
-                // we'll use the full class name as both the key and value for this.
-                $values[$name] = $name;
-            }
+            try {
+                $r = new \ReflectionClass($name);
+    
+                // and if it has a parent and the parent is our current entity
+                if ($r->isSubclassOf($class)) {
+                    // now store the name of the sub class in the array.
+                    // we'll use the full class name as both the key and value for this.
+                    $values[$name] = $name;
+                }
+            } catch (\ReflectionException $e) {
+                // Most likely the class doesn't exist or could not be loaded
+                // Assume Doctrine will handle this issue later...
+                continue;
+             }
         }
 
         if (!empty($values)) {

@@ -47,7 +47,13 @@ class FieldableEntityListener implements EventSubscriber
         }
 
         foreach ($entity->getFields() as $field) {
-            $em->persist($field);
+            if (is_array($field) || $field instanceof \ArrayObject) {
+                foreach ($field as $f) {
+                    $em->persist($f);
+                }
+            } else {
+                $em->persist($field);
+            }
         }
         
         $em->flush();

@@ -4,7 +4,7 @@ namespace Zym\Bundle\SecurityBundle\Form;
 use Zym\Bundle\SecurityBundle\Entity;
 use Zym\Bundle\FieldBundle\Entity\FieldConfig;
 use Symfony\Component\Form\AbstractType;
-use Symfony\Component\Form\FormBuilder;
+use Symfony\Component\Form\FormBuilderInterface;
 
 class AclEntryType extends AbstractType
 {
@@ -14,11 +14,11 @@ class AclEntryType extends AbstractType
      * @param FormBuilder $builder
      * @param array $options
      */
-    public function buildForm(FormBuilder $builder, array $options)
+    public function buildForm(FormBuilderInterface $builder, array $options)
     {
         
         $builder->add('securityIdentity', 'text', array(
-                    'label' => 'SecurityIdentity',
+                    'label' => 'Security Identity',
                     'property_path' => 'securityIdentity.role',
                     'read_only' => true
                 ))

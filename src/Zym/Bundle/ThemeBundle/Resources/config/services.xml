@@ -1,0 +1,54 @@
+<?xml version="1.0" ?>
+
+<container xmlns="http://symfony.com/schema/dic/services"
+    xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+    xsi:schemaLocation="http://symfony.com/schema/dic/services http://symfony.com/schema/dic/services/services-1.0.xsd">
+
+    <parameters>
+        <parameter key="zym_theme.theme_listener.class">Zym\Bundle\ThemeBundle\EventListener\ThemeListener</parameter>
+
+        <parameter key="zym_theme.theme_manager.class">Zym\Bundle\ThemeBundle\ThemeManager</parameter>
+        
+        <parameter key="zym_theme.resolver.request_map.class">Zym\Bundle\ThemeBundle\Resolver\RequestMapResolver</parameter>
+        
+        <parameter key="zym_theme.templating_locator.class">Zym\Bundle\ThemeBundle\Templating\Loader\TemplateLocator</parameter>
+        <parameter key="zym_theme.file_locator.class">Zym\Bundle\ThemeBundle\Templating\Loader\FileLocator</parameter>
+        <parameter key="zym_theme.cache_warmer.class">Zym\Bundle\ThemeBundle\CacheWarmer\TemplatePathsCacheWarmer</parameter>
+
+    </parameters>
+
+    <services>
+        <service id="zym_theme.theme_listener" class="%zym_theme.theme_listener.class%" public="true">
+            <argument type="service" id="zym_theme.theme_manager" />
+            
+            <tag name="kernel.event_listener" event="kernel.request" method="onKernelRequest" />
+        </service>
+        
+        <service id="zym_theme.theme_manager" class="%zym_theme.theme_manager.class%">
+            <argument type="collection">
+                <argument type="service" id="zym_theme.resolver.request_map" />
+            </argument>
+        </service>
+        
+        <service id="zym_theme.resolver.request_map" class="%zym_theme.resolver.request_map.class%">
+        </service>
+
+        <service id="zym_theme.templating.cache_warmer.template_paths" class="%zym_theme.cache_warmer.class%" public="false">
+            <argument type="service" id="templating.finder" />
+            <argument type="service" id="zym_theme.templating_locator" />
+            <argument type="service" id="zym_theme.theme_manager" />
+        </service>
+        
+        <service id="zym_theme.templating_locator" class="%zym_theme.templating_locator.class%" public="false">
+            <argument type="service" id="zym_theme.file_locator" />
+            <argument>%kernel.cache_dir%</argument>
+            <argument type="service" id="zym_theme.theme_manager" />
+        </service>
+        
+        <service id="zym_theme.file_locator" class="%zym_theme.file_locator.class%" public="false">
+            <argument type="service" id="kernel" />
+            <argument type="service" id="zym_theme.theme_manager" />
+            <argument>%kernel.root_dir%/Resources</argument>
+        </service>
+    </services>
+</container>

@@ -13,7 +13,6 @@ use Doctrine\Common\Collections\ArrayCollection;
  */
 class LongTextField extends Field
 {
-   
     /**
      * Value
      *

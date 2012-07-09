@@ -13,7 +13,7 @@
 namespace Zym\Bundle\MenuBundle\Form;
 
 use Symfony\Component\Form\AbstractType;
-use Symfony\Component\Form\FormBuilder;
+use Symfony\Component\Form\FormBuilderInterface;
 
 /**
  * Menu Form
@@ -23,7 +23,7 @@ use Symfony\Component\Form\FormBuilder;
  */
 class MenuType extends AbstractType
 {
-    public function buildForm(FormBuilder $builder, array $options)
+    public function buildForm(FormBuilderInterface $builder, array $options)
     {
         $builder
             ->add('name', 'text', array('label' => 'Machine Name'))
@@ -34,7 +34,7 @@ class MenuType extends AbstractType
             ));
     }
     
-    public function getDefaultOptions(array $options)
+    public function getDefaultOptions()
     {
         return array(
             'data_class' => 'Zym\Bundle\MenuBundle\Entity\Menu',

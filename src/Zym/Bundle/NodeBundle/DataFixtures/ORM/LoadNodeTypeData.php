@@ -3,6 +3,7 @@ namespace Zym\Bundle\NodeBundle\DataFixtures\ORM;
 
 use Zym\Bundle\FieldBundle\Entity as FieldEntity;
 use Zym\Bundle\NodeBundle\Entity;
+use Doctrine\Common\Persistence\ObjectManager;
 use Doctrine\Common\DataFixtures\AbstractFixture;
 use Doctrine\Common\DataFixtures\FixtureInterface;
 use Doctrine\Common\DataFixtures\OrderedFixtureInterface;
@@ -27,9 +28,9 @@ class LoadNodeTypeData extends AbstractFixture
     /**
      * Load
      *
-     * @param object $manager
+     * @param ObjectManager $manager
      */
-    public function load($manager)
+    public function load(ObjectManager $manager)
     {
         $nodeType = new Entity\NodeType();
         $nodeType->setType('basic_page');

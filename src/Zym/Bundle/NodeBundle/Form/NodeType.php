@@ -2,9 +2,10 @@
 namespace Zym\Bundle\NodeBundle\Form;
 
 use Zym\Bundle\NodeBundle\Entity;
+use Zym\Bundle\FieldBundle\Form\FieldCollectionItemType;
 use Zym\Bundle\FieldBundle\Entity\FieldConfig;
 use Symfony\Component\Form\AbstractType;
-use Symfony\Component\Form\FormBuilder;
+use Symfony\Component\Form\FormBuilderInterface;
 
 class NodeType extends AbstractType
 {
@@ -14,7 +15,7 @@ class NodeType extends AbstractType
      * @param FormBuilder $builder
      * @param array $options
      */
-    public function buildForm(FormBuilder $builder, array $options)
+    public function buildForm(FormBuilderInterface $builder, array $options)
     {
         /* @var $node Entity\Node */
         $node = $builder->getData();
@@ -30,7 +31,16 @@ class NodeType extends AbstractType
         foreach ($node->getFieldConfigs() as $fieldConfig) {
             /* @var $field FieldConfig */
             $machineName = $fieldConfig->getFieldType()->getMachineName();
-            $builder->add($machineName, $fieldConfig, array('property_path' => 'fields.' . $machineName . '.data'));
+            $valueCount  = $fieldConfig->getFieldType()->getValueCount();
+            
+            if ($valueCount > 1) {
+                $builder->add($machineName, 'collection', array(
+                    'type'          => new FieldCollectionItemType($fieldConfig),
+                    'property_path' => 'fields.' . $machineName
+                ));
+            } else {
+                $builder->add($machineName, $fieldConfig, array('property_path' => 'fields.' . $machineName . '.data'));
+            }
         }
     }
 
@@ -39,7 +49,7 @@ class NodeType extends AbstractType
      *
      * @return array
      */
-    public function getDefaultOptions(array $options)
+    public function getDefaultOptions()
     {
         return array(
             'data_class' => 'Zym\Bundle\NodeBundle\Entity\Node',

@@ -14,7 +14,7 @@ namespace Zym\Bundle\UserBundle\Form;
 
 use Symfony\Component\Form\Extension\Core\ChoiceList\ChoiceList;
 use Symfony\Component\Form\AbstractType;
-use Symfony\Component\Form\FormBuilder;
+use Symfony\Component\Form\FormBuilderInterface;
 use Doctrine\ORM\EntityRepository;
 
 /**
@@ -25,7 +25,7 @@ use Doctrine\ORM\EntityRepository;
  */
 class UserType extends AbstractType
 {
-    public function buildForm(FormBuilder $builder, array $options)
+    public function buildForm(FormBuilderInterface $builder, array $options)
     {
         $builder
             ->add('firstName', 'text', array('label' => 'First Name'))
@@ -43,7 +43,7 @@ class UserType extends AbstractType
                 'class'             => 'ZymSecurityBundle:AclSecurityIdentity',
                 'property'          => 'identifier',
                 'multiple'          => true,
-                'data_class'        => 'Zym\\Bundle\\SecurityBundle\\Entity\\AclSecurityIdentity',
+                'data_class'        => null, //'Zym\\Bundle\\SecurityBundle\\Entity\\AclSecurityIdentity',
                 'query_builder'     => function(EntityRepository $er) {
                     return $er->createQueryBuilder('r')
                               ->where('r.username = 0');

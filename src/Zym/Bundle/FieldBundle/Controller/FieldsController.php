@@ -36,7 +36,7 @@ use Sensio\Bundle\FrameworkExtraBundle\Configuration\ParamConverter;
 class FieldsController extends Controller
 {
     /**
-     * @Route("/", name="zym_field_fields")
+     * @Route("/{fieldConfigType}", name="zym_field_fields")
      * @Template()
      */
     public function listAction($fieldConfigType)

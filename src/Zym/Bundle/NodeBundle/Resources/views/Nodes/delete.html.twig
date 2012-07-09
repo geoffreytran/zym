@@ -20,8 +20,8 @@
         {{ form_rest(form) }}
         
         <fieldset class="form-actions">
-            <input class="btn btn-danger" type="submit" value="{{ 'Delete' | trans({}, 'ZymNodeBundle') }}" />
-            <a class="btn" href="{{ path('zym_nodes') }}" class="button">{{ 'Cancel' | trans({}, 'ZymNodeBundle') }}</a>
+            <button class="btn btn-danger" type="submit">{{ 'Confirm Deletion' | trans({}, 'ZymNodeBundle') }}</button>
+            <button class="btn" onclick="history.back();">{{ 'Cancel' | trans({}, 'ZymNodeBundle') }}</button>
         </fieldset>
     </form>
 {% endblock content %}

@@ -1,0 +1,60 @@
+{% extends "ZymRuntimeConfigBundle::layout.html.twig" %}
+
+{% block title %}{{ 'Viewing Parameter' | trans({}, 'ZymRuntimeConfigBundle') }}{% endblock %}
+
+{% block content %}
+    <div class="page-header">
+        <h1>
+            {{ 'Viewing Parameter' | trans({}, 'ZymRuntimeConfigBundle') |e }}
+            <small>{{ parameter.name | trans({}, 'ZymRuntimeConfigBundle') |e }}</small>
+        </h1>
+    </div>
+
+    <div class="btn-toolbar">
+        <div class="btn-group">
+            <a class="btn" href="javascript: history.back();">
+                <i class="icon-arrow-left"></i>
+                {{ 'Back' | trans({}, 'ZymRuntimeConfigBundle') }}
+            </a>
+        </div>
+
+        <div class="btn-group">
+            {% if is_granted('EDIT', parameter) %}
+            <a class="btn" href="{{ path('zym_runtime_config_parameters_edit', { 'name': parameter.name }) }}">
+                <i class="icon-edit"></i>
+                {{ 'Edit' | trans({}, 'ZymRuntimeConfigBundle') }}
+            </a>
+            {% endif %}
+
+            <a class="btn dropdown-toggle" data-toggle="dropdown" href="#">
+                <span class="caret"></span>
+            </a>
+
+            <ul class="dropdown-menu">
+                {% if is_granted('DELETE', parameter) %}
+                <li>
+                    <a href="{{ path('zym_runtime_config_parameters_delete', { 'name': parameter.name }) }}" data-toggle="ajax-modal">
+                        <i class="icon-remove"></i>
+                        {{ 'Delete' | trans({}, 'ZymRuntimeConfigBundle') }}
+                    </a>
+                </li>
+                {% endif %}
+            </ul>
+        </div>
+
+        <div class="btn-group">
+            <a class="btn" href="{{ path('zym_security_acl_object_aces', { 'type': 'Zym\\Bundle\\RuntimeConfigBundle\\Entity\\Parameter', 'identifier': parameter.objectIdentifier }) }}">
+                <i class="icon-lock"></i>
+                {{ 'Permissions' | trans({}, 'ZymRuntimeConfigBundle') }}
+            </a>
+        </div>
+    </div>
+
+    <h2>JSON Data</h2>
+    <pre>
+        {{- parameter.value | json_encode |e -}}
+    </pre>
+    
+    <h2>Interpreted</h2>
+    {% debug parameter.value %}
+{% endblock content %}

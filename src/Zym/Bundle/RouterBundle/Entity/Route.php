@@ -36,21 +36,21 @@ class Route extends BaseRoute
     /**
      * Defaults
      *
-     * @ORM\Column(type="array")
+     * @ORM\Column(type="json")
      */
     private $defaults = array();
 
     /**
      * Requirements
      *
-     * @ORM\Column(type="array")
+     * @ORM\Column(type="json")
      */
     private $requirements = array();
 
     /**
      * Options
      *
-     * @ORM\Column(type="array")
+     * @ORM\Column(type="json")
      */
     private $options = array();
 

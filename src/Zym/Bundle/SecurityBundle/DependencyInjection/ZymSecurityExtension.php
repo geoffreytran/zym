@@ -23,8 +23,32 @@ class ZymSecurityExtension extends Extension
         $config = $this->processConfiguration($configuration, $configs);
 
         $loader = new Loader\XmlFileLoader($container, new FileLocator(__DIR__.'/../Resources/config'));
-        $loader->load('security_acl_dbal.xml');
         $loader->load('security_acl.xml');
         $loader->load('services.xml');
+        
+        $this->configureDbalAclProvider($config, $container, $loader);
+    }
+    
+    private function configureDbalAclProvider(array $config, ContainerBuilder $container, $loader)
+    {
+        $loader->load('security_acl_dbal.xml');
+    
+        $connection = null;
+        if ($container->hasAlias('security.acl.dbal.connection')) {
+            $connection = $container->getParameter('security.acl.dbal.connection');
+        }
+        
+        if ($connection === null && $container->hasParameter('doctrine.default_connection')) {
+            $connection = $container->getParameter('doctrine.default_connection');
+        }
+    
+        $container
+            ->getDefinition('zym_security.acl.dbal.schema_listener')
+            ->addTag('doctrine.event_listener', array(
+                'connection' => $connection,
+                'event'      => 'postGenerateSchemaTable',
+                'lazy'       => true
+            ))
+        ;        
     }
 }

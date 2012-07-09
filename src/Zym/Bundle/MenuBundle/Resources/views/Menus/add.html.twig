@@ -9,6 +9,15 @@
             <small>{{ 'Create a new menu' | trans({}, 'ZymMenuBundle') }}</small>
         </h1>
     </div>
+    
+    <div class="btn-toolbar">
+        <div class="btn-group">
+            <a class="btn" href="javascript: history.back();">
+                <i class="icon-arrow-left"></i>
+                {{ 'Back' | trans({}, 'ZymMenuBundle') }}
+            </a>
+        </div>
+    </div>
 
     <p>
         {% trans from 'ZymMenuBundle' %}Menus are a collection of links (menu items) used to navigate a website.{% endtrans %}

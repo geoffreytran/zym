@@ -48,7 +48,7 @@ class AccessRule implements AccessRuleInterface
      *
      * @var array
      *
-     * @ORM\Column(type="array")
+     * @ORM\Column(type="json")
      */
     protected $roles = array();
 

@@ -100,7 +100,6 @@ class MenuProvider implements MenuProviderInterface, ContainerAwareInterface
 
         foreach ($menu->getChildren() as $child) {
             $child->setRouter($router);
-            $child->setCurrentUri($request->getRequestUri());
         }
 
         $this->menus[$name] = $menu;

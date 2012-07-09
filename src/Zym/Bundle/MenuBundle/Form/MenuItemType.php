@@ -14,7 +14,7 @@ namespace Zym\Bundle\MenuBundle\Form;
 
 use Zym\Bundle\MenuBundle\Entity\MenuItemRepository;
 use Symfony\Component\Form\AbstractType;
-use Symfony\Component\Form\FormBuilder;
+use Symfony\Component\Form\FormBuilderInterface;
 
 /**
  * Menu Item Form
@@ -25,13 +25,13 @@ use Symfony\Component\Form\FormBuilder;
 class MenuItemType extends AbstractType
 {
 
-    public function buildForm(FormBuilder $builder, array $options)
+    public function buildForm(FormBuilderInterface $builder, array $options)
     {
         $builder
             ->add('name', 'text', array('label' => 'Name'))
             ->add('label', 'text', array('label' => 'Label'))
             ->add('weight', 'integer')
-            ->add('parent', 'entity', array(
+            ->add('parent', 'menu_item_entity', array(
                 'label'         => 'Parent',
                 'required'      => false,
                 'class'         => 'ZymMenuBundle:MenuItem',

@@ -61,7 +61,7 @@ class User extends BaseUser
      * @var string
      */
     protected $plainPassword;
-
+    
     /**
      * First Name
      *
