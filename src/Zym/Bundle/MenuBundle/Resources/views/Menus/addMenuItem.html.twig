@@ -10,6 +10,15 @@
         </h1>
     </div>
 
+    <div class="btn-toolbar">
+        <div class="btn-group">
+            <a class="btn" href="javascript: history.back();">
+                <i class="icon-arrow-left"></i>
+                {{ 'Back' | trans({}, 'ZymMenuBundle') }}
+            </a>
+        </div>
+    </div>
+
     {% if form is defined %}
     <form class="form-horizontal" action="" method="post" {{ form_enctype(form) }}>
         {{ form_rest(form) }}

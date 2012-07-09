@@ -31,7 +31,7 @@ class MenuItemType extends AbstractType
             ->add('name', 'text', array('label' => 'Name'))
             ->add('label', 'text', array('label' => 'Label'))
             ->add('weight', 'integer')
-            ->add('parent', 'entity', array(
+            ->add('parent', 'menu_item_entity', array(
                 'label'         => 'Parent',
                 'required'      => false,
                 'class'         => 'ZymMenuBundle:MenuItem',
