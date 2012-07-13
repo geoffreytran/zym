@@ -2,7 +2,7 @@
 namespace Zym\Bundle\SecurityBundle\Form;
 
 use Symfony\Bridge\Doctrine\Form\Type\EntityType;
-use Doctrine\ORM\EntityRepository;
+use Doctrine\Common\Persistence\ObjectRepository;
 use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\Form\FormEvents;
@@ -35,8 +35,8 @@ class AclSecurityIdentityEntityType extends AbstractType
             'class'             => 'ZymSecurityBundle:AclSecurityIdentity',
             'property'          => 'identifier',
             'multiple'          => true,
-            'data_class'        => 'Zym\\Bundle\\SecurityBundle\\Entity\\AclSecurityIdentity',
-            'query_builder'     => function(EntityRepository $er) {
+            //'data_class'        => 'Zym\\Bundle\\SecurityBundle\\Entity\\AclSecurityIdentity',
+            'query_builder'     => function(ObjectRepository $er) {
                 return $er->createQueryBuilder('r')
                           ->where('r.username = 0');
             }
