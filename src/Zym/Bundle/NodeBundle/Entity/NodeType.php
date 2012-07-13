@@ -1,7 +1,7 @@
 <?php
 namespace Zym\Bundle\NodeBundle\Entity;
 
-use Zym\Bundle\FieldBundle\FieldableInterface;
+use Zym\Bundle\FieldBundle\FieldableProxyInterface;
 use Symfony\Component\Validator\Constraints as Assert;
 use Symfony\Component\Security\Acl\Model\DomainObjectInterface;
 use Symfony\Bridge\Doctrine\Validator\Constraints\UniqueEntity;
@@ -15,7 +15,7 @@ use Doctrine\Common\Collections\ArrayCollection;
  *
  * @UniqueEntity(fields="type", message="A content type with this machine name exists.")
  */
-class NodeType implements DomainObjectInterface
+class NodeType implements DomainObjectInterface, FieldableProxyInterface
 {
     /**
      * Type
@@ -54,6 +54,11 @@ class NodeType implements DomainObjectInterface
      */
     protected $description;
     
+    public function __construct()
+    {
+        $this->fieldConfigs = new ArrayCollection();
+    }
+    
     public function getType()
     {
         return $this->type;
@@ -87,12 +92,17 @@ class NodeType implements DomainObjectInterface
         return $this;
     }
     
+    public function getFieldProxyId()
+    {
+        return $this->getType();
+    }
+    
     public function getFieldConfigs()
     {
         return $this->fieldConfigs;
     }
     
-    public function setFieldConfigs($fieldConfigs)
+    public function setFieldConfigs(array $fieldConfigs)
     {
         $this->fieldConfigs = $fieldConfigs;
         return $this;

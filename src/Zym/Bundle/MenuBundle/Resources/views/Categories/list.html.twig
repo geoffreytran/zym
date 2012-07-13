@@ -1,6 +1,6 @@
 {% extends "ZymMenuBundle::layout.html.twig" %}
 
-{% block title %}{{ 'Menus' | trans({}, 'ZymMenuBundle') }}{% endblock %}
+{% block title %}{{ menuItem.label | trans }}{% endblock %}
 
 {% block content %}
     <div class="page-header">
@@ -15,16 +15,17 @@
         <div class="span6">
             {% if child.hasChildren %}
             <h2><a href="{{ child.uri }}">{{ child.label }}</a></h2>
-            {% else %}
-            <a href="{{ child.uri }}">{{ child.label }}</a>
-            {% endif %}
-            <ul>
+            
+            <ul class="nav nav-tabs nav-stacked">
                 {% for c in child.children %}
                 <li>
                     <a href="{{ c.uri }}">{{ c.label }}</a>
                 </li>
                 {% endfor %}
             </ul>
+            {% else %}
+            <a href="{{ child.uri }}">{{ child.label }}</a>
+            {% endif %}
         </div>
         {% endfor %}
     </div>

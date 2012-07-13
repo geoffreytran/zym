@@ -28,38 +28,34 @@ use Sensio\Bundle\FrameworkExtraBundle\Configuration\Template;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\ParamConverter;
 
 /**
- * Fields Controller
+ * Field Types Controller
  *
  * @author    Geoffrey Tran
  * @copyright Copyright (c) 2011 Zym. (http://www.zym.com/)
  */
-class FieldsController extends Controller
+class FieldTypesController extends Controller
 {
     /**
-     * @Route("/class/{class}/{id}", name="zym_field_fields")
+     * @Route("/", name="zym_field_field_types")
      * @Template()
      */
-    public function listAction($class, $id)
+    public function listAction()
     {
         $request  = $this->get('request');
         $page     = $request->query->get('page', 1);
         $limit    = $request->query->get('limit', 50);
         $orderBy  = $request->query->get('orderBy');
         $filterBy = $request->query->get('filterBy');
-        
-        $doctrine   = $this->get('doctrine');
-        $repository = $doctrine->getRepository($class);
-        $fieldable  = $repository->find($id);
-        $fieldConfigs = $fieldable->getFieldConfigs();
 
-        //$fieldConfigManager = $this->get('zym_field.field_config_manager');
-        //$fieldConfigs       = $fieldConfigManager->findFieldConfigs($filterBy, $page, $limit, $orderBy);
+
+        $fieldTypeManager = $this->get('zym_field.field_type_manager');
+        $fieldTypes       = $fieldTypeManager->findFieldTypes($filterBy, $page, $limit, $orderBy);
 
         return array(
-            'fieldConfigs' => $fieldConfigs
+            'fieldTypes' => $fieldTypes
         );
     }
-    
+
     /**
      * @Route(
      *     "/{id}/edit.{_format}", 
@@ -74,20 +70,20 @@ class FieldsController extends Controller
     {
         $origFieldConfig = clone $fieldConfig;
         $form            = $this->createForm(new Form\FieldConfigType(), $fieldConfig);
-    
+
         $request = $this->get('request');
         if ($request->getMethod() == 'POST') {
             $form->bindRequest($request);
-    
+
             if ($form->isValid()) {
                 /* @var $fieldConfigManager Entity\FieldConfigManager */
                 $fieldConfigManager = $this->get('zym_field.field_config_manager');
                 $fieldConfigManager>saveFieldConfig($fieldConfig);
-    
+
                 return $this->redirect($this->generateUrl('zym_node_node_types'));
             }
         }
-    
+
         return array(
             'fieldConfig' => $origFieldConfig,
             'form'        => $form->createView()

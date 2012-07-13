@@ -19,14 +19,14 @@
         </div>
 
         <div class="btn-group">
-            <a class="btn" href="{{ path('zym_field_fields', { "fieldConfigType": "Zym\\Bundle\\NodeBundle\\Entity\\NodeFieldConfig"}) }}">
+            <a class="btn" href="{{ path('zym_field_fields', { 'class': 'ZymNodeBundle:NodeType', 'id': nodeType.type }) }}">
                 <i class="icon-list"></i>
                 {{ 'Manage Fields' | trans({}, 'ZymNodeBundle') }}
             </a>
         </div>
 
         <div class="btn-group">
-            <a class="btn" href="{{ path('zym_security_acl_object_aces', { 'type': 'Zym\\Bundle\\NodeBundle\\Entity\\NodeType', 'identifier': nodeType.type }) }}">
+            <a class="btn" href="{{ path('zym_security_acl_object_aces', { 'type': 'ZymNodeBundle:NodeType', 'identifier': nodeType.type }) }}">
                 <i class="icon-lock"></i>
                 {{ 'Permissions' | trans({}, 'ZymNodeBundle') }}
             </a>

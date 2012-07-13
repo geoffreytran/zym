@@ -21,23 +21,6 @@ class NodeTypeType extends AbstractType
                 ->add('name', 'text')
                 ->add('description', 'textarea');
         
-        $builder->add('fieldConfigs', 'collection', array(
-                    'type' => 'entity',
-                    'options' => array(
-                        'label'         => 'Field Configs',
-                        'required'      => false,
-                        'class'         => 'ZymNodeBundle:NodeFieldConfig',
-                        'property'      => 'label',
-                        'query_builder' => function(EntityRepository $er) use ($options) {
-                            $qb = $er->createQueryBuilder('fc');
-                            $qb->where('fc.nodeType = :nodeType');
-
-                            $qb->setParameter('nodeType', $options['data']);
-                            return $qb;
-                        }
-                    )
-                ));
-        
         // /* @var $node Entity\NodeType */
         //         $nodeType = $builder->getData();
         // 
@@ -62,9 +45,7 @@ class NodeTypeType extends AbstractType
      */
     public function getDefaultOptions()
     {
-        return array(
-            'data_class' => 'Zym\Bundle\NodeBundle\Entity\NodeType',
-        );
+        return array();
     }
 
     /**
@@ -74,6 +55,6 @@ class NodeTypeType extends AbstractType
      */
     public function getName()
     {
-        return 'node';
+        return 'node_type';
     }
 }

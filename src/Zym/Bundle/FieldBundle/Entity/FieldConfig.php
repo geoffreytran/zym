@@ -13,7 +13,7 @@ use Symfony\Component\Form\AbstractType as FormAbstractType;
 use Symfony\Component\Form\FormBuilderInterface;
 
 /**
- * @ORM\Entity()
+ * @ORM\Entity(repositoryClass="FieldConfigRepository")
  * @ORM\Table(name="field_configs")
  */
 class FieldConfig extends    FormFieldType 

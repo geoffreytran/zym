@@ -33,6 +33,8 @@ class LoadMenuData extends AbstractFixture
     {
         $menuManager = $this->container->get('zym_menu.menu_manager');
         $menuFactory = $this->container->get('knp_menu.factory');
+        
+        $menuItemManager = $this->container->get('zym_menu.menu_item_manager');
 
         // Main Menu
         $menu = new Entity\Menu();
@@ -64,89 +66,96 @@ class LoadMenuData extends AbstractFixture
         $menuItem = new Entity\MenuItem\StaticMenuItem('home', $menuFactory);
         $menuItem->setLabel('Home');
         $menuItem->setUri('/');
-        $manager->persist($menuItem);
         $menu->addChild($menuItem);
+        $menuItemManager->createMenuItem($menuItem);
+
 
         $menuItem = new Entity\MenuItem\RoutedMenuItem('content', $menuFactory);
         $menuItem->setLabel('Content');
         $menuItem->setRoute('zym_nodes');
-        $manager->persist($menuItem);
         $menu->addChild($menuItem);
+        $menuItemManager->createMenuItem($menuItem);
 
         $menuItem = new Entity\MenuItem\RoutedMenuItem('users', $menuFactory);
         $menuItem->setLabel('Users');
         $menuItem->setRoute('zym_user_users');
-        $manager->persist($menuItem);
         $menu->addChild($menuItem);
+        $menuItemManager->createMenuItem($menuItem);
 
             $cMenuItem = new Entity\MenuItem\RoutedMenuItem('groups', $menuFactory);
             $cMenuItem->setLabel('Groups');
             $cMenuItem->setRoute('zym_user_groups');
             $menuItem->addChild($cMenuItem);
-            $manager->persist($menuItem);
+            $menuItemManager->createMenuItem($cMenuItem);
 
         $menuItem = new Entity\MenuItem\RoutedMenuItem('structure', $menuFactory);
         $menuItem->setLabel('Structure');
         $menuItem->setRoute('zym_menu_categories');
         $menu->addChild($menuItem);
-
-        $manager->persist($menuItem);
-        $manager->flush();
-
+        $menuItemManager->createMenuItem($menuItem);
         $menuItem->setRouteParameters(array('id' => $menuItem->getId()));
-        $manager->persist($menuItem);
+        $menuItemManager->saveMenuItem($menuItem);
+
 
             $cMenuItem = new Entity\MenuItem\RoutedMenuItem('content-types', $menuFactory);
             $cMenuItem->setLabel('Content Types');
             $cMenuItem->setRoute('zym_node_node_types');
             $menuItem->addChild($cMenuItem);
+            $menuItemManager->createMenuItem($cMenuItem);
 
-            $manager->persist($menuItem);
 
             $cMenuItem = new Entity\MenuItem\RoutedMenuItem('menus', $menuFactory);
             $cMenuItem->setLabel('Menus');
             $cMenuItem->setRoute('zym_menus');
             $menuItem->addChild($cMenuItem);
-            $manager->persist($menuItem);
+            $menuItemManager->createMenuItem($cMenuItem);
+
 
         $menuItem = new Entity\MenuItem\RoutedMenuItem('configuration', $menuFactory);
         $menuItem->setLabel('Configuration');
         $menuItem->setRoute('zym_menu_categories');
         $menu->addChild($menuItem);
-
-        $manager->persist($menuItem);
-        $manager->flush();
-
+        $menuItemManager->createMenuItem($cMenuItem);
         $menuItem->setRouteParameters(array('id' => $menuItem->getId()));
-        $manager->persist($menuItem);
+        $menuItemManager->saveMenuItem($menuItem);
 
-            $cMenuItem = new Entity\MenuItem\StaticMenuItem('Security', $menuFactory);
+            $cMenuItem = new Entity\MenuItem\StaticMenuItem('security', $menuFactory);
             $cMenuItem->setLabel('Security');
             $cMenuItem->setUri('/');
             $menuItem->addChild($cMenuItem);
+            $menuItemManager->createMenuItem($cMenuItem);
 
                 $ccMenuItem = new Entity\MenuItem\RoutedMenuItem('permissions', $menuFactory);
                 $ccMenuItem->setLabel('Permissions');
                 $ccMenuItem->setRoute('zym_security_acl_entries');
                 $cMenuItem->addChild($ccMenuItem);
-                $manager->persist($ccMenuItem);
+                $menuItemManager->createMenuItem($ccMenuItem);
 
                 $ccMenuItem = new Entity\MenuItem\RoutedMenuItem('roles', $menuFactory);
                 $ccMenuItem->setLabel('Roles');
                 $ccMenuItem->setRoute('zym_security_acl_roles');
                 $cMenuItem->addChild($ccMenuItem);
-                $manager->persist($ccMenuItem);
+                $menuItemManager->createMenuItem($ccMenuItem);
 
                 $ccMenuItem = new Entity\MenuItem\RoutedMenuItem('access-rules', $menuFactory);
                 $ccMenuItem->setLabel('Access Rules');
                 $ccMenuItem->setRoute('zym_security_access_rules');
                 $cMenuItem->addChild($ccMenuItem);
-                $manager->persist($ccMenuItem);
+                $menuItemManager->createMenuItem($ccMenuItem);
 
-            $manager->persist($menuItem);
+            $cMenuItem = new Entity\MenuItem\StaticMenuItem('system', $menuFactory);
+            $cMenuItem->setLabel('System');
+            $cMenuItem->setUri('/');
+            $menuItem->addChild($cMenuItem);
+            $menuItemManager->createMenuItem($cMenuItem);
+
+                $ccMenuItem = new Entity\MenuItem\RoutedMenuItem('parameters', $menuFactory);
+                $ccMenuItem->setLabel('Parameters');
+                $ccMenuItem->setRoute('zym_runtime_config_parameters');
+                $cMenuItem->addChild($ccMenuItem);
+                $menuItemManager->createMenuItem($ccMenuItem);
 
         $menuManager->saveMenu($menu);
-
         $manager->flush();
     }
 
