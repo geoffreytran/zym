@@ -9,25 +9,33 @@
             <small>{{ group.name |e }}</small>
         </h1>
     </div>
-
-    <div class="btn-group">
-        <a class="btn" href="javascript: history.back()">
-            <i class="icon-arrow-left"></i> {{ 'Back' | trans({}, 'ZymUserBundle') }}
-        </a>
-
-        {% if is_granted('VIEW', group) %}
-        <a class="btn" href="{{ path('zym_user_groups_show', { "id": group.id }) }}">
-            <i class="icon-share"></i> 
-            {{ 'View' | trans({}, 'ZymUserBundle') }}
-        </a>
-        {% endif %}
-
-        {% if is_granted('DELETE', group) %}
-        <a class="btn" href="{{ path('zym_user_groups_delete', { "id": group.id }) }}">
-            <i class="icon-remove"></i>
-            {{ 'Delete' | trans({}, 'ZymUserBundle') }}
-        </a>
-        {% endif %}
+    
+    <div class="btn-toolbar">
+        <div class="btn-group">
+            <a class="btn" href="javascript: history.back()">
+                <i class="icon-arrow-left"></i> {{ 'Back' | trans({}, 'ZymUserBundle') }}
+            </a>
+        </div>
+        
+        {#
+        <div class="btn-group">
+            {% if is_granted('VIEW', group) %}
+            <a class="btn" href="{{ path('zym_user_groups_show', { "id": group.id }) }}">
+                <i class="icon-share"></i> 
+                {{ 'View' | trans({}, 'ZymUserBundle') }}
+            </a>
+            {% endif %}
+        </div>
+        #}
+        
+        <div class="btn-group">
+            {% if is_granted('DELETE', group) %}
+            <a class="btn" href="{{ path('zym_user_groups_delete', { "id": group.id }) }}">
+                <i class="icon-remove"></i>
+                {{ 'Delete' | trans({}, 'ZymUserBundle') }}
+            </a>
+            {% endif %}
+        </div>
     </div>
 
     <form class="form-horizontal" action="" method="post" {{ form_enctype(form) }}>

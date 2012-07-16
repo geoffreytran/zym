@@ -39,20 +39,9 @@ class UserType extends AbstractType
                 'error_bubbling'  => true,
                 'invalid_message' => 'Passwords do not match'
             ))
-            ->add('roles', 'acl_security_identity_entity', array(
-                'class'             => 'ZymSecurityBundle:AclSecurityIdentity',
-                'property'          => 'identifier',
-                'multiple'          => true,
-                'data_class'        => null, //'Zym\\Bundle\\SecurityBundle\\Entity\\AclSecurityIdentity',
-                'query_builder'     => function(EntityRepository $er) {
-                    return $er->createQueryBuilder('r')
-                              ->where('r.username = 0');
-                },
-               // 'value_strategy'    => ChoiceList::COPY_CHOICE,
-                //'index_strategy'    => ChoiceList::COPY_CHOICE,
-            ))
+            ->add('roles', 'acl_security_identity_entity')
             ->add('groups', 'entity', array(
-                'class'    => 'Zym\Bundle\UserBundle\Entity\Group',
+                'class'    => 'ZymUserBundle:Group',
                 'property' => 'name',
                 'multiple' => true,
                 'required' => false

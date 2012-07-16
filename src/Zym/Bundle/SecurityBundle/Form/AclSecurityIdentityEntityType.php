@@ -58,6 +58,6 @@ class AclSecurityIdentityEntityType extends AbstractType
      */
     public function getName()
     {
-        return 'zym_security_security_identity_entity';
+        return 'acl_security_identity_entity';
     }
 }

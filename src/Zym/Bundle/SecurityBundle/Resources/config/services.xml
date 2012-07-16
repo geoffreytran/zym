@@ -23,7 +23,7 @@
 
     <services>
         <service id="zym_security.form.type.acl_security_identity_entity" class="%zym_security.form.type.acl_security_identity_entity.class%">
-            <tag name="form.type" alias="zym_security_security_identity_entity" />
+            <tag name="form.type" alias="acl_security_identity_entity" />
         </service>
         
         <service id="zym_security.access_rule_manager" class="%zym_security.access_rule_manager.class%">
