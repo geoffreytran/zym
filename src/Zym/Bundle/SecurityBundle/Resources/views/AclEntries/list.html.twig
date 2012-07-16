@@ -19,6 +19,27 @@
             </a>
             {% endif %}
         </div>
+        
+        <div class="btn-group">
+            <a class="btn" href="{{ path('zym_security_acl_roles') }}">
+                <i class="icon-user"></i>
+        
+                {{ 'Roles' | trans({}, 'ZymSecurityBundle') }}
+            </a>
+            <a class="btn dropdown-toggle" data-toggle="dropdown" href="#">
+                <span class="caret"></span>
+            </a>
+            <ul class="dropdown-menu">
+                <li>
+                    {% if is_granted('CREATE', ['class', 'Zym\\Bundle\\SecurityBundle\\Entity\\AclSecurityIdentity']) %}
+                    <a href="{{ path('zym_security_acl_roles_add') }}">
+                        <i class="icon-plus"></i>
+                        {{ 'Add Role' | trans({}, 'ZymSecurityBundle') }}
+                    </a>
+                    {% endif %}
+                </li>
+            </ul>
+        </div>
     </div>
 
     {% for oid in acls %}

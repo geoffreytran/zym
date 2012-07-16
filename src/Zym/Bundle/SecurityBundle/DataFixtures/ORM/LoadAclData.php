@@ -60,6 +60,38 @@ class LoadAclData extends AbstractFixture
         
         $aclProvider = $this->container->get('security.acl.provider');
         
+        // AclClass
+        try {
+            $oid = new ObjectIdentity('class', 'Zym\Bundle\SecurityBundle\Entity\AclClass');
+            $acl = $aclProvider->createAcl($oid);
+        } catch (AclAlreadyExistsException $e) {
+            $acl = $aclProvider->findAcl($oid);
+        }
+        
+        $sid = new RoleSecurityIdentity('ROLE_ADMIN');
+        $acl->insertClassAce($sid, MaskBuilder::MASK_VIEW);
+        
+        // insert ACEs for the super admin
+        $sid = new RoleSecurityIdentity('ROLE_SUPER_ADMIN');
+        $acl->insertClassAce($sid, MaskBuilder::MASK_IDDQD);
+        $aclProvider->updateAcl($acl);
+        
+        // AclEntry
+        try {
+            $oid = new ObjectIdentity('class', 'Zym\Bundle\SecurityBundle\Entity\AclEntry');
+            $acl = $aclProvider->createAcl($oid);
+        } catch (AclAlreadyExistsException $e) {
+            $acl = $aclProvider->findAcl($oid);
+        }
+        
+        $sid = new RoleSecurityIdentity('ROLE_ADMIN');
+        $acl->insertClassAce($sid, MaskBuilder::MASK_VIEW);
+        
+        // insert ACEs for the super admin
+        $sid = new RoleSecurityIdentity('ROLE_SUPER_ADMIN');
+        $acl->insertClassAce($sid, MaskBuilder::MASK_IDDQD);
+        $aclProvider->updateAcl($acl);
+        
         // AclSecurityIdentity
         try {
             $oid = new ObjectIdentity('class', 'Zym\Bundle\SecurityBundle\Entity\AclSecurityIdentity');
