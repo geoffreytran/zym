@@ -40,7 +40,7 @@ class ZymThemeExtension extends Extension
     
         $this->addClassesToCompile(array(
             'Zym\\Bundle\\ThemeBundle\\Resolver\\ResolverInterface',
-            'Zym\\Bundle\\ThemeBundle\\Resolver\\RequestMapResolver',
+            //'Zym\\Bundle\\ThemeBundle\\Resolver\\RequestMapResolver',
         ));
     
         foreach ($config['theme_map'] as $rule) {

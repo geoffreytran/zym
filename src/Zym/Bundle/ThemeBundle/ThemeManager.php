@@ -2,6 +2,7 @@
 
 namespace Zym\Bundle\ThemeBundle;
 
+use Zym\Bundle\ThemeBundle\Resolver\ResolverInterface;
 use Symfony\Component\HttpFoundation\Request;
 
 class ThemeManager
@@ -15,7 +16,7 @@ class ThemeManager
      */
     private $activeTheme;
     
-    public function __construct(array $resolvers)
+    public function __construct(array $resolvers = array())
     {
         $this->resolvers = $resolvers;
     }
@@ -31,16 +32,16 @@ class ThemeManager
         return $this;
     }
     
-    public function addResolver(Resolver $resolver)
+    public function addResolver(ResolverInterface $resolver)
     {
-        $this->resolvers[] = $resolvers;
+        $this->resolvers[] = $resolver;
         return $this;
     }
     
     public function resolveTheme(Request $request)
     {
         foreach ($this->resolvers as $resolver) {
-            /** @var $resolver Resolver\ResolverInterface */
+            /** @var $resolver ResolverInterface */
             
             try {
                 $theme = $resolver->resolve($request);

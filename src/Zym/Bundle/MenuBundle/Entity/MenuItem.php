@@ -85,16 +85,25 @@ abstract class MenuItem extends BaseMenuItem
      *
      * @var array
      *
-     * @ORM\Column(type="json", name="label_attributes")
+     * @ORM\Column(type="json_array", name="label_attributes")
      */
     protected $labelAttributes = array();
+
+    /**
+     * Description
+     *
+     * @var string
+     *
+     * @ORM\Column(type="text", nullable=true)
+     */
+    protected $description;
 
     /**
      * Attributes
      *
      * @var string
      *
-     * @ORM\Column(type="json")
+     * @ORM\Column(type="json_array")
      */
     protected $attributes = array();
     
@@ -125,7 +134,7 @@ abstract class MenuItem extends BaseMenuItem
      *
      * @var array
      *
-     * @ORM\Column(type="json")
+     * @ORM\Column(type="json_array")
      */
     protected $options = array();
 
@@ -232,6 +241,28 @@ abstract class MenuItem extends BaseMenuItem
     public function getId()
     {
         return $this->id;
+    }
+    
+    /**
+     * Get the description
+     *
+     * @return string
+     */
+    public function getDescription()
+    {
+        return $this->description;
+    }
+    
+    /**
+     * Set the description
+     *
+     * @param string $description
+     * @return MenuItem
+     */
+    public function setDescription($description)
+    {
+        $this->description = $description;
+        return $this;
     }
 
     /**

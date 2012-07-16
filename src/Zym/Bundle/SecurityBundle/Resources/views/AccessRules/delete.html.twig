@@ -11,7 +11,7 @@
         <strong>Are you sure you want to proceed?</strong>
     </p>
 
-    <form action="{{ path('zym_security_access_rules_delete', { 'id' : role.id }) }}" method="post" {{ form_enctype(form) }}>
+    <form action="{{ path('zym_security_access_rules_delete', { 'id' : accessRule.id }) }}" method="post" {{ form_enctype(form) }}>
         {{ form_rest(form) }}
         
         <fieldset class="form-actions">

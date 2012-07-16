@@ -1,7 +1,7 @@
 <?php
-namespace Zym\Bundle\SecurityBundle\Entity;
 
-use Zym\Bundle\SecurityBundle\Http\AccessRuleInterface;
+namespace Zym\Bundle\ThemeBundle\Entity;
+
 use Gedmo\Mapping\Annotation as Gedmo;
 use Symfony\Component\HttpFoundation\RequestMatcher;
 use Symfony\Component\Validator\Constraints as Assert;
@@ -10,20 +10,14 @@ use Doctrine\Common\Collections\Collection;
 use Doctrine\Common\Collections\ArrayCollection;
 
 /**
- * Access Control Rules
+ * Theme Rule
  *
- * @author    Geoffrey Tran
- * @copyright Copyright (c) 2011 RAPP. (http://www.rapp.com/)
- *
- * @ORM\Entity(repositoryClass="AccessRuleRepository")
- * @ORM\Table(
- *     name="access_rules"
- * )
- * @ORM\HasLifecycleCallbacks()
+ * @ORM\Entity(repositoryClass="ThemeRuleRepository")
+ * @ORM\Table(name="theme_rules")
  */
-class AccessRule implements AccessRuleInterface
+class ThemeRule
 {
-    /**
+	/**
      * ID
      *
      * @var integer
@@ -33,7 +27,7 @@ class AccessRule implements AccessRuleInterface
      * @ORM\GeneratedValue(strategy="AUTO")
      */
     protected $id;
-
+    
     /**
      * Path
      *
@@ -42,16 +36,16 @@ class AccessRule implements AccessRuleInterface
      * @ORM\Column(type="string")
      */
     protected $path;
-
+    
     /**
-     * Roles
+     * Theme
      *
-     * @var array
+     * @var string
      *
-     * @ORM\Column(type="json_array")
+     * @ORM\Column(type="string")
      */
-    protected $roles = array();
-
+    protected $theme;
+    
     /**
      * Requires Channel (http/https, etc...)
      *
@@ -60,7 +54,7 @@ class AccessRule implements AccessRuleInterface
      * @ORM\Column(type="string", name="channel", nullable=true)
      */
     protected $channel;
-
+    
     /**
      * Host
      *
@@ -69,7 +63,7 @@ class AccessRule implements AccessRuleInterface
      * @ORM\Column(type="string", nullable=true)
      */
     protected $host;
-
+    
     /**
      * Methods
      *
@@ -78,7 +72,7 @@ class AccessRule implements AccessRuleInterface
      * @ORM\Column(type="array", nullable=true)
      */
     protected $methods;
-
+    
     /**
      * IP
      *
@@ -87,7 +81,7 @@ class AccessRule implements AccessRuleInterface
      * @ORM\Column(type="string", nullable=true)
      */
     protected $ip;
-
+    
     /**
      * Attributes
      *
@@ -96,12 +90,15 @@ class AccessRule implements AccessRuleInterface
      * @ORM\Column(type="array", nullable=false)
      */
     protected $attributes = array();
-
+    
+    /**
+     * Construct
+     *
+     */
     public function __construct()
     {
-        $this->roles = new ArrayCollection(array());
     }
-
+    
     /**
      * Get the ID
      *
@@ -109,9 +106,9 @@ class AccessRule implements AccessRuleInterface
      */
     public function getId()
     {
-        return $this->id;
+    	return $this->id;
     }
-
+    
     /**
      * Get the request matcher
      *
@@ -119,23 +116,23 @@ class AccessRule implements AccessRuleInterface
      */
     public function getRequestMatcher()
     {
-        $path       = $this->path;
-        $host       = $this->host;
-        $methods    = $this->methods;
-        $ip         = $this->ip;
-        $attributes = $this->attributes;
-
-        $requestMatcher = new RequestMatcher($path, $host, $methods, $ip, (array)$attributes);
-
-        return $requestMatcher;
+    	$path       = $this->path;
+    	$host       = $this->host;
+    	$methods    = $this->methods;
+    	$ip         = $this->ip;
+    	$attributes = $this->attributes;
+    
+    	$requestMatcher = new RequestMatcher($path, $host, $methods, $ip, (array)$attributes);
+    
+    	return $requestMatcher;
     }
-
+    
     public function setPath($path)
     {
-        $this->path = $path;
-        return $this;
+    	$this->path = $path;
+    	return $this;
     }
-
+    
     /**
      * Get the path
      *
@@ -143,37 +140,31 @@ class AccessRule implements AccessRuleInterface
      */
     public function getPath()
     {
-        return $this->path;
+    	return $this->path;
     }
-
-    public function setRoles($roles)
+    
+    public function setTheme($theme)
     {
-        foreach ($roles as $key => $role) {
-            if ($role instanceof AclSecurityIdentity) {
-                $roles[$key] = $role->getIdentity();
-            }
-        }
-
-        $this->roles = $roles;
-        return $this;
+	    $this->theme = $theme;
+    	return $this;
     }
-
+    
     /**
-     * Get the roles
+     * Get the theme
      *
-     * @return array
+     * @return string
      */
-    public function getRoles()
+    public function getTheme()
     {
-        return $this->roles;
+    	return $this->theme;
     }
-
+    
     public function setChannel($channel)
     {
-        $this->channel = $channel;
-        return $this;
+    	$this->channel = $channel;
+    	return $this;
     }
-
+    
     /**
      * Get the required channel
      *
@@ -181,15 +172,15 @@ class AccessRule implements AccessRuleInterface
      */
     public function getChannel()
     {
-        return $this->channel;
+    	return $this->channel;
     }
-
+    
     public function setHost($host)
     {
-        $this->host = $host;
-        return $this;
+    	$this->host = $host;
+    	return $this;
     }
-
+    
     /**
      * Get the host
      *
@@ -197,9 +188,9 @@ class AccessRule implements AccessRuleInterface
      */
     public function getHost()
     {
-        return $this->host;
+    	return $this->host;
     }
-
+    
     /**
      * Get the methods
      *
@@ -207,9 +198,9 @@ class AccessRule implements AccessRuleInterface
      */
     public function getMethods()
     {
-        return $this->methods;
+    	return $this->methods;
     }
-
+    
     /**
      * Get the IP
      *
@@ -217,9 +208,9 @@ class AccessRule implements AccessRuleInterface
      */
     public function getIp()
     {
-        return $this->ip;
+    	return $this->ip;
     }
-
+    
     /**
      * Get the attributes
      *
@@ -227,24 +218,6 @@ class AccessRule implements AccessRuleInterface
      */
     public function getAttributes()
     {
-        return (array)$this->attributes;
-    }
-
-    /**
-     * onPrePersist
-     *
-     * @ORM\PrePersist
-     * @ORM\PreUpdate
-     */
-    public function onPrePersist()
-    {
-        if ($this->roles instanceof Collection) {
-            $this->roles = $this->roles->getValues();
-            foreach ($this->roles as $key => $role) {
-                if ($role instanceof AclSecurityIdentity) {
-                    $this->roles[$key] = $role->getIdentifier();
-                }
-            }
-        }
+    	return (array)$this->attributes;
     }
 }

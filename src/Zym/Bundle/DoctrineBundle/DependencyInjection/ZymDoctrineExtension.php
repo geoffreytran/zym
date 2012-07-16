@@ -28,10 +28,8 @@ class ZymDoctrineExtension extends Extension
             'doctrine.dbal.connection_factory.types', 
             array_merge(
                 $container->getParameter('doctrine.dbal.connection_factory.types'), 
-                array('json' => array('class' => 'Zym\Dbal\Type\JsonType', 'commented' => false))
+                array('json_array' => array('class' => 'Zym\Dbal\Type\JsonArrayType', 'commented' => false))
             )
         );
-        //var_dump($container->getParameter('doctrine.dbal.connection_factory.types'));
-
     }
 }

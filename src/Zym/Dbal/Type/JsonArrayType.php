@@ -2,12 +2,12 @@
 
 namespace Zym\Dbal\Type;
 
+use Doctrine\DBAL\Types;
 use Doctrine\DBAL\Types\Type;
 use Doctrine\DBAL\Platforms\AbstractPlatform;
 
-class JsonType extends Type
+class JsonArrayType extends Types\JsonArrayType
 {
-    const JSON = 'json';
 
     /**
      * Convert to the PHP value
@@ -18,6 +18,12 @@ class JsonType extends Type
      */
     public function convertToPHPValue($value, AbstractPlatform $platform)
     {
+        if ($value === null) {
+            return array();
+        }
+        
+        $value = (is_resource($value)) ? stream_get_contents($value) : $value;
+    
         $return = json_decode($value, true);
         
         // Determine if this field has PHP serialized data instead
@@ -37,22 +43,11 @@ class JsonType extends Type
      */
     public function convertToDatabaseValue($value, AbstractPlatform $platform)
     {
+        if (null === $value) {
+            return null;
+        }
+        
         return json_encode($value);
-    }
-
-    /**
-     * Get the name
-     * @return string
-     */
-    public function getName()
-    {
-        return self::JSON;
-    }
-
-    /** @override */
-    public function getSQLDeclaration(array $fieldDeclaration, AbstractPlatform $platform)
-    {
-        return $platform->getClobTypeDeclarationSQL($fieldDeclaration);
     }
     
     /**

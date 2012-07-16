@@ -49,6 +49,7 @@ class MenuItemRepository extends NestedTreeRepository
         $qb = $this->createQueryBuilder('mi');
         $qb->where('mi.menu = :menu')
            ->andWhere('mi.parent IS NULL')
+           ->leftJoin('mi.children', 'c')
            ->orderBy('mi.weight', 'ASC')
            ->addOrderBy('mi.lft', 'ASC')
            ->addOrderBy('mi.id', 'ASC');

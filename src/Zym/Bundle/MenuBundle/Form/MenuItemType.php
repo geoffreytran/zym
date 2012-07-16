@@ -12,7 +12,7 @@
  */
 namespace Zym\Bundle\MenuBundle\Form;
 
-use Zym\Bundle\MenuBundle\Entity\MenuItemRepository;
+use Doctrine\Common\Persistence\ObjectRepository;
 use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\FormBuilderInterface;
 
@@ -30,13 +30,14 @@ class MenuItemType extends AbstractType
         $builder
             ->add('name', 'text', array('label' => 'Name'))
             ->add('label', 'text', array('label' => 'Label'))
+            ->add('description', 'text', array('label' => 'Description'))
             ->add('weight', 'integer')
             ->add('parent', 'menu_item_entity', array(
                 'label'         => 'Parent',
                 'required'      => false,
                 'class'         => 'ZymMenuBundle:MenuItem',
                 'property'      => 'label',
-                'query_builder' => function(MenuItemRepository $er) use ($options) {
+                'query_builder' => function(ObjectRepository $er) use ($options) {
                     $qb = $er->createQueryBuilder('mi');
                     $qb->where('mi.menu = :menu');
 

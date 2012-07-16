@@ -4,6 +4,8 @@ namespace Zym\Bundle\ThemeBundle;
 
 use Zym\Bundle\ThemeBundle\DependencyInjection\Compiler\ThemeCompilerPass;
 use Zym\Bundle\ThemeBundle\DependencyInjection\Compiler\TemplateResourcesPass;
+use Zym\Bundle\ThemeBundle\DependencyInjection\Compiler\AddResolversPass;
+
 use Symfony\Component\HttpKernel\Bundle\Bundle;
 use Symfony\Component\DependencyInjection\ContainerBuilder;
 
@@ -24,5 +26,7 @@ class ZymThemeBundle extends Bundle
         parent::build($container);
         $container->addCompilerPass(new ThemeCompilerPass());
         $container->addCompilerPass(new TemplateResourcesPass());
+        $container->addCompilerPass(new AddResolversPass());
+
     }
 }

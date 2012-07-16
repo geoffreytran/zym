@@ -110,12 +110,17 @@ class LoadMenuData extends AbstractFixture
             $menuItem->addChild($cMenuItem);
             $menuItemManager->createMenuItem($cMenuItem);
 
+            $cMenuItem = new Entity\MenuItem\RoutedMenuItem('theme-rules', $menuFactory);
+            $cMenuItem->setLabel('Themes Rules');
+            $cMenuItem->setRoute('zym_theme_theme_rules');
+            $menuItem->addChild($cMenuItem);
+            $menuItemManager->createMenuItem($cMenuItem);
 
         $menuItem = new Entity\MenuItem\RoutedMenuItem('configuration', $menuFactory);
         $menuItem->setLabel('Configuration');
         $menuItem->setRoute('zym_menu_categories');
         $menu->addChild($menuItem);
-        $menuItemManager->createMenuItem($cMenuItem);
+        $menuItemManager->createMenuItem($menuItem);
         $menuItem->setRouteParameters(array('id' => $menuItem->getId()));
         $menuItemManager->saveMenuItem($menuItem);
 

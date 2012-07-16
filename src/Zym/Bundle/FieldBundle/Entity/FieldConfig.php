@@ -72,7 +72,7 @@ class FieldConfig extends    FormFieldType
      *
      * @var array
      *
-     * @ORM\Column(type="json", name="widget_options")
+     * @ORM\Column(type="json_array", name="widget_options")
      */
     protected $widgetOptions = array();
     

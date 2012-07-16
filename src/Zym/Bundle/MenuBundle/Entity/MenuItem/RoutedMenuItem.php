@@ -51,7 +51,7 @@ class RoutedMenuItem extends Entity\MenuItem
      *
      * @var array
      *
-     * @ORM\Column(type="json", name="parameters")
+     * @ORM\Column(type="json_array", name="parameters")
      */
     private $routeParameters = array();
     

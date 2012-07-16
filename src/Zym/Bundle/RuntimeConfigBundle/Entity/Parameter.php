@@ -28,7 +28,7 @@ class Parameter extends BaseParameter
     protected $name;
     
     /**
-     * @ORM\Column(type="json", nullable=true)
+     * @ORM\Column(type="json_array", nullable=true)
      * @Assert\MaxLength(groups={"Entity"}, limit=255)
      */
     protected $value = array();

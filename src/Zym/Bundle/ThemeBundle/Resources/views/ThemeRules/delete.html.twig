@@ -1,0 +1,22 @@
+{% extends "ZymThemeBundle::layout.html.twig" %}
+
+{% block title %}{{ 'Delete Theme Rule' | trans({}, 'ZymSecurityBundle') }}{% endblock %}
+
+{% block content %}
+	<h3>{{ 'Confirm Deletion' |trans({}, 'ZymThemeBundle') }}</h3>
+
+	<p>
+		You are about to delete <strong>"{{ themeRule.path |e }}"</strong>.
+		This action cannot be undone.<br />
+		<strong>Are you sure you want to proceed?</strong>
+	</p>
+
+	<form action="{{ path('zym_theme_theme_rules_delete', { 'id' : themeRule.id }) }}" method="post" {{ form_enctype(form) }}>
+		{{ form_rest(form) }}
+
+		<fieldset class="form-actions">
+			<input class="btn btn-danger" type="submit" value="{{ 'Delete' | trans }}" />
+			<a class="btn" href="{{ path('zym_theme_theme_rules') }}" class="button">{{ 'Cancel' |trans({}, 'ZymThemeBundle') }}</a>
+		</fieldset>
+	</form>
+{% endblock content %}
