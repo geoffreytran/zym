@@ -2,9 +2,10 @@
     "name": "geoffreytran/zym",
     "type": "library",
     "description": "The ZYM PHP framework",
+    "version": "1.0.0-dev",
     "keywords": ["framework"],
     "homepage": "http://geoffreytran.com/projects/zym",
-    "license": "BSD",
+    "license": "BSD-4-Clause",
     "authors": [
         {
             "name": "Geoffrey Tran",
