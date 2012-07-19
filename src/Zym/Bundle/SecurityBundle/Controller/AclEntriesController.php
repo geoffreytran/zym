@@ -16,6 +16,8 @@ namespace Zym\Bundle\SecurityBundle\Controller;
 use Zym\Bundle\SecurityBundle\Form;
 use Zym\Bundle\SecurityBundle\Entity;
 
+use Symfony\Component\Security\Acl\Domain\RoleSecurityIdentity;
+
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use Symfony\Component\Security\Acl\Domain\ObjectIdentity;
 use Symfony\Component\Security\Acl\Exception\AclNotFoundException;
@@ -99,14 +101,16 @@ class AclEntriesController extends Controller
             throw $this->createNotFoundException('Index does not exist');
         }
 
-        $form = $this->createForm(new Form\AclEntryType(), $aclClass);
+        $classAce = new Entity\AclEntry();
+        $form = $this->createForm(new Form\AclEntryType(), $classAce);
 
         $request = $this->get('request');
         if ($request->getMethod() == 'POST') {
             $form->bindRequest($request);
 
             if ($form->isValid()) {
-                $acl->insertClassAce($index, $classAce->getMask());
+                $acl->insertClassAce(new RoleSecurityIdentity($classAce->getSecurityIdentity()), 
+                                    $classAce->getMask(), 0, $classAce->getMask(), $classAce->getStrategy());
 
                 $aclProvider->updateAcl($acl);
                 return $this->redirect($this->generateUrl('zym_security_acl_entries'));
@@ -114,7 +118,8 @@ class AclEntriesController extends Controller
         }
 
         return array(
-            'form' => $form->createView(),
+            'aclClass' => $aclClass,
+            'form'     => $form->createView(),
         );
     }
 
@@ -225,7 +230,8 @@ class AclEntriesController extends Controller
 
         return array(
             'aclClass' => $origNode,
-            'form' => $form->createView()
+            'index'    => $index,
+            'form'     => $form->createView()
         );
     }
 }

@@ -1,11 +1,11 @@
 {% extends "ZymUserBundle::layout.html.twig" %}
 
-{% block title %}{{ 'Showing User' | trans({}, 'ZymUserBundle') }} {{ user.fullName}}{% endblock %}
+{% block title %}{{ 'Showing User' | trans({}, 'ZymUserBundle') }} {{ user.fullName is defined ? user.fullName : user.username |e }}{% endblock %}
 
 {% block content %}
     <div class="page-header">
         <h1>
-            {{ 'Viewing User' | trans({}, 'ZymUserBundle') }} {{ user.fullName|e }}
+            {{ 'Viewing User' | trans({}, 'ZymUserBundle') }} {{ user.fullName is defined ? user.fullName : user.id |e }}
             <small>{{ user.username |e }}</small>
         </h1>
     </div>
@@ -51,7 +51,9 @@
 
        <div class="btn-group">
             <a class="btn dropdown-toggle" data-toggle="dropdown" href="#">
-                More... <span class="caret"></span>
+                <i class="icon-tasks"></i>
+                {{ 'More'| trans({}, 'ZymUserBundle') }}
+                <span class="caret"></span>
             </a>
 
             <ul class="dropdown-menu">

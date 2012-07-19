@@ -132,4 +132,58 @@ class AclEntry
      * @ORM\Column(name="audit_failure", type="boolean")
      */
     private $auditFailure = false;
+    
+    public function setSecurityIdentity($identity)
+    {
+        $this->aclSecurityIdentity = $identity;
+        return $this;
+    }
+    
+    public function getSecurityIdentity()
+    {
+        return $this->aclSecurityIdentity;
+    }
+    
+    public function setMask($mask)
+    {
+        $this->mask = $mask;
+        return $this;
+    }
+    
+    public function getMask()
+    {
+        return $this->mask;
+    }
+    
+    public function setGranting($granting)
+    {
+        $this->granting = $granting;
+        return $this;
+    }
+    
+    public function isGranting()
+    {
+        return $this->granting;
+    }
+    
+    public function setStrategy($strategy)
+    {
+        $this->grantingStrategy = $strategy;
+        return $this;
+    }
+    
+    public function getStrategy()
+    {
+        return $this->grantingStrategy;
+    }
+    
+    public function isAuditFailure()
+    {
+        return $this->auditFailure;
+    }
+    
+    public function isAuditSuccess()
+    {
+        return $this->auditSuccess;
+    }
 }

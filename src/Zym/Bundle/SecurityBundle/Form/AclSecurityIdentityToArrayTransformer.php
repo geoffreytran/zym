@@ -58,7 +58,7 @@ class AclSecurityIdentityToArrayTransformer implements DataTransformerInterface
         $roles = array();
 
         if (!is_array($value)) {
-            throw new UnexpectedTypeException($keys, 'array');
+            throw new UnexpectedTypeException($value, 'array');
         }
 
         $entities = $this->choiceList->getChoicesForValues($value);

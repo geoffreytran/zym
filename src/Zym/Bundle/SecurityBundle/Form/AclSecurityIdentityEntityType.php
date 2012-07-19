@@ -26,7 +26,12 @@ class AclSecurityIdentityEntityType extends AbstractType
         }
 
         $builder->resetClientTransformers();
-        $builder->appendClientTransformer(new AclSecurityIdentityToArrayTransformer($options['choice_list']));        
+        
+        if ($options['multiple']) {
+            $builder->appendClientTransformer(new AclSecurityIdentityToArrayTransformer($options['choice_list']));  
+        } else {
+            $builder->appendClientTransformer(new AclSecurityIdentityToStringTransformer($options['choice_list']));  
+        }     
     }
     
     public function getDefaultOptions()

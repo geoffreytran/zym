@@ -12,10 +12,10 @@
  */
 namespace Zym\Bundle\UserBundle\Form;
 
+use Zym\Bundle\UserBundle\Model;
 use Symfony\Component\Form\Extension\Core\ChoiceList\ChoiceList;
 use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\FormBuilderInterface;
-use Doctrine\ORM\EntityRepository;
 
 /**
  * User Form
@@ -27,9 +27,25 @@ class UserType extends AbstractType
 {
     public function buildForm(FormBuilderInterface $builder, array $options)
     {
+        if ($options['data'] instanceof Model\SplitNameInterface) {
+            $builder
+                ->add('firstName', 'text', array('label' => 'First Name'))
+                ->add('middleName', 'text', array(
+                    'label'    => 'Middle Name',
+                    'required' => false,
+                ))
+                ->add('lastName', 'text', array('label' => 'Last Name'));
+        } else if ($options['data'] instanceof Model\SingleNameInterface) {
+            $builder
+                ->add('name', 'text', array('label' => 'Name'));
+
+        }
+        
+        if ($options['data']->getUsernameCanonical() != $options['data']->getEmailCanonical()) {
+            $builder->add('username');
+        }
+        
         $builder
-            ->add('firstName', 'text', array('label' => 'First Name'))
-            ->add('lastName', 'text', array('label' => 'Last Name'))
             ->add('email', 'email')
             ->add('plainPassword', 'repeated', array(
                 'type'            => 'password',

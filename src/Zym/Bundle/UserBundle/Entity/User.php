@@ -34,8 +34,8 @@ use Doctrine\ORM\Mapping as ORM;
  * @ORM\DiscriminatorColumn(name="object_type", type="string")
  * @ORM\DiscriminatorMap({"Zym\Bundle\UserBundle\Entity\User" = "Zym\Bundle\UserBundle\Entity\User"})
  *
- * @UniqueEntity(fields="username", message="This email is already used.")
- * @UniqueEntity(fields="email",    message="This email is already used.")
+ * @UniqueEntity(fields="username", message="This username is already exists.")
+ * @UniqueEntity(fields="email",    message="This email is already exists.")
  */
 class User extends BaseUser
 {
@@ -61,36 +61,6 @@ class User extends BaseUser
      * @var string
      */
     protected $plainPassword;
-    
-    /**
-     * First Name
-     *
-     * @var string
-     *
-     * @Assert\MaxLength(
-     *     limit = 255,
-     *     message = "First name is too long. It should have {{ limit }} characters or less."
-     * )
-     * @Assert\NotBlank()
-     *
-     * @ORM\Column(type="string", name="first_name", length=255, nullable=true)
-     */
-    protected $firstName;
-
-    /**
-     * Last Name
-     *
-     * @var string
-     *
-     * @Assert\MaxLength(
-     *     limit = 255,
-     *     message = "Last name is too long. It should have {{ limit }} characters or less."
-     * )
-     * @Assert\NotBlank()
-     *
-     * @ORM\Column(type="string", name="last_name", length=255, nullable=true)
-     */
-    protected $lastName;
 
     /**
      * Sets the email.
@@ -104,60 +74,5 @@ class User extends BaseUser
         }
         
         parent::setEmail($email);
-    }
-
-    /**
-     * Get the first name
-     *
-     * @return string
-     */
-    public function getFirstName()
-    {
-        return $this->firstName;
-    }
-
-    /**
-     * Set the first name
-     *
-     * @param string $firstName
-     * @return User
-     */
-    public function setFirstName($firstName)
-    {
-        $this->firstName = ucfirst($firstName);
-        return $this;
-    }
-
-    /**
-     * Get the last name
-     *
-     * @return string
-     */
-    public function getLastName()
-    {
-        return $this->lastName;
-    }
-
-    /**
-     * Set the last name
-     *
-     * @param string $lastName
-     * @return User
-     */
-    public function setLastName($lastName)
-    {
-        $this->lastName = ucfirst($lastName);
-        return $this;
-    }
-
-    /**
-     * Get the full name
-     *
-     * @return string
-     */
-    public function getFullName()
-    {
-        $name = $this->getFirstName() . ' ' . $this->getLastName();
-        return trim($name);
     }
 }

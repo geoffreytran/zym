@@ -67,8 +67,21 @@
         
         <fieldset>
             <legend>User Information</legend>
+            
+            {% if form.firstName is defined %}
             {{ form_row(form.firstName) }}
+            {{ form_row(form.middleName) }}
             {{ form_row(form.lastName) }}
+            {% endif %}
+            
+            {% if form.has('name') %}
+            {{ form_row(form.get('name')) }}
+            {% endif %}
+
+            {% if form.has('username') %}            
+            {{ form_row(form.username) }}
+            {% endif %}
+            
             {{ form_row(form.email) }}
             {{ form_row(form.plainPassword) }}
         </fieldset>
