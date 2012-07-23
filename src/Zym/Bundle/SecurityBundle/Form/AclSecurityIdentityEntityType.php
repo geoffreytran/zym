@@ -7,6 +7,7 @@ use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\Form\FormEvents;
 use Symfony\Component\EventDispatcher\Event;
+use Symfony\Component\OptionsResolver\OptionsResolverInterface;
 
 
 class AclSecurityIdentityEntityType extends AbstractType
@@ -26,17 +27,17 @@ class AclSecurityIdentityEntityType extends AbstractType
         }
 
         $builder->resetClientTransformers();
-        
+
         if ($options['multiple']) {
             $builder->appendClientTransformer(new AclSecurityIdentityToArrayTransformer($options['choice_list']));  
         } else {
             $builder->appendClientTransformer(new AclSecurityIdentityToStringTransformer($options['choice_list']));  
         }     
     }
-    
-    public function getDefaultOptions()
+
+    public function setDefaultOptions(OptionsResolverInterface $resolver)
     {
-        $defaultOptions = array(
+        $resolver->setDefaults(array(
             'class'             => 'ZymSecurityBundle:AclSecurityIdentity',
             'property'          => 'identifier',
             'multiple'          => true,
@@ -45,11 +46,9 @@ class AclSecurityIdentityEntityType extends AbstractType
                 return $er->createQueryBuilder('r')
                           ->where('r.username = 0');
             }
-        );
-
-        return $defaultOptions;
+        ));
     }
-    
+
     /**
      * {@inheritdoc}
      */

@@ -35,11 +35,6 @@ class FieldConfigType extends AbstractType
 
     }
 
-    public function getDefaultOptions()
-    {
-        return array();
-    }
-
     /**
      * Returns the name of this type.
      *

@@ -11,6 +11,7 @@ use Doctrine\Common\Collections\ArrayCollection;
 use Symfony\Component\Form\Extension\Core\Type\FieldType as FormFieldType;
 use Symfony\Component\Form\AbstractType as FormAbstractType;
 use Symfony\Component\Form\FormBuilderInterface;
+use Symfony\Component\OptionsResolver\OptionsResolverInterface;
 
 /**
  * @ORM\Entity(repositoryClass="FieldConfigRepository")
@@ -188,7 +189,7 @@ class FieldConfig extends    FormFieldType
     /**
      * {@inheritdoc}
      */
-    public function getDefaultOptions()
+    public function setDefaultOptions(OptionsResolverInterface $resolver)
     {
         $defaultOptions = array(
             'required'          => $this->required,
@@ -201,7 +202,7 @@ class FieldConfig extends    FormFieldType
             $this->getWidgetOptions()
         );
 
-        return $defaultOptions;
+        $resolver->setDefaults($defaultOptions);
     }
 
     /**
