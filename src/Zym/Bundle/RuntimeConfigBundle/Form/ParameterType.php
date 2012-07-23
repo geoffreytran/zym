@@ -3,6 +3,7 @@ namespace Zym\Bundle\RuntimeConfigBundle\Form;
 
 use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\FormBuilderInterface;
+use Symfony\Component\OptionsResolver\OptionsResolverInterface;
 
 class ParameterType extends AbstractType
 {
@@ -11,13 +12,6 @@ class ParameterType extends AbstractType
         $builder
             ->add('name', 'text')
             ->add('value', new ParameterValueType());
-    }
-
-    public function getDefaultOptions()
-    {
-        return array(
-            'data_class' => 'Zym\Bundle\RuntimeConfigBundle\Entity\Parameter',
-        );
     }
 
     /**
