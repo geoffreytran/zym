@@ -39,16 +39,6 @@ class NodeTypeType extends AbstractType
     }
 
     /**
-     * Get the default options
-     *
-     * @return array
-     */
-    public function getDefaultOptions()
-    {
-        return array();
-    }
-
-    /**
      * Returns the name of this type.
      *
      * @return string The name of this type
