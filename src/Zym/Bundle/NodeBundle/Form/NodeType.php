@@ -45,18 +45,6 @@ class NodeType extends AbstractType
     }
 
     /**
-     * Get the default options
-     *
-     * @return array
-     */
-    public function getDefaultOptions()
-    {
-        return array(
-            'data_class' => 'Zym\Bundle\NodeBundle\Entity\Node',
-        );
-    }
-
-    /**
      * Returns the name of this type.
      *
      * @return string The name of this type

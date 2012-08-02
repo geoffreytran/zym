@@ -33,14 +33,6 @@ class MenuType extends AbstractType
                 'required' => false
             ));
     }
-    
-    public function getDefaultOptions()
-    {
-        return array(
-            'data_class' => 'Zym\Bundle\MenuBundle\Entity\Menu',
-        );
-    }
-    
 
     /**
      * Returns the name of this type.
