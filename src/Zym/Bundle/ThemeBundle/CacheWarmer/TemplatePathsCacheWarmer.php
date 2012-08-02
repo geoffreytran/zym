@@ -47,14 +47,14 @@ class TemplatePathsCacheWarmer extends BaseTemplatePathsCacheWarmer
 
         $templates = array();
         foreach ($this->themeManager->getThemes() as $theme) {
-            $this->themeManager>setActiveTheme($theme);
+            $this->themeManager->setActiveTheme($theme);
             
             foreach ($allTemplates as $template) {
                 $templates[$template->getLogicalName() . '|' . $theme] = $locator->locate($template->getPath());
             }
         }
 
-        $this->writeCacheFile($cacheDir.'/templates.php', sprintf('<?php return %s;', var_export($templates, true)));
+        $this->writeCacheFile($cacheDir . '/templates.php', sprintf('<?php return %s;', var_export($templates, true)));
     }
 
     /**

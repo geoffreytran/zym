@@ -5,6 +5,8 @@
     xsi:schemaLocation="http://symfony.com/schema/dic/services http://symfony.com/schema/dic/services/services-1.0.xsd">
 
     <parameters>
+        <parameter key="assetic.directory_resource.class">Zym\Bundle\ThemeBundle\Templating\Resource\DirectoryResource</parameter>
+        
         <parameter key="zym_theme.theme_listener.class">Zym\Bundle\ThemeBundle\EventListener\ThemeListener</parameter>
 
         <parameter key="zym_theme.theme_manager.class">Zym\Bundle\ThemeBundle\ThemeManager</parameter>
@@ -27,6 +29,9 @@
         </service>
         
         <service id="zym_theme.theme_manager" class="%zym_theme.theme_manager.class%">
+            <call method="setThemes">
+                <argument>%zym_theme.themes%</argument>
+            </call>
         </service>
         
         <service id="zym_theme.resolver.request_map" class="%zym_theme.resolver.request_map.class%" public="false">

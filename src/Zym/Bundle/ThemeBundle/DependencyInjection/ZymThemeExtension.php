@@ -54,6 +54,15 @@ class ZymThemeExtension extends Extension
     
             $container->getDefinition('zym_theme.resolver.request_map')
                       ->addMethodCall('add', array($matcher, $rule['theme']));
+                      
+            $container->setParameter($this->getAlias().'.themes', 
+                array_merge(array(
+                        $rule['theme']
+                    ), 
+                    $container->getParameter($this->getAlias().'.themes')
+                )
+            );
+
         }
     }
     

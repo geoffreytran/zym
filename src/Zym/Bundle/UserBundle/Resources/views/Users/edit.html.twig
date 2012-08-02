@@ -1,11 +1,11 @@
 {% extends "ZymUserBundle::layout.html.twig" %}
 
-{% block title %}{{ 'Editing User' | trans({}, 'ZymUserBundle') }} {{ user.fullName|e }}{% endblock %}
+{% block title %}{{ 'Editing User' | trans({}, 'ZymUserBundle') }} {{ user.fullName is defined ? user.fullName : user.username |e }}{% endblock %}
 
 {% block content %}
     <div class="page-header">
         <h1>
-            {{ 'Editing User' | trans({}, 'ZymUserBundle') }} {{ user.fullName|e }}
+            {{ 'Editing User' | trans({}, 'ZymUserBundle') }} {{ user.fullName is defined ? user.fullName : user.username |e }}
             <small>{{ user.username |e }}</small>
         </h1>
     </div>
@@ -74,11 +74,11 @@
             {{ form_row(form.lastName) }}
             {% endif %}
             
-            {% if form.has('name') %}
-            {{ form_row(form.get('name')) }}
+            {% if form.offsetExists('name') %}
+            {{ form_row(form.offsetGet('name')) }}
             {% endif %}
 
-            {% if form.has('username') %}            
+            {% if form.offsetExists('username') %}            
             {{ form_row(form.username) }}
             {% endif %}
             

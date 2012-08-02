@@ -3,6 +3,7 @@
 namespace Zym\Bundle\ThemeBundle\Templating\Loader;
 
 use Zym\Bundle\ThemeBundle\ThemeManager;
+use Zym\Bundle\ThemeBundle\Templating\TemplateReference as ThemeTemplateReference;
 use Symfony\Bundle\FrameworkBundle\Templating\Loader\TemplateLocator as BaseTemplateLocator;
 use Symfony\Component\Config\FileLocatorInterface;
 use Symfony\Component\Templating\TemplateReferenceInterface;
@@ -69,6 +70,10 @@ class TemplateLocator extends BaseTemplateLocator
     {
         if (!$template instanceof TemplateReferenceInterface) {
             throw new \InvalidArgumentException("The template must be an instance of TemplateReferenceInterface.");
+        }
+    
+        if ($template instanceof ThemeTemplateReference && $template->get('theme')) {
+            $this->themeManager->setActiveTheme($template->get('theme'));
         }
     
         $key = $this->getCacheKey($template);

@@ -8,6 +8,7 @@ use Symfony\Component\HttpFoundation\Request;
 class ThemeManager
 {
     private $resolvers = array();
+    private $themes    = array();
     
     /**
      * Active Theme
@@ -51,6 +52,17 @@ class ThemeManager
                 continue;
             }
         }   
+    }
+    
+    public function setThemes(array $themes) 
+    {
+        $this->themes = $themes;
+        return $this;
+    }
+    
+    public function getThemes()
+    {
+        return $this->themes;
     }
     
     public function getActiveTheme()
