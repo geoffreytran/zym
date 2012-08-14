@@ -5,6 +5,7 @@ use Zym\Bundle\SecurityBundle\Entity;
 use Zym\Bundle\FieldBundle\Entity\FieldConfig;
 use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\FormBuilderInterface;
+use Symfony\Component\OptionsResolver\OptionsResolverInterface;
 
 class AclSecurityIdentityType extends AbstractType
 {
@@ -21,14 +22,14 @@ class AclSecurityIdentityType extends AbstractType
             'label'     => 'Represents a User?',
             'required'  => false,
         ));
-        
+
     }
 
-    public function getDefaultOptions()
+    public function setDefaultOptions(OptionsResolverInterface $resolver)
     {
-        return array(
+        $resolver->setDefaults(array(
             'data_class' => 'Zym\Bundle\SecurityBundle\Entity\AclSecurityIdentity',
-        );
+        ));
     }
 
     /**

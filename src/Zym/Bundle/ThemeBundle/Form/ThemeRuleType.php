@@ -6,32 +6,27 @@ use Symfony\Component\Form\FormBuilderInterface;
 
 class ThemeRuleType extends AbstractType
 {
-	/**
-	 * Build form
-	 *
-	 * @param FormBuilderInterface $builder
-	 * @param array $options
-	 */
-	public function buildForm(FormBuilderInterface $builder, array $options)
-	{
+    /**
+     * Build form
+     *
+     * @param FormBuilderInterface $builder
+     * @param array $options
+     */
+    public function buildForm(FormBuilderInterface $builder, array $options)
+    {
 
-		$builder->add('path', 'text')
-				->add('theme', 'text');
+        $builder->add('path', 'text')
+                ->add('theme', 'text');
 
-	}
+    }
 
-	public function getDefaultOptions()
-	{
-		return array();
-	}
-
-	/**
-	 * Returns the name of this type.
-	 *
-	 * @return string The name of this type
-	 */
-	public function getName()
-	{
-		return 'zym_theme_theme_rule';
-	}
+    /**
+     * Returns the name of this type.
+     *
+     * @return string The name of this type
+     */
+    public function getName()
+    {
+        return 'zym_theme_theme_rule';
+    }
 }

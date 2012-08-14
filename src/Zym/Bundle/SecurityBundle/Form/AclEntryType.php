@@ -15,12 +15,12 @@ class AclEntryType extends AbstractType
      * @param array $options
      */
     public function buildForm(FormBuilderInterface $builder, array $options)
-    {        
+    {
         $builder->add('securityIdentity', 'acl_security_identity_entity', array(
                     'label'         => 'Security Identity',
                     'property_path' => ($options['data'] instanceof Entry) ? 'securityIdentity.role' : 'securityIdentity',
                     'multiple'      => false,
-                    'read_only'     => ($options['data'] instanceof Entry) 
+                    'read_only'     => ($options['data'] instanceof Entry)
                 ))
                 ->add('mask', new PermissionMaskType(), array(
                     'label' => 'Permission Mask'
@@ -34,11 +34,6 @@ class AclEntryType extends AbstractType
                     'choices'           => array('equal' => 'Equal', 'all' => 'All', 'any' => 'Any'),
                     'preferred_choices' => array('all')
                 ));
-    }
-
-    public function getDefaultOptions()
-    {
-        return array();
     }
 
     /**

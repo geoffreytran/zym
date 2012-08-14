@@ -15,7 +15,7 @@ class PermissionMaskType extends AbstractType
     public function buildForm(FormBuilderInterface $builder, array $options)
     {
         $builder->appendClientTransformer(new PermissionMaskTransformer());
-        
+
         $builder->add('view', 'checkbox', array(
                     'label'    => 'View',
                     'required' => false
@@ -48,11 +48,6 @@ class PermissionMaskType extends AbstractType
                     'label' => 'IDDQD',
                     'required' => false
                 ));
-    }
-
-    public function getDefaultOptions()
-    {
-        return array();
     }
 
     /**

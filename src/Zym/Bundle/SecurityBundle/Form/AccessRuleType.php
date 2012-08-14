@@ -15,15 +15,10 @@ class AccessRuleType extends AbstractType
      */
     public function buildForm(FormBuilderInterface $builder, array $options)
     {
-        
+
         $builder->add('path', 'text')
                 ->add('roles', new AclSecurityIdentityEntityType());
-        
-    }
 
-    public function getDefaultOptions()
-    {
-        return array();
     }
 
     /**
