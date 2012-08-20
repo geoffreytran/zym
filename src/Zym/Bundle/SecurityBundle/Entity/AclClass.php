@@ -64,4 +64,16 @@ class AclClass
         $this->classType = (bool)$classType;
         return $this;
     }
+
+    /**
+     * Get the class type
+     *
+     * Proxy for getClassType
+     *
+     * @return string
+     */
+    public function getType()
+    {
+        return $this->getClassType();
+    }
 }

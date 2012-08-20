@@ -11,13 +11,16 @@ class MenuItemEntityType extends EntityType
     public function setDefaultOptions(OptionsResolverInterface $resolver)
     {
         parent::setDefaultOptions($resolver);
-        
+
         $registry = $this->registry;
 
-    
         $choiceList = function (Options $options) use ($registry) {
-            $manager = $registry->getManager($options['em']);
-    
+            if ($options['em'] instanceof \Doctrine\Common\Persistence\ObjectManager) {
+                $manager = $options['em'];
+            } else {
+                $manager = $registry->getManager($options['em']);
+            }
+
             return new MenuChoiceList(
                 $manager,
                 $options['class'],
@@ -27,9 +30,19 @@ class MenuItemEntityType extends EntityType
                 $options['group_by']
             );
         };
-    
+
         $resolver->replaceDefaults(array(
-            'choice_list'       => $choiceList,
+            'choice_list' => $choiceList,
         ));
+    }
+
+    public function getParent()
+    {
+        return 'entity';
+    }
+
+    public function getName()
+    {
+        return 'menu_item_entity';
     }
 }

@@ -10,7 +10,7 @@
  * @category  Zym
  * @copyright Copyright (c) 2011 Zym. (http://www.zym.com/)
  */
- 
+
 namespace Zym\Bundle\SecurityBundle\Controller;
 
 use Zym\Bundle\SecurityBundle\Form;
@@ -37,26 +37,26 @@ class AclObjectAcesController extends Controller
 {
     /**
      * @Route(
-     *     "{type}/{identifier}.{_format}", 
+     *     "{type}/{identifier}.{_format}",
      *     name="zym_security_acl_object_aces",
      *     defaults = { "_format" = "html" }
      * )
      * @Template()
      */
     public function listAction($identifier, $type)
-    {   
+    {
         $request = $this->get('request');
         $page    = $request->query->get('page', 1);
-        
+
         $aclProvider = $this->get('security.acl.provider');
 
-        $oid = new ObjectIdentity($identifier, $type); 
+        $oid = new ObjectIdentity($identifier, $type);
         $acl = $aclProvider->findAcl($oid);
-        
+
         if (!$acl) {
             throw $this->createNotFoundException('Index does not exist');
         }
-        
+
         return array(
             'acl' => $acl,
             'oid' => $oid
@@ -92,7 +92,7 @@ class AclObjectAcesController extends Controller
 
             if ($form->isValid()) {
                 $acl->insertClassAce($index, $classAce->getMask());
-                
+
                 $aclProvider->updateAcl($acl);
                 return $this->redirect($this->generateUrl('zym_security_acl_entries'));
             }
@@ -112,19 +112,19 @@ class AclObjectAcesController extends Controller
     public function editAction(Entity\AclClass $aclClass, $index)
     {
         $origAclClass = clone $aclClass;
-        
+
         $aclProvider = $this->get('security.acl.provider');
 
         $oid         = new ObjectIdentity('class', $aclClass->getClassType());
         $acl         = $aclProvider->findAcl($oid);
-        
+
         $classAces = $acl->getClassAces();
         if (!isset($classAces[$index])) {
             throw $this->createNotFoundException('Index does not exist');
         }
-        
+
         $classAce = clone $classAces[$index];
-        
+
         $form    = $this->createForm(new Form\AclEntryType(), $classAce);
         $request = $this->get('request');
         if ($request->getMethod() == 'POST') {
@@ -132,13 +132,13 @@ class AclObjectAcesController extends Controller
 
             if ($form->isValid()) {
                 $acl->updateClassAce($index, $classAce->getMask());
-                
+
                 $aclProvider->updateAcl($acl);
-                
+
                 return $this->redirect($this->generateUrl('zym_security_acl_entries'));
             }
         }
-        
+
         return array(
             'aclClass' => $origAclClass,
             'form' => $form->createView()
@@ -151,13 +151,13 @@ class AclObjectAcesController extends Controller
      * @param Entity\AclClass $aclClass
      *
      * @Route(
-     *     "/{id}",
+     *     "{type}/{identifier}",
      *     requirements={ "_method" = "DELETE"}
      * )
      *
      * @Route(
-     *     "/{id}/delete.{_format}", 
-     *     name="zym_security_acl_entries_delete", 
+     *     "{type}/{identifier}/delete.{_format}",
+     *     name="zym_security_acl_object_aces_delete",
      *     defaults = {
      *         "_format" = "html"
      *     },
@@ -170,7 +170,7 @@ class AclObjectAcesController extends Controller
      *
      * SecureParam(name="aclClass", permissions="DELETE")
      */
-    public function deleteAction(Entity\AclClass $aclClass)
+    public function deleteAction($identifier, $type)
     {
         $origNode = clone $aclClass;
 
@@ -179,7 +179,7 @@ class AclObjectAcesController extends Controller
         $form        = $this->createForm(new Form\DeleteType(), $aclClass);
 
         $request     = $this->get('request');
-        
+
         if ($request->getMethod() == 'POST') {
             $form->bindRequest($request);
 

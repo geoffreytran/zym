@@ -50,12 +50,12 @@ class LoadAclData extends AbstractFixture
 
     /**
      * Get the order in which fixtures will be loaded
-     * 
+     *
      * @return integer
      */
     public function getOrder()
     {
-        return 1; // the order in which fixtures will be loaded
+        return 5; // the order in which fixtures will be loaded
     }
 
     /**

@@ -59,7 +59,7 @@ class AclEntriesController extends Controller
         $oids = array();
         foreach ($aclClasses as $aclClass) {
             $oid = new ObjectIdentity('class', $aclClass->getClassType());
-            
+
             try {
                 $aclProvider->findAcl($oid);
             } catch (AclNotFoundException $e) {
@@ -68,7 +68,7 @@ class AclEntriesController extends Controller
                 $aclProvider->updateAcl($acl);
                 continue;
             }
-            
+
             $oids[] = $oid;
         }
 
@@ -109,7 +109,7 @@ class AclEntriesController extends Controller
             $form->bindRequest($request);
 
             if ($form->isValid()) {
-                $acl->insertClassAce(new RoleSecurityIdentity($classAce->getSecurityIdentity()), 
+                $acl->insertClassAce(new RoleSecurityIdentity($classAce->getSecurityIdentity()),
                                     $classAce->getMask(), 0, $classAce->getMask(), $classAce->getStrategy());
 
                 $aclProvider->updateAcl($acl);
@@ -199,37 +199,50 @@ class AclEntriesController extends Controller
      */
     public function deleteAction(Entity\AclClass $aclClass, $index)
     {
-        $origNode = clone $aclClass;
+        $origAclClass = clone $aclClass;
 
-        /* @var $aclClassManager Entity\AclClassManager */
-        $aclClassManager = $this->get('zym_security.acl_security_identity_manager');
-        $form        = $this->createForm(new Form\DeleteType(), $aclClass);
+        $aclProvider = $this->get('security.acl.provider');
 
+        $oid         = new ObjectIdentity('class', $aclClass->getClassType());
+        /* @var $acl \Symfony\Component\Security\Acl\Domain\Acl */
+        $acl         = $aclProvider->findAcl($oid);
+
+        $classAces = $acl->getClassAces();
+        if (!isset($classAces[$index])) {
+            throw $this->createNotFoundException('Index does not exist');
+        }
+
+        $classAce = clone $classAces[$index];
+
+        $form        = $this->createForm(new Form\DeleteType(), $classAce);
         $request     = $this->get('request');
 
         if ($request->getMethod() == 'POST') {
             $form->bindRequest($request);
 
             if ($form->isValid()) {
-                $aclClassManager->deleteAclClass($aclClass);
+                $acl->deleteClassAce($index);
+                $aclProvider->updateAcl($acl);
 
                 $translator = $this->get('translator');
 
                 $this->get('session')
-                     ->setFlash($translator->trans('Role Deleted'), 'success');
+                     ->setFlash($translator->trans('Acl Entry Deleted'), 'success');
 
-                return $this->redirect($this->generateUrl('zym_security_acl_entries'));
+                $referer = $request->headers->get('referer');
+                return $this->redirect($referer);
             }
         }
 
         if ($request->getMethod() == 'DELETE') {
-            $aclClassManager->deleteNode($aclClass);
+            $acl->deleteClassAce($index);
+            $aclProvider->updateAcl($acl);
 
             return $this->redirect($this->generateUrl('zym_security_acl_entries'));
         }
 
         return array(
-            'aclClass' => $origNode,
+            'aclClass' => $origAclClass,
             'index'    => $index,
             'form'     => $form->createView()
         );

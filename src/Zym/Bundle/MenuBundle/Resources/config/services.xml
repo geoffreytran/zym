@@ -10,10 +10,12 @@
 
         <parameter key="zym_menu.menu_item.entity.class">Zym\Bundle\MenuBundle\Entity\MenuItem</parameter>
         <parameter key="zym_menu.menu_item_manager.class">Zym\Bundle\MenuBundle\Entity\MenuItemManager</parameter>
-        
+
         <parameter key="zym_menu.menu_provider.class">Zym\Bundle\MenuBundle\MenuProvider</parameter>
-        
+
         <parameter key="zym_menu.matcher.voter.class">Zym\Bundle\MenuBundle\Matcher\Voter\RequestVoter</parameter>
+
+        <parameter key="zym_menu.form.type.menu_item_entity.class">Zym\Bundle\MenuBundle\Form\MenuItemEntityType</parameter>
     </parameters>
 
     <services>
@@ -38,18 +40,19 @@
             <argument type="service" id="zym_menu.menu_manager" />
             <argument type="service" id="zym_menu.menu_item_manager" />
             <argument type="service" id="service_container" />
-            
+
             <tag name="knp_menu.provider" />
         </service>
-        
-        <service id="zym_menu.form.type.menu_item_entity" class="Zym\Bundle\MenuBundle\Form\MenuItemEntityType">
-            <tag name="form.type" alias="menu_item_entity" />
+
+        <service id="zym_menu.form.type.menu_item_entity" class="%zym_menu.form.type.menu_item_entity.class%">
             <argument type="service" id="doctrine" />
+            
+            <tag name="form.type" alias="menu_item_entity" />
         </service>
-        
+
         <service id="zym_menu.matcher.voter" class="%zym_menu.matcher.voter.class%" public="false">
             <argument type="service" id="service_container" />
-            
+
             <tag name="knp_menu.voter" />
         </service>
     </services>

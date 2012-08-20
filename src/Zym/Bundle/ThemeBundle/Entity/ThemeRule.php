@@ -17,7 +17,7 @@ use Doctrine\Common\Collections\ArrayCollection;
  */
 class ThemeRule
 {
-	/**
+    /**
      * ID
      *
      * @var integer
@@ -27,7 +27,7 @@ class ThemeRule
      * @ORM\GeneratedValue(strategy="AUTO")
      */
     protected $id;
-    
+
     /**
      * Path
      *
@@ -36,7 +36,7 @@ class ThemeRule
      * @ORM\Column(type="string")
      */
     protected $path;
-    
+
     /**
      * Theme
      *
@@ -45,7 +45,7 @@ class ThemeRule
      * @ORM\Column(type="string")
      */
     protected $theme;
-    
+
     /**
      * Requires Channel (http/https, etc...)
      *
@@ -54,7 +54,7 @@ class ThemeRule
      * @ORM\Column(type="string", name="channel", nullable=true)
      */
     protected $channel;
-    
+
     /**
      * Host
      *
@@ -63,7 +63,7 @@ class ThemeRule
      * @ORM\Column(type="string", nullable=true)
      */
     protected $host;
-    
+
     /**
      * Methods
      *
@@ -72,7 +72,7 @@ class ThemeRule
      * @ORM\Column(type="array", nullable=true)
      */
     protected $methods;
-    
+
     /**
      * IP
      *
@@ -81,7 +81,7 @@ class ThemeRule
      * @ORM\Column(type="string", nullable=true)
      */
     protected $ip;
-    
+
     /**
      * Attributes
      *
@@ -90,7 +90,7 @@ class ThemeRule
      * @ORM\Column(type="array", nullable=false)
      */
     protected $attributes = array();
-    
+
     /**
      * Construct
      *
@@ -98,7 +98,7 @@ class ThemeRule
     public function __construct()
     {
     }
-    
+
     /**
      * Get the ID
      *
@@ -106,9 +106,9 @@ class ThemeRule
      */
     public function getId()
     {
-    	return $this->id;
+        return $this->id;
     }
-    
+
     /**
      * Get the request matcher
      *
@@ -116,23 +116,23 @@ class ThemeRule
      */
     public function getRequestMatcher()
     {
-    	$path       = $this->path;
-    	$host       = $this->host;
-    	$methods    = $this->methods;
-    	$ip         = $this->ip;
-    	$attributes = $this->attributes;
-    
-    	$requestMatcher = new RequestMatcher($path, $host, $methods, $ip, (array)$attributes);
-    
-    	return $requestMatcher;
+        $path       = $this->path;
+        $host       = $this->host;
+        $methods    = $this->methods;
+        $ip         = $this->ip;
+        $attributes = $this->attributes;
+
+        $requestMatcher = new RequestMatcher($path, $host, $methods, $ip, (array)$attributes);
+
+        return $requestMatcher;
     }
-    
+
     public function setPath($path)
     {
-    	$this->path = $path;
-    	return $this;
+        $this->path = $path;
+        return $this;
     }
-    
+
     /**
      * Get the path
      *
@@ -140,15 +140,15 @@ class ThemeRule
      */
     public function getPath()
     {
-    	return $this->path;
+        return $this->path;
     }
-    
+
     public function setTheme($theme)
     {
-	    $this->theme = $theme;
-    	return $this;
+        $this->theme = $theme;
+        return $this;
     }
-    
+
     /**
      * Get the theme
      *
@@ -156,15 +156,15 @@ class ThemeRule
      */
     public function getTheme()
     {
-    	return $this->theme;
+        return $this->theme;
     }
-    
+
     public function setChannel($channel)
     {
-    	$this->channel = $channel;
-    	return $this;
+        $this->channel = $channel;
+        return $this;
     }
-    
+
     /**
      * Get the required channel
      *
@@ -172,15 +172,15 @@ class ThemeRule
      */
     public function getChannel()
     {
-    	return $this->channel;
+        return $this->channel;
     }
-    
+
     public function setHost($host)
     {
-    	$this->host = $host;
-    	return $this;
+        $this->host = $host;
+        return $this;
     }
-    
+
     /**
      * Get the host
      *
@@ -188,9 +188,9 @@ class ThemeRule
      */
     public function getHost()
     {
-    	return $this->host;
+        return $this->host;
     }
-    
+
     /**
      * Get the methods
      *
@@ -198,9 +198,9 @@ class ThemeRule
      */
     public function getMethods()
     {
-    	return $this->methods;
+        return $this->methods;
     }
-    
+
     /**
      * Get the IP
      *
@@ -208,9 +208,9 @@ class ThemeRule
      */
     public function getIp()
     {
-    	return $this->ip;
+        return $this->ip;
     }
-    
+
     /**
      * Get the attributes
      *
@@ -218,6 +218,6 @@ class ThemeRule
      */
     public function getAttributes()
     {
-    	return (array)$this->attributes;
+        return (array)$this->attributes;
     }
 }

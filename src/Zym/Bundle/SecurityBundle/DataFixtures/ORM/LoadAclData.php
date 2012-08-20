@@ -32,21 +32,22 @@ class LoadAclData extends AbstractFixture
     public function load(ObjectManager $manager)
     {
         // Roles
-        
+
         $identity = new Entity\AclSecurityIdentity();
         $identity->setIdentifier('IS_AUTHENTICATED_ANONYMOUSLY');
         $identity->setUsername(false);
         $manager->persist($identity);
-        
+
         $identity = new Entity\AclSecurityIdentity();
         $identity->setIdentifier('IS_AUTHENTICATED_FULLY');
         $identity->setUsername(false);
         $manager->persist($identity);
-        
+
         $identity = new Entity\AclSecurityIdentity();
         $identity->setIdentifier('IS_AUTHENTICATED_REMEMBERED');
         $identity->setUsername(false);
         $manager->persist($identity);
+
         $identity = new Entity\AclSecurityIdentity();
         $identity->setIdentifier('ROLE_ALLOWED_TO_SWITCH');
         $identity->setUsername(false);
@@ -56,10 +57,9 @@ class LoadAclData extends AbstractFixture
         $identity->setIdentifier('ROLE_USER');
         $identity->setUsername(false);
         $manager->persist($identity);
-        
-        
+
         $aclProvider = $this->container->get('security.acl.provider');
-        
+
         // AclClass
         try {
             $oid = new ObjectIdentity('class', 'Zym\Bundle\SecurityBundle\Entity\AclClass');
@@ -67,15 +67,15 @@ class LoadAclData extends AbstractFixture
         } catch (AclAlreadyExistsException $e) {
             $acl = $aclProvider->findAcl($oid);
         }
-        
+
         $sid = new RoleSecurityIdentity('ROLE_ADMIN');
         $acl->insertClassAce($sid, MaskBuilder::MASK_VIEW);
-        
+
         // insert ACEs for the super admin
         $sid = new RoleSecurityIdentity('ROLE_SUPER_ADMIN');
         $acl->insertClassAce($sid, MaskBuilder::MASK_IDDQD);
         $aclProvider->updateAcl($acl);
-        
+
         // AclEntry
         try {
             $oid = new ObjectIdentity('class', 'Zym\Bundle\SecurityBundle\Entity\AclEntry');
@@ -83,15 +83,15 @@ class LoadAclData extends AbstractFixture
         } catch (AclAlreadyExistsException $e) {
             $acl = $aclProvider->findAcl($oid);
         }
-        
+
         $sid = new RoleSecurityIdentity('ROLE_ADMIN');
         $acl->insertClassAce($sid, MaskBuilder::MASK_VIEW);
-        
+
         // insert ACEs for the super admin
         $sid = new RoleSecurityIdentity('ROLE_SUPER_ADMIN');
         $acl->insertClassAce($sid, MaskBuilder::MASK_IDDQD);
         $aclProvider->updateAcl($acl);
-        
+
         // AclSecurityIdentity
         try {
             $oid = new ObjectIdentity('class', 'Zym\Bundle\SecurityBundle\Entity\AclSecurityIdentity');
@@ -107,7 +107,7 @@ class LoadAclData extends AbstractFixture
         $sid = new RoleSecurityIdentity('ROLE_SUPER_ADMIN');
         $acl->insertClassAce($sid, MaskBuilder::MASK_IDDQD);
         $aclProvider->updateAcl($acl);
-        
+
         // AccessRule
         try {
             $oid = new ObjectIdentity('class', 'Zym\Bundle\SecurityBundle\Entity\AccessRule');
@@ -123,20 +123,20 @@ class LoadAclData extends AbstractFixture
         $sid = new RoleSecurityIdentity('ROLE_SUPER_ADMIN');
         $acl->insertClassAce($sid, MaskBuilder::MASK_IDDQD);
         $aclProvider->updateAcl($acl);
-        
+
         $manager->flush();
     }
-    
+
     /**
      * Get the order in which fixtures will be loaded
-     * 
+     *
      * @return integer
      */
     public function getOrder()
     {
-        return 1; // the order in which fixtures will be loaded
+        return 0; // the order in which fixtures will be loaded
     }
-    
+
     /**
      * Set the container
      *

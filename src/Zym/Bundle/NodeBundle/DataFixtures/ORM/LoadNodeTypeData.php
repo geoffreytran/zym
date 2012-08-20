@@ -63,7 +63,7 @@ class LoadNodeTypeData extends AbstractFixture
      */
     public function getOrder()
     {
-        return 1; // the order in which fixtures will be loaded
+        return 10; // the order in which fixtures will be loaded
     }
 
     /**

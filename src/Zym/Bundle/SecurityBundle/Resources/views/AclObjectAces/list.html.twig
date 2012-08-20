@@ -74,7 +74,7 @@
                                 <i class="icon-edit"></i>
                                 {{ 'Edit' |trans({}, 'ZymSecurityBundle') }}
                             </a>
-                            <a class="btn" href="" data-toggle="ajax-modal">
+                            <a class="btn" href="{{ path('zym_security_acl_entries_delete', { 'classType': oid.type, 'index': aceOrder }) }}" data-toggle="ajax-modal">
                                 <i class="icon-remove"></i>
                                 {{ 'Delete' |trans({}, 'ZymSecurityBundle') }}
                             </a>

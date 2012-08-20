@@ -31,7 +31,7 @@ class LoadAclData extends AbstractFixture
     public function load(ObjectManager $manager)
     {
         $aclProvider = $this->container->get('security.acl.provider');
-        
+
         // User
         try {
             $oid = new ObjectIdentity('class', 'Zym\Bundle\UserBundle\Entity\User');
@@ -46,7 +46,7 @@ class LoadAclData extends AbstractFixture
         $sid = new RoleSecurityIdentity('ROLE_SUPER_ADMIN');
         $acl->insertClassAce($sid, MaskBuilder::MASK_IDDQD);
         $aclProvider->updateAcl($acl);
-        
+
         // Group
         try {
             $oid = new ObjectIdentity('class', 'Zym\Bundle\UserBundle\Entity\Group');
@@ -62,17 +62,17 @@ class LoadAclData extends AbstractFixture
         $acl->insertClassAce($sid, MaskBuilder::MASK_IDDQD);
         $aclProvider->updateAcl($acl);
     }
-    
+
     /**
      * Get the order in which fixtures will be loaded
-     * 
+     *
      * @return integer
      */
     public function getOrder()
     {
-        return 1; // the order in which fixtures will be loaded
+        return 5; // the order in which fixtures will be loaded
     }
-    
+
     /**
      * Set the container
      *
