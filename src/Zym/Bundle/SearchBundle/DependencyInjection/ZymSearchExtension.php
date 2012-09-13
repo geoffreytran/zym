@@ -24,5 +24,9 @@ class ZymSearchExtension extends Extension
 
         $loader = new Loader\XmlFileLoader($container, new FileLocator(__DIR__.'/../Resources/config'));
         $loader->load('services.xml');
+
+        foreach ($config['indexes'] as $name => $indexOptions) {
+            $container->setAlias('zym_search.index_manager.' . $name, $indexOptions['manager']);
+        }
     }
 }

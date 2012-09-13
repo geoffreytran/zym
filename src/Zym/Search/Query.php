@@ -1,3 +1,5 @@
+<?php
+
 namespace Zym\Search;
 
 class Query implements QueryInterface
@@ -6,9 +8,16 @@ class Query implements QueryInterface
     private $limit;
     private $offset;
 
+    /**
+     * Index Manager
+     *
+     * @var IndexManagerInterface
+     */
+    private $indexManager;
+
     public function getQuery()
     {
-        return $this->query;;
+        return $this->query;
     }
 
     public function setQuery($query)
@@ -34,5 +43,15 @@ class Query implements QueryInterface
     public function setOffset($offset)
     {
         $this->offset = $offset;
+    }
+
+    public function getIndexManager()
+    {
+        return $this->indexManager;
+    }
+
+    public function setIndexManager(IndexManagerInterface $indexManager)
+    {
+        $this->indexManager = $indexManager;
     }
 }

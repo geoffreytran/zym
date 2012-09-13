@@ -12,4 +12,7 @@ interface QueryInterface
 
     public function getOffset();
     public function setOffset($offset);
+
+    public function getIndexManager();
+    public function setIndexManager(IndexManagerInterface $indexManager);
 }

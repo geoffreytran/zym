@@ -1,11 +1,11 @@
-<?php 
+<?php
 namespace Zym\Search;
 
 class ResultSet implements \Iterator, \Countable
 {
     private $totalHits;
     private $totalTime;
-    private $results;
+    private $results = array();
     private $facets;
 
     public function getTotalHits()

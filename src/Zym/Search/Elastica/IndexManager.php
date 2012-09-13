@@ -2,7 +2,6 @@
 
 namespace Zym\Search\Elastica;
 
-use Zym\Search;
 use Zym\Search\Query;
 use Zym\Search\QueryInterface;
 use Zym\Search\DocumentInterface;
@@ -37,6 +36,9 @@ class IndexManager implements IndexManagerInterface
         }
 
         if ($query instanceof QueryInterface) {
+            $query->setIndexManager($this);
+
+            // Build the Elastica Query
             $elasticaQuery = new \Elastica_Query();
 
             // Define a Query. We want a string query.

@@ -23,7 +23,29 @@ class Configuration implements ConfigurationInterface
         // Here you should define the parameters that are allowed to
         // configure your bundle. See the documentation linked above for
         // more information on that topic.
+        $this->addIndexesSection($rootNode);
 
         return $treeBuilder;
+    }
+
+    /**
+     * Adds the configuration for the "indexes" key
+     */
+    private function addIndexesSection(ArrayNodeDefinition $rootNode)
+    {
+        $rootNode
+            ->fixXmlConfig('index')
+            ->children()
+                ->arrayNode('indexes')
+                    ->useAttributeAsKey('name')
+                    ->prototype('array')
+                        ->performNoDeepMerging()
+                        ->children()
+                            ->scalarNode('manager')->end()
+                        ->end()
+                    ->end()
+                ->end()
+            ->end()
+        ;
     }
 }
