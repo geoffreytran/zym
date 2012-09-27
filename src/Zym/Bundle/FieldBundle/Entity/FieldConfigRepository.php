@@ -35,7 +35,7 @@ class FieldConfigRepository extends AbstractEntityRepository
     public function findFieldConfigs(array $criteria = null, $page = 1, $limit = 50, array $orderBy = null)
     {
         $qb = $this->createQueryBuilder('fc');
-        $this->setQueryOptions($qb, $criteria, $orderBy);
+        $this->setQueryBuilderOptions($qb, $criteria, $orderBy);
 
         $query     = $qb->getQuery();
         $paginator = $this->getPaginator();

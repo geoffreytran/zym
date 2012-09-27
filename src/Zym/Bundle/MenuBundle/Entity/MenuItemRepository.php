@@ -47,7 +47,8 @@ class MenuItemRepository extends NestedTreeRepository
     public function findRootMenuItemsByMenu(Menu $menu, array $criteria = null, array $orderBy = null)
     {
         $qb = $this->createQueryBuilder('mi');
-        $qb->where('mi.menu = :menu')
+        $qb->select('mi, c')
+           ->where('mi.menu = :menu')
            ->andWhere('mi.parent IS NULL')
            ->leftJoin('mi.children', 'c')
            ->orderBy('mi.weight', 'ASC')
@@ -56,7 +57,7 @@ class MenuItemRepository extends NestedTreeRepository
 
         $qb->setParameter('menu', $menu->getName());
 
-        $this->setQueryOptions($qb, $criteria, $orderBy);
+        $this->setQueryBuilderOptions($qb, $criteria, $orderBy);
 
         $query = $qb->getQuery();
 
@@ -64,7 +65,7 @@ class MenuItemRepository extends NestedTreeRepository
     }
 
     /**
-     * Get the paginator 
+     * Get the paginator
      *
      * @return Paginator
      */
@@ -74,7 +75,7 @@ class MenuItemRepository extends NestedTreeRepository
     }
 
     /**
-     * Set the paginator 
+     * Set the paginator
      *
      * @param Paginator $paginator
      * @return MenuItemRepository
@@ -92,7 +93,7 @@ class MenuItemRepository extends NestedTreeRepository
      * @param array $criteria
      * @param array $orderBy
      */
-    protected function setQueryOptions(\Doctrine\ORM\QueryBuilder $qb, array $criteria = null, array $orderBy = null)
+    protected function setQueryBuilderOptions(\Doctrine\ORM\QueryBuilder $qb, array $criteria = null, array $orderBy = null)
     {
         if ($criteria) {
             foreach ($criteria as $key => $value) {

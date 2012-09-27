@@ -23,7 +23,7 @@ class ThemeRuleRepository extends AbstractEntityRepository
     public function findThemeRules(array $criteria = null, $page = 1, $limit = 50, array $orderBy = null)
     {
         $qb = $this->createQueryBuilder('r');
-        $this->setQueryOptions($qb, $criteria, $orderBy);
+        $this->setQueryBuilderOptions($qb, $criteria, $orderBy);
 
         $query     = $qb->getQuery();
         $paginator = $this->getPaginator();

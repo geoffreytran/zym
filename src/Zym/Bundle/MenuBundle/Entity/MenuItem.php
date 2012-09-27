@@ -70,7 +70,7 @@ abstract class MenuItem extends BaseMenuItem
      * @ORM\Column(type="string")
      */
     protected $name;
-    
+
     /**
      * Label
      *
@@ -79,7 +79,7 @@ abstract class MenuItem extends BaseMenuItem
      * @ORM\Column(type="string")
      */
     protected $label;
-    
+
     /**
      * Label attributes
      *
@@ -106,7 +106,7 @@ abstract class MenuItem extends BaseMenuItem
      * @ORM\Column(type="json_array")
      */
     protected $attributes = array();
-    
+
     /**
      * Display
      *
@@ -117,7 +117,7 @@ abstract class MenuItem extends BaseMenuItem
      * @ORM\Column(type="boolean")
      */
     protected $display = true;
-    
+
     /**
      * Display Children
      *
@@ -208,7 +208,7 @@ abstract class MenuItem extends BaseMenuItem
      * @ORM\OrderBy({ "weight" = "ASC", "lft" = "ASC"})
      */
     protected $children;
-    
+
     /**
      * Router
      *
@@ -228,7 +228,7 @@ abstract class MenuItem extends BaseMenuItem
     public function __construct($name, FactoryInterface $factory = null, Menu $menu = null)
     {
         parent::__construct($name, $factory);
-        
+
         $this->menu = $menu;
         $this->children = new ArrayCollection();
     }
@@ -242,7 +242,7 @@ abstract class MenuItem extends BaseMenuItem
     {
         return $this->id;
     }
-    
+
     /**
      * Get the description
      *
@@ -252,7 +252,7 @@ abstract class MenuItem extends BaseMenuItem
     {
         return $this->description;
     }
-    
+
     /**
      * Set the description
      *
@@ -352,7 +352,7 @@ abstract class MenuItem extends BaseMenuItem
         $this->root = $root;
         return $this;
     }
-    
+
     /**
      * Add a child menu item to this menu
      *
@@ -366,10 +366,10 @@ abstract class MenuItem extends BaseMenuItem
     {
         $child = parent::addChild($child, $options);
         $child->setMenu($this->menu);
-        
+
         return $child;
     }
-    
+
     /**
      * Set the router
      *
@@ -381,7 +381,7 @@ abstract class MenuItem extends BaseMenuItem
         $this->router = $router;
         return $this;
     }
-    
+
     /**
      * Get the router
      *
@@ -410,10 +410,10 @@ abstract class MenuItem extends BaseMenuItem
                 }
             }
         }
-        
+
         return $this->router;
     }
-    
+
     /**
      * Get the children
      *
@@ -424,7 +424,7 @@ abstract class MenuItem extends BaseMenuItem
         if ($this->children instanceof \Doctrine\Common\Collections\Collection) {
             return $this->children->toArray();
         }
-        
+
         return parent::getChildren();
     }
 }

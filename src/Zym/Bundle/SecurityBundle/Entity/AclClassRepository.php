@@ -37,7 +37,7 @@ class AclClassRepository extends AbstractEntityRepository
     public function findAclClasses(array $criteria = null, $page = 1, $limit = 50, array $orderBy = null)
     {
         $qb = $this->createQueryBuilder('c');
-        $this->setQueryOptions($qb, $criteria, $orderBy);
+        $this->setQueryBuilderOptions($qb, $criteria, $orderBy);
 
         $query     = $qb->getQuery();
         $paginator = $this->getPaginator();

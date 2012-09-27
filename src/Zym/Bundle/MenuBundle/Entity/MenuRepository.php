@@ -48,7 +48,7 @@ class MenuRepository extends AbstractEntityRepository
         $qb = $this->createQueryBuilder('m');
         $qb->select('COUNT(m.name)');
 
-        $this->setQueryOptions($qb, $criteria);
+        $this->setQueryBuilderOptions($qb, $criteria);
 
         $query = $qb->getQuery();
 

@@ -37,7 +37,7 @@ class NodeRepository extends AbstractEntityRepository
     public function findNodes(array $criteria = null, $page = 1, $limit = 10, array $orderBy = null)
     {
         $qb = $this->createQueryBuilder('n');
-        $this->setQueryOptions($qb, $criteria, $orderBy);
+        $this->setQueryBuilderOptions($qb, $criteria, $orderBy);
 
         $query     = $qb->getQuery();
         $paginator = $this->getPaginator();

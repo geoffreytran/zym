@@ -17,6 +17,8 @@ use Zym\Bundle\FrameworkBundle\Modal\Criteria;
 use Zym\Bundle\FrameworkBundle\Model\PageableRepositoryInterface;
 use Doctrine\ORM\EntityRepository;
 use Doctrine\ORM\Query\Expr;
+use Doctrine\ORM\QueryBuilder;
+use Doctrine\ORM\Query;
 use Knp\Component\Pager\Paginator;
 use Knp\Component\Pager\Pagination\PaginationInterface;
 
@@ -46,7 +48,7 @@ abstract class AbstractEntityRepository extends EntityRepository
     protected function findEntities(array $criteria = null, $page = 1, $limit = 50, array $orderBy = null)
     {
         $qb = $this->createQueryBuilder('n');
-        $this->setQueryOptions($qb, $criteria, $orderBy);
+        $this->setQueryBuilderOptions($qb, $criteria, $orderBy);
 
         $query     = $qb->getQuery();
         $paginator = $this->getPaginator();
@@ -77,13 +79,37 @@ abstract class AbstractEntityRepository extends EntityRepository
     }
 
     /**
+     * Process querybuilder
+     *
+     * @param \Doctrine\DBAL\Query\QueryBuilder $qb
+     * @param array $criteria
+     * @param integer $page
+     * @param integer $limit
+     * @param array $orderBy
+     * @param array $options
+     * @return PaginationInterface
+     */
+    protected function processQueryBuilder(QueryBuilder $qb, array $criteria = null, $page = 1, $limit = 50, array $orderBy = null, array $options = null)
+    {
+        $this->setQueryBuilderOptions($qb, $criteria, $orderBy, $options);
+
+        $query = $qb->getQuery();
+        $this->setQueryOptions($query, $options);
+
+        $paginator = $this->getPaginator();
+
+        return $paginator->paginate($query, $page, $limit);
+    }
+
+    /**
      * Set the query options
      *
      * @param \Doctrine\ORM\QueryBuilder $qb
      * @param array $criteria
      * @param array $orderBy
+     * @param array $options
      */
-    protected function setQueryOptions(\Doctrine\ORM\QueryBuilder $qb, array $criteria = null, array $orderBy = null)
+    protected function setQueryBuilderOptions(QueryBuilder $qb, array $criteria = null, array $orderBy = null, array $options = null)
     {
         if ($criteria) {
             foreach ($criteria as $key => $value) {
@@ -104,6 +130,47 @@ abstract class AbstractEntityRepository extends EntityRepository
         if ($orderBy) {
             foreach ($orderBy as $column => $direction) {
                 $qb->addOrderBy(sprintf('%s.%s', $qb->getRootAlias(), $column), $direction);
+            }
+        }
+
+        if ($options) {
+            if (isset($options['result_cache'])) {
+                if (is_array($options['result_cache'])) {
+
+                }
+            }
+        }
+    }
+
+    /**
+     * Set the query options
+     *
+     * @param \Doctrine\ORM\Query $query
+     * @param array $options
+     */
+    protected function setQueryOptions(Query $query, array $options = null)
+    {
+        if (!$options) {
+            return;
+        }
+
+        if (isset($options['result_cache'])) {
+            if (is_array($options['result_cache'])) {
+                foreach ($options['result_cache'] as $key => $value) {
+                    switch ($key) {
+                        case 'enabled':
+                            $query->useResultCache($value);
+                            break;
+
+                        case 'lifetime':
+                            $query->setResultCacheLifetime($value);
+                            break;
+
+                        case 'id':
+                            $query->setResultCacheId($value);
+                            break;
+                    }
+                }
             }
         }
     }
