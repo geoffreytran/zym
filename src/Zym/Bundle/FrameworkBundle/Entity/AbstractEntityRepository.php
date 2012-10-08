@@ -13,7 +13,7 @@
 
 namespace Zym\Bundle\FrameworkBundle\Entity;
 
-use Zym\Bundle\FrameworkBundle\Modal\Criteria;
+use Zym\Bundle\FrameworkBundle\Model\Criteria;
 use Zym\Bundle\FrameworkBundle\Model\PageableRepositoryInterface;
 use Doctrine\ORM\EntityRepository;
 use Doctrine\ORM\Query\Expr;
@@ -117,13 +117,15 @@ abstract class AbstractEntityRepository extends EntityRepository
                 $x         = $qb->getRootAlias() . '.' . $key;
 
                 if ($value instanceof Criteria\Comparison) {
-                    $expr = new Expr\Comparison($x, $value->getOperator(), $paramName);
+                    $expr = new Expr\Comparison($x, $value->getOperator(), ':' . $paramName);
+                    $qb->setParameter($paramName, $value->getRightExpr());
                 } else {
                     $expr = $qb->expr()->eq($x, ':' . $paramName);
+                    $qb->setParameter($paramName, $value);
+
                 }
 
                 $qb->andWhere($expr);
-                $qb->setParameter($paramName, $value);
             }
         }
 
