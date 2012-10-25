@@ -118,4 +118,15 @@ class ParameterManager extends AbstractEntityManager
     {
         return $this->repository->findOneBy($criteria);
     }
+
+    /**
+     * Find parameter
+     *
+     * @param string $name
+     * @return Parameter
+     */
+    public function findParameter($name)
+    {
+        return $this->repository->findOneBy(array('name' => $name));
+    }
 }
