@@ -20,10 +20,10 @@ class TemplateResourcesPass implements CompilerPassInterface
         // Bundle and kernel resources
         $bundles        = $container->getParameter('kernel.bundles');
         $asseticBundles = $container->getParameterBag()->resolveValue($container->getParameter('assetic.bundles'));
-        
+
         foreach ($asseticBundles as $bundleName) {
             $rc = new \ReflectionClass($bundles[$bundleName]);
-            
+
             foreach ($engines as $engine) {
                 $this->setBundleDirectoryResources($container, $engine, dirname($rc->getFileName()), $bundleName);
             }
@@ -64,9 +64,10 @@ class TemplateResourcesPass implements CompilerPassInterface
 
         $themes = $container->getParameter('zym_theme.themes');
         foreach ($themes as $key => $theme) {
+            unset($themes[$key]);
             $themes[$theme] = $container->getParameter('kernel.root_dir') . '/Resources/themes/' . $theme;
         }
-        
+
         $themes[''] = $container->getParameter('kernel.root_dir') . '/Resources/views';
 
         $container->setDefinition(

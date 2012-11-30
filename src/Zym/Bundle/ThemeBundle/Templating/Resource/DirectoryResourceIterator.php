@@ -6,11 +6,11 @@ use Symfony\Component\Templating\Loader\LoaderInterface;
 
 class DirectoryResourceIterator extends \RecursiveIteratorIterator
 {
-	protected $loader;
+    protected $loader;
     protected $bundle;
     protected $path;
     protected $theme;
-    
+
     /**
      * Constructor.
      *
@@ -25,15 +25,15 @@ class DirectoryResourceIterator extends \RecursiveIteratorIterator
     	$this->loader = $loader;
     	$this->bundle = $bundle;
     	$this->path   = $path;
-    	$this->theme  = $theme; 
-    
+    	$this->theme  = $theme;
+
     	parent::__construct($iterator);
     }
-    
+
     public function current()
     {
     	$file = parent::current();
-    
+
     	return new FileResource($this->loader, $this->bundle, $this->path, $file->getPathname(), $this->theme);
     }
 }
