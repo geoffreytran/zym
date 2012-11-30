@@ -1,0 +1,17 @@
+<?xml version="1.0" ?>
+
+<container xmlns="http://symfony.com/schema/dic/services"
+    xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+    xsi:schemaLocation="http://symfony.com/schema/dic/services http://symfony.com/schema/dic/services/services-1.0.xsd">
+
+    <parameters>
+        <parameter key="zym_mail.mail_config.class">Zym\Bundle\MailBundle\MailConfig</parameter>
+        <parameter key="zym_mail.mail_config_manager.class">Zym\Bundle\MailBundle\MailConfigManager</parameter>
+    </parameters>
+
+    <services>
+        <service id="zym_mail.mail_config_manager" class="%zym_mail.mail_config_manager.class%">
+            <argument type="service" id="zym_runtime_config.parameter_manager" />
+        </service>
+    </services>
+</container>

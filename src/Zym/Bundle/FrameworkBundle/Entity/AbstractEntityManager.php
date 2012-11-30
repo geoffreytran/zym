@@ -20,12 +20,12 @@ use Symfony\Component\Security\Acl\Domain\ObjectIdentity;
 use Symfony\Component\Security\Acl\Model\MutableAclProviderInterface;
 use Symfony\Component\Security\Acl\Exception\AclAlreadyExistsException;
 
+use Doctrine\Common\Persistence\ObjectManager;
 use Doctrine\ORM\Mapping as ORM;
 use Doctrine\ORM\EntityManager;
 use Doctrine\ORM\EntityRepository;
 
 use Knp\Component\Pager\Paginator;
-use Knp\Component\Pager\Pagination\PaginationInterface;
 
 /**
  * Abstract Entity Manager
@@ -95,7 +95,7 @@ abstract class AbstractEntityManager
         }
 
         $this->setAclProvider($aclProvider);
-        
+
         if ($securityContext) {
             $this->setSecurityContext($securityContext);
         }
@@ -111,6 +111,16 @@ abstract class AbstractEntityManager
     public function findOneBy(array $criteria)
     {
         return $this->repository->findOneBy($criteria);
+    }
+
+    /**
+     * Get the object manager
+     *
+     * @return ObjectManager
+     */
+    public function getObjectManager()
+    {
+        return $this->entityManager;
     }
 
     /**
@@ -136,6 +146,7 @@ abstract class AbstractEntityManager
     }
 
     /**
+     * Get the entity repository
      *
      * @return EntityRepository
      */
