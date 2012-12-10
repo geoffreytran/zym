@@ -10,12 +10,12 @@
         </h1>
     </div>
 
-    <div class="row">
+    <div class="row-fluid">
         {% for child in menuItem.children %}
         <div class="span6">
             {% if child.hasChildren %}
             <h2><a href="{{ child.uri }}">{{ child.label }}</a></h2>
-            
+
             <ul class="nav nav-tabs nav-stacked">
                 {% for c in child.children %}
                 <li>
