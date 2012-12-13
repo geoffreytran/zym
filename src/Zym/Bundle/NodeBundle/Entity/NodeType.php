@@ -26,7 +26,7 @@ class NodeType implements DomainObjectInterface, FieldableProxyInterface
      * @ORM\Column(type="string", name="type")
      */
     protected $type;
-    
+
     /**
      * Name
      *
@@ -35,7 +35,7 @@ class NodeType implements DomainObjectInterface, FieldableProxyInterface
      * @ORM\Column(type="string", name="name")
      */
     protected $name;
-    
+
     /**
      * Field Configs
      *
@@ -44,7 +44,7 @@ class NodeType implements DomainObjectInterface, FieldableProxyInterface
      * @ORM\OneToMany(targetEntity="Zym\Bundle\NodeBundle\Entity\NodeFieldConfig", mappedBy="nodeType", fetch="EAGER")
      */
     protected $fieldConfigs;
-    
+
     /**
      * Description
      *
@@ -53,61 +53,113 @@ class NodeType implements DomainObjectInterface, FieldableProxyInterface
      * @ORM\Column(type="text", nullable = true)
      */
     protected $description;
-    
+
+    /**
+     * Construct
+     */
     public function __construct()
     {
         $this->fieldConfigs = new ArrayCollection();
     }
-    
+
+    /**
+     * Get the type
+     *
+     * @return string
+     */
     public function getType()
     {
         return $this->type;
     }
-    
+
+    /**
+     * Set the type
+     *
+     * @param string $type
+     * @return \Zym\Bundle\NodeBundle\Entity\NodeType
+     */
     public function setType($type)
     {
         $this->type = $type;
         return $this;
     }
-    
+
+    /**
+     * Get the name
+     *
+     * @return string
+     */
     public function getName()
     {
         return $this->name;
     }
-    
+
+    /**
+     * Set the name
+     *
+     * @param string $name
+     * @return \Zym\Bundle\NodeBundle\Entity\NodeType
+     */
     public function setName($name)
     {
         $this->name = $name;
         return $this;
     }
-    
+
+    /**
+     * Get the description
+     *
+     * @return string
+     */
     public function getDescription()
     {
         return $this->description;
     }
-    
+
+    /**
+     * Set the description
+     *
+     * @param string $description
+     * @return \Zym\Bundle\NodeBundle\Entity\NodeType
+     */
     public function setDescription($description)
     {
         $this->description = $description;
         return $this;
     }
-    
+
+    /**
+     * Get the field proxy id
+     *
+     * @return string
+     */
     public function getFieldProxyId()
     {
         return $this->getType();
     }
-    
+
+    /**
+     * Get the field configs
+     *
+     * @return Collection
+     */
     public function getFieldConfigs()
     {
         return $this->fieldConfigs;
     }
-    
+
+    /**
+     * Set the field configs
+     *
+     * @param array $fieldConfigs
+     * @return \Zym\Bundle\NodeBundle\Entity\NodeType
+     */
     public function setFieldConfigs(array $fieldConfigs)
     {
         $this->fieldConfigs = $fieldConfigs;
         return $this;
     }
-    
+
     /**
      * Returns a unique identifier for this domain object.
      *
@@ -117,7 +169,7 @@ class NodeType implements DomainObjectInterface, FieldableProxyInterface
     {
         return $this->type;
     }
-    
+
     /**
      * To String
      *
