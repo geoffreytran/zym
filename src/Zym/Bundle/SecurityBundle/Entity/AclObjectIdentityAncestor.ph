@@ -30,17 +30,17 @@ class AclObjectIdentityAncestor
      * @var integer
      *
      * @ORM\ManyToOne(targetEntity="AclObjectIdentity")
-     * @ORM\JoinColumn(name="object_identity_id", referencedColumnName="id", nullable=false)
+     * @ORM\JoinColumn(name="object_identity_id", referencedColumnName="id", nullable=false, onDelete="CASCADE")
      */
     private $objectIdentity;
-    
+
     /**
      * ID
      *
      * @var integer
      *
      * @ORM\ManyToOne(targetEntity="AclObjectIdentity")
-     * @ORM\JoinColumn(name="ancestor_id", referencedColumnName="id", nullable=false)
+     * @ORM\JoinColumn(name="ancestor_id", referencedColumnName="id", nullable=false, onDelete="CASCADE")
      */
     private $ancestor;
 }

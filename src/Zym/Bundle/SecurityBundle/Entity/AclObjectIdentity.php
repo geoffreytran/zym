@@ -36,7 +36,7 @@ class AclObjectIdentity
      * @ORM\GeneratedValue(strategy="AUTO")
      */
     private $id;
-    
+
     /**
      * Parent Object Identity
      *
@@ -54,7 +54,7 @@ class AclObjectIdentity
      * @var AclClass
      *
      * @ORM\ManyToOne(targetEntity="AclClass")
-     * @ORM\JoinColumn(name="class_id", referencedColumnName="id", nullable=false)
+     * @ORM\JoinColumn(name="class_id", referencedColumnName="id", nullable=false, onDelete="CASCADE")
      */
     private $aclClass;
 
@@ -75,7 +75,7 @@ class AclObjectIdentity
      * @ORM\Column(name="entries_inheriting", type="boolean")
      */
     private $entriesInheriting = false;
-    
+
     /**
      * Ancestors
      *

@@ -49,8 +49,8 @@ class User extends BaseUser
     /**
      * @ORM\ManyToMany(targetEntity="Zym\Bundle\UserBundle\Entity\Group")
      * @ORM\JoinTable(name="user_groups",
-     *      joinColumns={@ORM\JoinColumn(name="user_id", referencedColumnName="id")},
-     *      inverseJoinColumns={@ORM\JoinColumn(name="group_id", referencedColumnName="id")}
+     *      joinColumns={@ORM\JoinColumn(name="user_id", referencedColumnName="id", onDelete="CASCADE")},
+     *      inverseJoinColumns={@ORM\JoinColumn(name="group_id", referencedColumnName="id", onDelete="CASCADE")}
      * )
      */
     protected $groups;
@@ -72,7 +72,7 @@ class User extends BaseUser
         if ($this->username === null) {
             $this->setUsername($email);
         }
-        
+
         parent::setEmail($email);
     }
 }

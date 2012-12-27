@@ -119,10 +119,11 @@ abstract class AbstractEntityRepository extends EntityRepository
                 if ($value instanceof Criteria\Comparison) {
                     $expr = new Expr\Comparison($x, $value->getOperator(), ':' . $paramName);
                     $qb->setParameter($paramName, $value->getRightExpr());
+                } else if ($value === null) {
+                    $expr = $qb->expr()->isNull($x);
                 } else {
                     $expr = $qb->expr()->eq($x, ':' . $paramName);
                     $qb->setParameter($paramName, $value);
-
                 }
 
                 $qb->andWhere($expr);

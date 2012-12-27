@@ -13,9 +13,9 @@ use Symfony\Component\Templating\Loader\LoaderInterface;
  */
 class FileResource extends BaseFileResource
 {
-	protected $theme;
-	
-	/**
+    protected $theme;
+
+    /**
      * Constructor.
      *
      * @param LoaderInterface $loader  The templating loader
@@ -26,46 +26,46 @@ class FileResource extends BaseFileResource
      */
     public function __construct(LoaderInterface $loader, $bundle, $baseDir, $path, $theme)
     {
-	    parent::__construct($loader, $bundle, $baseDir, $path);
-	    $this->theme = $theme;
-	}
-	
-	public function getContent()
-	{
-		$templateReference = $this->getTemplate();
-		$fileResource      = $this->loader->load($templateReference);
+        parent::__construct($loader, $bundle, $baseDir, $path);
+        $this->theme = $theme;
+    }
 
-		if (!$fileResource) {
-			throw new \InvalidArgumentException(sprintf('Unable to find template "%s".', $templateReference));
-		}
+    public function getContent()
+    {
+        $templateReference = $this->getTemplate();
+        $fileResource      = $this->loader->load($templateReference);
 
-		return $fileResource->getContent();
-	}
+        if (!$fileResource) {
+            throw new \InvalidArgumentException(sprintf('Unable to find template "%s".', $templateReference));
+        }
 
-	public function __toString()
-	{
-		return (string) $this->getTemplate();
-	}
+        return $fileResource->getContent();
+    }
 
-	protected function getTemplate()
-	{
-		if (null === $this->template) {
-			$this->template = self::createTemplateReference($this->bundle, substr($this->path, strlen($this->baseDir)), $this->theme);
-		}
+    public function __toString()
+    {
+        return (string) $this->getTemplate();
+    }
 
-		return $this->template;
-	}
+    protected function getTemplate()
+    {
+        if (null === $this->template) {
+            $this->template = self::createTemplateReference($this->bundle, substr($this->path, strlen($this->baseDir)), $this->theme);
+        }
 
-	static private function createTemplateReference($bundle, $file, $theme = null)
-	{
-		$parts = explode('/', strtr($file, '\\', '/'));
-		$elements = explode('.', array_pop($parts));
-		$engine = array_pop($elements);
-		$format = array_pop($elements);
-		$name = implode('.', $elements);
+        return $this->template;
+    }
 
-		$tr =  new TemplateReference($bundle, implode('/', $parts), $name, $format, $engine);
-		$tr->set('theme', $theme);
-		return $tr;
-	}
+    static private function createTemplateReference($bundle, $file, $theme = null)
+    {
+        $parts = explode('/', strtr($file, '\\', '/'));
+        $elements = explode('.', array_pop($parts));
+        $engine = array_pop($elements);
+        $format = array_pop($elements);
+        $name = implode('.', $elements);
+
+        $tr =  new TemplateReference($bundle, implode('/', $parts), $name, $format, $engine);
+        $tr->set('theme', $theme);
+        return $tr;
+    }
 }

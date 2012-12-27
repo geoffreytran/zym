@@ -16,14 +16,12 @@
                 <i class="icon-arrow-left"></i> {{ 'Back' | trans({}, 'ZymUserBundle') }}
             </a>
         </div>
-        
-        <div class="btn-group">
 
-        
+        <div class="btn-group">
             <a class="btn dropdown-toggle" data-toggle="dropdown" href="#">
                 <i class="icon-edit"></i> {{ 'Edit' | trans({}, 'ZymUserBundle') }} <span class="caret"></span>
             </a>
-        
+
             <ul class="dropdown-menu">
                 <li>
                     <a href="{{ path('zym_user_groups_add') }}"><i class="icon-off"></i> {{ 'Disable User' | trans({}, 'ZymUserBundle') }}</a>
@@ -31,11 +29,11 @@
                 <li>
                     <a href="{{ path('zym_user_groups_add') }}"><i class="icon-lock"></i> {{ 'Activate User' | trans({}, 'ZymUserBundle') }}</a>
                 </li>
-        
-        
+
+
                 {% if is_granted('DELETE', user) %}
                 <li class="divider"></li>
-        
+
                 <li>
                     <a href="{{ path('zym_user_users_delete', { "id": user.id }) }}" data-toggle="ajax-modal">
                         <i class="icon-remove"></i> {{ 'Delete' | trans({}, 'ZymUserBundle') }}
@@ -64,24 +62,24 @@
 
     <form class="form-horizontal" action="" method="post" {{ form_enctype(form) }}>
         {{ form_errors(form) }}
-        
+
         <fieldset>
             <legend>User Information</legend>
-            
+
             {% if form.firstName is defined %}
             {{ form_row(form.firstName) }}
             {{ form_row(form.middleName) }}
             {{ form_row(form.lastName) }}
             {% endif %}
-            
+
             {% if form.offsetExists('name') %}
             {{ form_row(form.offsetGet('name')) }}
             {% endif %}
 
-            {% if form.offsetExists('username') %}            
+            {% if form.offsetExists('username') %}
             {{ form_row(form.username) }}
             {% endif %}
-            
+
             {{ form_row(form.email) }}
             {{ form_row(form.plainPassword) }}
         </fieldset>

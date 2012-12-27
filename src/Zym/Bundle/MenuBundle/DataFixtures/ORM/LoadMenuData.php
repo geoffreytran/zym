@@ -152,6 +152,12 @@ class LoadMenuData extends AbstractFixture
             $menuItem->addChild($cMenuItem);
             $menuItemManager->createMenuItem($cMenuItem);
 
+                $ccMenuItem = new Entity\MenuItem\RoutedMenuItem('mail', $menuFactory);
+                $ccMenuItem->setLabel('Mail');
+                $ccMenuItem->setRoute('zym_mail_config_edit');
+                $cMenuItem->addChild($ccMenuItem);
+                $menuItemManager->createMenuItem($ccMenuItem);
+
                 $ccMenuItem = new Entity\MenuItem\RoutedMenuItem('parameters', $menuFactory);
                 $ccMenuItem->setLabel('Parameters');
                 $ccMenuItem->setRoute('zym_runtime_config_parameters');
