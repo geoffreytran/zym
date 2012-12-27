@@ -1,6 +1,9 @@
 <?php
 namespace Zym\Bundle\MenuBundle\DataFixtures\ORM;
 
+use Zym\Bundle\MenuBundle\Entity\Menu;
+use Zym\Bundle\MenuBundle\Entity\MenuItem\StaticMenuItem;
+use Zym\Bundle\MenuBundle\Entity\MenuItem\RoutedMenuItem;
 use Zym\Bundle\MenuBundle\Entity;
 use Doctrine\Common\Persistence\ObjectManager;
 use Doctrine\Common\DataFixtures\AbstractFixture;
@@ -56,12 +59,7 @@ class LoadMenuData extends AbstractFixture
         $menu->setLabel('Management Menu');
         $menu->setDescription('The Management menu contains links for administrative tasks.');
 
-        $menu->setAttributes(array(
-            'class' => 'nav'
-        ));
-
         $menuManager->createMenu($menu);
-        $menuManager->saveMenu($menu);
 
         $menuItem = new Entity\MenuItem\StaticMenuItem('home', $menuFactory);
         $menuItem->setLabel('Home');

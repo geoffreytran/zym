@@ -79,4 +79,16 @@ class MenuItemManager extends AbstractEntityManager
     {
         return $this->repository->findRootMenuItemsByMenu($menu, $criteria, $orderBy);
     }
+
+    /**
+     * Find menu item by name
+     *
+     * @param \Zym\Bundle\MenuBundle\Entity\Menu $menu
+     * @param string $name
+     * @return MenuItem
+     */
+    public function findMenuItemByName(Menu $menu, $name)
+    {
+        return $this->repository->findMenuItemByName($menu, $name);
+    }
 }

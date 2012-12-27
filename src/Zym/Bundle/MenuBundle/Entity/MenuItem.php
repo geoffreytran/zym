@@ -31,7 +31,12 @@ use Doctrine\Common\Collections\ArrayCollection;
  * @Gedmo\Tree(type="nested")
  *
  * @ORM\Entity(repositoryClass="MenuItemRepository")
- * @ORM\Table(name="menu_items")
+ * @ORM\Table(
+ *     name="menu_items",
+ *     uniqueConstraints={
+ *         @ORM\UniqueConstraint(name="name", columns={"menu", "name"})
+ *     }
+ * )
  * @ORM\InheritanceType("SINGLE_TABLE")
  * @ORM\DiscriminatorColumn(name="object_type", type="string")
  * @ORM\DiscriminatorMap({

@@ -37,6 +37,30 @@ class MenuItemRepository extends NestedTreeRepository
     private $paginator;
 
     /**
+     * Find menu item by name
+     *
+     * @param \Zym\Bundle\MenuBundle\Entity\Menu $menu
+     * @param string $name
+     * @return MenuItem
+     */
+    public function findMenuItemByName(Menu $menu, $name)
+    {
+        $qb = $this->createQueryBuilder('mi');
+        $qb->select('mi, c')
+           ->where('mi.menu = :menu')
+           ->andWhere('mi.name = :name')
+           ->leftJoin('mi.children', 'c');
+
+        $qb->setParameter('menu', $menu->getName());
+        $qb->setParameter('name', $name);
+
+        $query    = $qb->getQuery();
+        $menuItem = $query->getOneOrNullResult();
+
+        return $menuItem;
+    }
+
+    /**
      * Find root menu items by menu
      *
      * @param Menu $menu

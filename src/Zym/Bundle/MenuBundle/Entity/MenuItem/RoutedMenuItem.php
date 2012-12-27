@@ -39,7 +39,7 @@ class RoutedMenuItem extends Entity\MenuItem
      * Route Name
      *
      * @var string
-     * 
+     *
      * @ORM\Column(type="string")
      *
      * @Assert\NotNull(message = "Invalid Route.")
@@ -51,10 +51,10 @@ class RoutedMenuItem extends Entity\MenuItem
      *
      * @var array
      *
-     * @ORM\Column(type="json_array", name="parameters")
+     * @ORM\Column(type="json_array", name="route_parameters")
      */
     private $routeParameters = array();
-    
+
     /**
      * Get the route of the link
      *
@@ -111,7 +111,7 @@ class RoutedMenuItem extends Entity\MenuItem
     {
         return $this->isAbsolute();
     }
-        
+
     /**
      * Set the uri for a menu item
      *
@@ -122,16 +122,16 @@ class RoutedMenuItem extends Entity\MenuItem
     {
         $this->route = null;
         $this->routeParameters = array();
-        
+
         $router  = $this->getRouter();
         $context = $router->getContext();
-        
+
         try {
             $baseUrl = $context->getBaseUrl();
             if (substr($uri, 0, strlen($baseUrl)) == $baseUrl) {
                 $uri = substr($uri, strlen($baseUrl));
             }
-            
+
             $params = $router->match($uri);
             if ($params) {
                 $this->setRoute($params['_route']);
@@ -146,7 +146,7 @@ class RoutedMenuItem extends Entity\MenuItem
             // Invalid Method, we can only support GET at the moment
             throw $e;
         }
-        
+
         return $this;
     }
 
@@ -162,7 +162,7 @@ class RoutedMenuItem extends Entity\MenuItem
         if ($this->route === null) {
             return null;
         }
-        
+
         $router = $this->getRouter();
         return $router->generate($this->getRoute(), $this->getRouteParameters());
     }

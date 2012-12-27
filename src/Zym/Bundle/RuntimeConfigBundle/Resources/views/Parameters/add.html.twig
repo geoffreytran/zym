@@ -6,17 +6,17 @@
     <div class="page-header">
         <h1>
             {{ 'New Parameter' | trans({}, 'ZymRuntimeConfigBundle') }}
-            <small>{{ 'Create a new menu' | trans({}, 'ZymRuntimeConfigBundle') }}</small>
+            <small>{{ 'Create a new parameter' | trans({}, 'ZymRuntimeConfigBundle') }}</small>
         </h1>
     </div>
 
     <p>
-        {% trans from 'ZymRuntimeConfigBundle' %}Parameters are a collection of links (menu items) used to navigate a website.{% endtrans %}
+        {% trans from 'ZymRuntimeConfigBundle' %}Parameters allow for advanced custom configurations. Only modify parameters if you know what you are doing.{% endtrans %}
     </p>
 
     <form class="form-horizontal" action="" method="post" {{ form_enctype(form) }}>
         {{ form_rest(form) }}
-    
+
         <fieldset class="form-actions">
             <button class="btn btn-primary" type="submit">{{ 'Create' | trans({}, 'ZymRuntimeConfigBundle') }}</button>
             <button class="btn" type="button" onclick="history.back();">{{ 'Cancel' | trans({}, 'ZymRuntimeConfigBundle') }}</button>
