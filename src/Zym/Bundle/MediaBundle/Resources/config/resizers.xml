@@ -1,0 +1,27 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<container xmlns="http://symfony.com/schema/dic/services"
+           xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+           xsi:schemaLocation="http://symfony.com/schema/dic/services http://symfony.com/schema/dic/services/services-1.0.xsd">
+
+    <parameters>
+        <parameter key="zym_media.resizer.simple_image.class">Zym\Bundle\MediaBundle\Resizer\SimpleImageResizer</parameter>
+        <parameter key="zym_media.resizer.square_image.class">Zym\Bundle\MediaBundle\Resizer\SquareImageResizer</parameter>
+    </parameters>
+
+    <services>
+        <!-- image manipulation service -->
+        <service id="zym_media.adapter.image.gd" class="Imagine\Gd\Imagine" />
+        <service id="zym_media.adapter.image.imagick" class="Imagine\Imagick\Imagine" />
+        <service id="zym_media.adapter.image.gmagick" class="Imagine\Gmagick\Imagine" />
+
+        <service id="zym_media.resizer.simple_image" class="%zym_media.resizer.simple_image.class%">
+            <argument type="service" id="zym_media.adapter.image.gd" />
+            <argument>%zym_media.resizer.simple_image.adapter.mode%</argument>
+        </service>
+
+        <service id="zym_media.resizer.square_image" class="%zym_media.resizer.square_image.class%">
+            <argument type="service" id="zym_media.adapter.image.gd" />
+            <argument>%zym_media.resizer.square_image.adapter.mode%</argument>
+        </service>
+    </services>
+</container>

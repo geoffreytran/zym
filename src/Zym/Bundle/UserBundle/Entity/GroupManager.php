@@ -22,13 +22,13 @@ use Symfony\Component\Security\Core\SecurityContextInterface;
 use Symfony\Component\Security\Acl\Domain\ObjectIdentity;
 use Symfony\Component\Security\Acl\Model\MutableAclProviderInterface;
 
-use Doctrine\ORM\EntityManager;
-use Doctrine\ORM\EntityRepository;
+use Doctrine\Common\Persistence\ObjectManager;
+use Doctrine\Common\Persistence\ObjectRepository;
 
 use Knp\Component\Pager\Paginator;
 use Knp\Component\Pager\Pagination\PaginationInterface;
 
-use FOS\UserBundle\Entity\GroupManager as AbstractGroupManager;
+use FOS\UserBundle\Doctrine\GroupManager as AbstractGroupManager;
 use FOS\UserBundle\Model\GroupInterface;
 use FOS\UserBundle\Util\CanonicalizerInterface;
 
@@ -64,21 +64,21 @@ class GroupManager extends AbstractGroupManager
     /**
      * Constructor.
      *
-     * @param EntityManager           $em
+     * @param ObjectManager           $om
      * @param string                  $class
      * @param PaginatorAdapter $paginatorAdapter
      * @param MutableAclInterface $aclProvider
      * @param FieldManager             $fieldManager
      */
-    public function __construct(EntityManager $em, $class,
+    public function __construct(ObjectManager $om, $class,
                                 Paginator $paginator,
                                 MutableAclProviderInterface $aclProvider)
     {
-        parent::__construct($em, $class);
+        parent::__construct($om, $class);
 
-        $this->setRepository($em->getRepository($class));
+        $this->setRepository($om->getRepository($class));
 
-        $metadata    = $em->getClassMetadata($class);
+        $metadata    = $om->getClassMetadata($class);
         $this->class = $metadata->name;
 
         if ($this->getRepository() instanceof PageableRepositoryInterface) {
@@ -160,7 +160,7 @@ class GroupManager extends AbstractGroupManager
 
     /**
      *
-     * @return EntityRepository
+     * @return ObjectRepository
      */
     public function getRepository()
     {
@@ -170,10 +170,10 @@ class GroupManager extends AbstractGroupManager
     /**
      * Set the repository
      *
-     * @param EntityRepository $repository
+     * @param ObjectRepository $repository
      * @return GroupManager
      */
-    protected function setRepository(EntityRepository $repository)
+    protected function setRepository(ObjectRepository $repository)
     {
         $this->repository = $repository;
         return $this;
@@ -220,13 +220,13 @@ class GroupManager extends AbstractGroupManager
     protected function createEntity($entity)
     {
         // Persist
-        $em = $this->em;
+        $om = $this->objectManager;
 
-        $em->beginTransaction();
+        $om->beginTransaction();
 
         try {
-            $em->persist($entity);
-            $em->flush();
+            $om->persist($entity);
+            $om->flush();
 
             // Acl
             $aclProvider = $this->aclProvider;
@@ -240,9 +240,9 @@ class GroupManager extends AbstractGroupManager
             }
 
 
-            $em->commit();
+            $om->commit();
         } catch (\Exception $e) {
-            $em->rollback();
+            $om->rollback();
             throw $e;
         }
 
@@ -258,9 +258,9 @@ class GroupManager extends AbstractGroupManager
     protected function deleteEntity($entity)
     {
         // Persist
-        $em = $this->em;
+        $om = $this->objectManager;
 
-        $em->beginTransaction();
+        $om->beginTransaction();
 
         try {
             // Acl
@@ -268,13 +268,13 @@ class GroupManager extends AbstractGroupManager
             $oid         = ObjectIdentity::fromDomainObject($entity);
             $acl         = $aclProvider->deleteAcl($oid);
 
-            $em->remove($entity);
-            $em->flush();
+            $om->remove($entity);
+            $om->flush();
 
 
-            $em->commit();
+            $om->commit();
         } catch (\Exception $e) {
-            $em->rollback();
+            $om->rollback();
             throw $e;
         }
 
@@ -289,11 +289,11 @@ class GroupManager extends AbstractGroupManager
      */
     protected function saveEntity($entity, $andFlush = true)
     {
-        $em = $this->em;
-        $em->persist($entity);
+        $om = $this->objectManager;
+        $om->persist($entity);
 
         if ($andFlush) {
-            $em->flush();
+            $om->flush();
         }
     }
 }

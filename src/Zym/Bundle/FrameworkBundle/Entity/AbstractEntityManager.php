@@ -21,6 +21,8 @@ use Symfony\Component\Security\Acl\Model\MutableAclProviderInterface;
 use Symfony\Component\Security\Acl\Exception\AclAlreadyExistsException;
 
 use Doctrine\Common\Persistence\ObjectManager;
+use Doctrine\Common\Persistence\ObjectRepository;
+
 use Doctrine\ORM\Mapping as ORM;
 use Doctrine\ORM\EntityManager;
 use Doctrine\ORM\EntityRepository;

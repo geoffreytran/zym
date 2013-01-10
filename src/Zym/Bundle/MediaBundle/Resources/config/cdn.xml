@@ -1,0 +1,28 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<container xmlns="http://symfony.com/schema/dic/services"
+           xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+           xsi:schemaLocation="http://symfony.com/schema/dic/services http://symfony.com/schema/dic/services/services-1.0.xsd">
+
+    <parameters>
+        <parameter key="zym_media.cdn.server.class">Zym\Bundle\MediaBundle\CDN\Server</parameter>
+        <parameter key="zym_media.cdn.fallback.class">Zym\Bundle\MediaBundle\CDN\Fallback</parameter>
+        <parameter key="zym_media.cdn.rackspace_cloudfiles.class">Zym\Bundle\MediaBundle\CDN\RackspaceCloudfiles</parameter>
+    </parameters>
+
+    <services>
+        <!-- CDN abstraction service -->
+        <service id="zym_media.cdn.server" class="%zym_media.cdn.server.class%">
+            <argument />
+        </service>
+
+        <service id="zym_media.cdn.fallback" class="%zym_media.cdn.fallback.class%">
+            <argument />
+            <argument />
+        </service>
+
+        <service id="zym_media.cdn.rackspace_cloudfiles" class="%zym_media.cdn.rackspace_cloudfiles.class%">
+            <argument />
+            <argument type="service" id="service_container" />
+        </service>
+    </services>
+</container>

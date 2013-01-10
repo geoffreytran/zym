@@ -1,0 +1,21 @@
+<div class="modal-header">
+    <a href="#" class="close" data-dismiss="modal">&times;</a>
+    <h3>{{ 'Confirm Deletion' | trans({}, 'ZymMediaBundle') }}</h3>
+</div>
+
+<div class="modal-body">
+    <p>
+        You are about to delete media item <strong>"{{ media.name |e }}"</strong>.
+        This action cannot be undone.<br />
+        <strong>Are you sure you want to proceed?</strong>
+    </p>
+</div>
+
+<div class="modal-footer">
+    <form action="{{ path('zym_media_delete', { 'id' : media.id }) }}" method="post" {{ form_enctype(form) }}>
+        {{ form_rest(form) }}
+
+        <input class="btn btn-danger" type="submit" value="{{ 'Confirm Deletion' | trans({}, 'ZymMediaBundle') }}" />
+        <a href="#" class="btn" data-dismiss="modal">{{ 'Cancel' | trans({}, 'ZymMediaBundle') }}</a>
+    </form>
+</div>

@@ -62,7 +62,7 @@ abstract class MenuItem extends BaseMenuItem
      *
      * @var Menu
      *
-     * @ORM\ManyToOne(targetEntity="Menu", cascade={"all"})
+     * @ORM\ManyToOne(targetEntity="Menu", inversedBy="children", cascade={"all"})
      * @ORM\JoinColumn(name="menu", referencedColumnName="name", nullable=false, onDelete="CASCADE")
      */
     protected $menu;

@@ -1,0 +1,14 @@
+<object width="{{ options.width }}" height="{{ options.height }}">
+    <param name="movie" value="http://www.youtube.com/v/{{ media.providerReference }}?{{ options.playerParameters }}"></param>
+    <param name="allowFullScreen" value="{{ options.allowFullScreen }}"></param>
+    <param name="allowscriptaccess" value="{{ options.allowScriptAccess }}"></param>
+
+    <embed
+        src="http://www.youtube.com/v/{{ media.providerReference }}?{{ options.playerParameters }}"
+        type="application/x-shockwave-flash"
+        allowscriptaccess="{{ options.allowScriptAccess }}"
+        allowfullscreen="{{ options.allowFullScreen }}"
+        width="{{ options.width }}"
+        height="{{ options.height }}">
+    </embed>
+</object>

@@ -1,0 +1,19 @@
+{% spaceless %}
+
+{% set menusData = {} %}
+
+{% for menu in menus %}
+    {%
+        set menusData = menusData | merge({
+            "menus": [{
+                "id": menu.name,
+                "name": menu.label,
+                "description": menu.description,
+                "options": menu.options
+            }]
+        })
+    %}
+{% endfor %}
+
+{{ menusData | json_encode | raw }}
+{% endspaceless %}

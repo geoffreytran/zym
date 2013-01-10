@@ -26,8 +26,7 @@ class AclEntryType extends AbstractType
                     'label' => 'Permission Mask'
                 ))
                 ->add('granting', 'choice', array(
-                    'choices'           => array('No', 'Yes'),
-                    'preferred_choices' => array(1),
+                    'choices'           => array('Deny', 'Allow'),
                     'read_only'         => true
                 ))
                 ->add('strategy', 'choice', array(

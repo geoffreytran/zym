@@ -24,13 +24,13 @@ use Symfony\Component\Security\Acl\Model\MutableAclProviderInterface;
 use Symfony\Component\Security\Acl\Domain\UserSecurityIdentity;
 use Symfony\Component\Security\Acl\Permission\MaskBuilder;
 
-use Doctrine\ORM\EntityManager;
-use Doctrine\ORM\EntityRepository;
+use Doctrine\Common\Persistence\ObjectManager;
+use Doctrine\Common\Persistence\ObjectRepository;
 
 use Knp\Component\Pager\Paginator;
 use Knp\Component\Pager\Pagination\PaginationInterface;
 
-use FOS\UserBundle\Entity\UserManager as AbstractUserManager;
+use FOS\UserBundle\Doctrine\UserManager as AbstractUserManager;
 use FOS\UserBundle\Model\UserInterface;
 use FOS\UserBundle\Util\CanonicalizerInterface;
 
@@ -85,16 +85,16 @@ class UserManager extends AbstractUserManager
     public function __construct(EncoderFactoryInterface $encoderFactory,
                                 CanonicalizerInterface $usernameCanonicalizer,
                                 CanonicalizerInterface $emailCanonicalizer,
-                                EntityManager $em, $class,
+                                ObjectManager $om, $class,
                                 Paginator $paginator,
                                 MutableAclProviderInterface $aclProvider,
                                 FieldManager $fieldManager = null)
     {
-        parent::__construct($encoderFactory, $usernameCanonicalizer, $emailCanonicalizer, $em, $class);
+        parent::__construct($encoderFactory, $usernameCanonicalizer, $emailCanonicalizer, $om, $class);
 
-        $this->setRepository($em->getRepository($class));
+        $this->setRepository($om->getRepository($class));
 
-        $metadata    = $em->getClassMetadata($class);
+        $metadata    = $om->getClassMetadata($class);
         $this->class = $metadata->name;
 
         if ($this->getRepository() instanceof PageableRepositoryInterface) {
@@ -130,7 +130,7 @@ class UserManager extends AbstractUserManager
         $this->updateCanonicalFields($user);
         $this->updatePassword($user);
         
-        if ($this->em->getUnitOfWork()->getEntityState($user) == \Doctrine\ORM\UnitOfWork::STATE_NEW) {
+        if ($this->objectManager->getUnitOfWork()->getEntityState($user) == \Doctrine\ORM\UnitOfWork::STATE_NEW) {
             $this->createEntity($user, $andFlush);
 
         } else {
@@ -234,7 +234,7 @@ class UserManager extends AbstractUserManager
 
     /**
      *
-     * @return EntityRepository
+     * @return ObjectRepository
      */
     public function getRepository()
     {
@@ -244,10 +244,10 @@ class UserManager extends AbstractUserManager
     /**
      * Set the repository
      *
-     * @param EntityRepository $repository
+     * @param ObjectRepository $repository
      * @return UserManager
      */
-    protected function setRepository(EntityRepository $repository)
+    protected function setRepository(ObjectRepository $repository)
     {
         $this->repository = $repository;
         return $this;
@@ -294,13 +294,13 @@ class UserManager extends AbstractUserManager
     protected function createEntity($entity)
     {
         // Persist
-        $em = $this->em;
+        $om = $this->objectManager;
 
-        $em->beginTransaction();
+        $om->beginTransaction();
 
         try {
-            $em->persist($entity);
-            $em->flush();
+            $om->persist($entity);
+            $om->flush();
 
             // Acl
             $aclProvider = $this->aclProvider;
@@ -329,9 +329,9 @@ class UserManager extends AbstractUserManager
             }
 
 
-            $em->commit();
+            $om->commit();
         } catch (\Exception $e) {
-            $em->rollback();
+            $om->rollback();
             throw $e;
         }
 
@@ -347,9 +347,9 @@ class UserManager extends AbstractUserManager
     protected function deleteEntity($entity)
     {
         // Persist
-        $em = $this->em;
+        $om = $this->objectManager;
 
-        $em->beginTransaction();
+        $om->beginTransaction();
 
         try {
             // Acl
@@ -357,13 +357,13 @@ class UserManager extends AbstractUserManager
             $oid         = ObjectIdentity::fromDomainObject($entity);
             $acl         = $aclProvider->deleteAcl($oid);
 
-            $em->remove($entity);
-            $em->flush();
+            $om->remove($entity);
+            $om->flush();
 
 
-            $em->commit();
+            $om->commit();
         } catch (\Exception $e) {
-            $em->rollback();
+            $om->rollback();
             throw $e;
         }
 
@@ -378,11 +378,11 @@ class UserManager extends AbstractUserManager
      */
     protected function saveEntity($entity, $andFlush = true)
     {
-        $em = $this->em;
-        $em->persist($entity);
+        $om = $this->objectManager;
+        $om->persist($entity);
 
         if ($andFlush) {
-            $em->flush();
+            $om->flush();
         }
     }
 }

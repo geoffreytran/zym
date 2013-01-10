@@ -1,0 +1,10 @@
+{%
+set menuData = {
+    "id": menu.id,
+    "name": menu.name,
+    "label": menu.label,
+    "description": menu.description,
+    "options": menu.options,
+}
+%}
+{{ menuData | json_encode | raw }}

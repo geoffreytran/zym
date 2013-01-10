@@ -22,7 +22,7 @@ class NodeFieldConfig extends FieldConfig
      *
      * @var string
      *
-     * @ORM\ManyToOne(targetEntity="NodeType")
+     * @ORM\ManyToOne(targetEntity="NodeType", inversedBy="fieldConfigs")
      * @ORM\JoinColumn(name="node_type", referencedColumnName="type", nullable=false, onDelete="CASCADE")
      */
     protected $nodeType;
