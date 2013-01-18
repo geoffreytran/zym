@@ -20,7 +20,7 @@ class SitemapGenerator extends BaseGenerator
      */
     public function generate($section = null)
     {
-        $this->populate($section);
+        $this->populate($section == 'root' ? null : $section);
 
         //---------------------
         //---------------------
@@ -32,7 +32,7 @@ class SitemapGenerator extends BaseGenerator
                 $this->cache->save('root', serialize($this->root), $ttl);
             } else {
                 $urlset = $this->getUrlset($section);
-                $this->cache->save($name, serialize($urlset), $ttl);
+                $this->cache->save($section, serialize($urlset), $ttl);
             }
         }
         //---------------------
