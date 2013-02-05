@@ -26,7 +26,7 @@
         <service id="zym_theme.theme_listener" class="%zym_theme.theme_listener.class%" public="true">
             <argument type="service" id="zym_theme.theme_manager" />
 
-            <tag name="kernel.event_listener" event="kernel.request" method="onKernelRequest" />
+            <tag name="kernel.event_listener" event="kernel.request" method="onKernelRequest" priority="64" />
         </service>
 
         <service id="zym_theme.theme_manager" class="%zym_theme.theme_manager.class%">
