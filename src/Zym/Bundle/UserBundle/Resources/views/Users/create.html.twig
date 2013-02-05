@@ -13,20 +13,21 @@
     <form class="form-horizontal" action="" method="post" {{ form_enctype(form) }}>
         <fieldset>
             <legend>{{ 'User Information' | trans({}, 'ZymUserBundle') }}</legend>
-            {% if form.firstName is defined %}
+
+            {% if form.children.firstName is defined  %}
             {{ form_row(form.firstName) }}
             {{ form_row(form.middleName) }}
             {{ form_row(form.lastName) }}
             {% endif %}
-            
-            {% if form.has('name') %}
-            {{ form_row(form.get('name')) }}
+
+            {% if form.children.name is defined %}
+            {{ form_row(form.children.name) }}
             {% endif %}
-            
-            {% if form.has('username') %}            
+
+            {% if form.children.username is defined %}
             {{ form_row(form.username) }}
             {% endif %}
-            
+
             {{ form_row(form.email) }}
             {{ form_row(form.plainPassword) }}
         </fieldset>
@@ -37,7 +38,7 @@
         </fieldset>
 
         {{ form_rest(form) }}
-    
+
         <fieldset class="form-actions">
             <button class="btn btn-primary" type="submit">{{ 'Create' | trans({}, 'ZymUserBundle') }}</button>
             <button class="btn" type="button" onclick="history.back();">{{ 'Cancel' | trans({}, 'ZymUserBundle') }}</button>
