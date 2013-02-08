@@ -51,16 +51,12 @@ class FieldConfigManager extends AbstractEntityManager
     /**
      * Save a field config
      *
-     * @param object $fieldConfigs
+     * @param object $fieldConfig
      * @param boolean $andFlush
      */
-    public function saveFieldConfigs($fieldConfigs, $andFlush = true)
+    public function saveFieldConfigs($fieldConfig, $andFlush = true)
     {
-        $em = $this->entityManager;
-
-        if ($andFlush) {
-            $em->flush();
-        }
+        parent::saveEntity($fieldConfig, $andFlush);
     }
 
     /**
@@ -84,7 +80,7 @@ class FieldConfigManager extends AbstractEntityManager
      */
     public function findFieldConfigs(array $criteria = null, $page = 1, $limit = 50, array $orderBy = null)
     {
-        return $this->repository->findFieldConfigs($critera, $page, $limit, $orderBy);
+        return $this->repository->findFieldConfigs($criteria, $page, $limit, $orderBy);
     }
 
     /**

@@ -36,7 +36,7 @@ class NodeManager extends AbstractEntityManager
      * @var NodeRepository
      */
     protected $repository;
-    
+
     /**
      * Field Manager
      *
@@ -86,7 +86,7 @@ class NodeManager extends AbstractEntityManager
     public function saveNode(Node $node, $andFlush = true)
     {
         parent::saveEntity($node, $andFlush);
-        
+
         if ($this->fieldManager !== null) {
             $this->fieldManager->saveFields($node->getFields(), $andFlush);
         }
@@ -113,7 +113,10 @@ class NodeManager extends AbstractEntityManager
      */
     public function findNodes(array $criteria = null, $page = 1, $limit = 50, array $orderBy = null)
     {
-        return $this->repository->findNodes($criteria, $page, $limit, $orderBy);
+        $entities =  $this->repository->findNodes($criteria, $page, $limit, $orderBy);
+        $this->loadAcls($entities);
+        
+        return $entities;
     }
 
     /**

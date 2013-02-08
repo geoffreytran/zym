@@ -20,6 +20,7 @@ use Symfony\Component\Security\Acl\Exception\AclAlreadyExistsException;
 use Symfony\Component\Security\Core\Encoder\EncoderFactoryInterface;
 use Symfony\Component\Security\Core\SecurityContextInterface;
 use Symfony\Component\Security\Acl\Domain\ObjectIdentity;
+use Symfony\Component\Security\Acl\Domain\AclCollectionCache;
 use Symfony\Component\Security\Acl\Model\MutableAclProviderInterface;
 
 use Doctrine\Common\Persistence\ObjectManager;
@@ -133,7 +134,9 @@ class GroupManager extends AbstractGroupManager
      */
     public function findGroups(array $criteria = null, $page = 1, $limit = 50, array $orderBy = null)
     {
-        return $this->repository->findGroups($criteria, $page, $limit, $orderBy);
+        $entities = $this->repository->findGroups($criteria, $page, $limit, $orderBy);
+        $this->loadAcls($entities);
+        return $entities;
     }
 
     /**
@@ -294,6 +297,37 @@ class GroupManager extends AbstractGroupManager
 
         if ($andFlush) {
             $om->flush();
+        }
+    }
+
+    /**
+     * Preload acls for entities
+     *
+     * @param Collection $entities
+     */
+    protected function loadAcls($entities)
+    {
+        $aclCollectionCache = $this->getAclCollectionCache();
+
+        try {
+            if ($aclCollectionCache) {
+                $securityContext    = $this->getSecurityContext();
+
+                $sortedEntities = array();
+                foreach ($entities as $entity) {
+                    $sortedEntities[get_class($entity)][] = $entity;
+                }
+
+                foreach ($sortedEntities as $entitiesGroup) {
+                    if ($securityContext->getToken() !== null) {
+                        $aclCollectionCache->cache($entitiesGroup, array($securityContext->getToken()));
+                    } else {
+                        $aclCollectionCache->cache($entitiesGroup);
+                    }
+                }
+            }
+        } catch (\Symfony\Component\Security\Acl\Exception\NotAllAclsFoundException $e) {
+            // At least we tried...
         }
     }
 }

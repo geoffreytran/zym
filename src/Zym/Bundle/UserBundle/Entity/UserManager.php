@@ -20,8 +20,9 @@ use Symfony\Component\Security\Acl\Exception\AclAlreadyExistsException;
 use Symfony\Component\Security\Core\Encoder\EncoderFactoryInterface;
 use Symfony\Component\Security\Core\SecurityContextInterface;
 use Symfony\Component\Security\Acl\Domain\ObjectIdentity;
-use Symfony\Component\Security\Acl\Model\MutableAclProviderInterface;
 use Symfony\Component\Security\Acl\Domain\UserSecurityIdentity;
+use Symfony\Component\Security\Acl\Domain\AclCollectionCache;
+use Symfony\Component\Security\Acl\Model\MutableAclProviderInterface;
 use Symfony\Component\Security\Acl\Permission\MaskBuilder;
 
 use Doctrine\Common\Persistence\ObjectManager;
@@ -64,6 +65,13 @@ class UserManager extends AbstractUserManager
     protected $aclProvider;
 
     /**
+     * Acl Collection Cache
+     *
+     * @var AclCollectionCache
+     */
+    protected $aclCollectionCache;
+
+    /**
      * Field Manager
      *
      * @var FieldManager
@@ -88,6 +96,7 @@ class UserManager extends AbstractUserManager
                                 ObjectManager $om, $class,
                                 Paginator $paginator,
                                 MutableAclProviderInterface $aclProvider,
+                                AclCollectionCache $aclCollectionCache = null,
                                 FieldManager $fieldManager = null)
     {
         parent::__construct($encoderFactory, $usernameCanonicalizer, $emailCanonicalizer, $om, $class);
@@ -102,6 +111,11 @@ class UserManager extends AbstractUserManager
         }
 
         $this->setAclProvider($aclProvider);
+
+        if ($aclCollectionCache) {
+            $this->setAclCollectionCache($aclCollectionCache);
+        }
+
         $this->fieldManager = $fieldManager;
 
     }
@@ -129,7 +143,7 @@ class UserManager extends AbstractUserManager
     {
         $this->updateCanonicalFields($user);
         $this->updatePassword($user);
-        
+
         if ($this->objectManager->getUnitOfWork()->getEntityState($user) == \Doctrine\ORM\UnitOfWork::STATE_NEW) {
             $this->createEntity($user, $andFlush);
 
@@ -174,7 +188,9 @@ class UserManager extends AbstractUserManager
      */
     public function findUsers(array $criteria = null, $page = 1, $limit = 50, array $orderBy = null)
     {
-        return $this->repository->findUsers($criteria, $page, $limit, $orderBy);
+        $entities = $this->repository->findUsers($criteria, $page, $limit, $orderBy);
+        $this->loadAcls($entities);
+        return $entities;
     }
 
     /**
@@ -284,6 +300,49 @@ class UserManager extends AbstractUserManager
         $this->aclProvider = $aclProvider;
         return $this;
     }
+    /**
+     * Get the acl collection cache
+     *
+     * @return AclCollectionCache
+     */
+    public function getAclCollectionCache()
+    {
+        return $this->aclCollectionCache;
+    }
+
+    /**
+     * Set the acl collection cache
+     *
+     * @param AclCollectionCache $aclCollectionCache
+     * @return AbstractEntityManager
+     */
+    public function setAclCollectionCache(AclCollectionCache $aclCollectionCache)
+    {
+        $this->aclCollectionCache = $aclCollectionCache;
+        return $this;
+    }
+
+    /**
+     * Get the security context
+     *
+     * @return SecurityContextInterface
+     */
+    public function getSecurityContext()
+    {
+        return $this->securityContext;
+    }
+
+    /**
+     * Set the security context
+     *
+     * @param SecurityContextInterface $securityContext
+     * @return AbstractEntityManager
+     */
+    public function setSecurityContext(SecurityContextInterface $securityContext)
+    {
+        $this->securityContext = $securityContext;
+        return $this;
+    }
 
     /**
      * Create an entity
@@ -378,11 +437,41 @@ class UserManager extends AbstractUserManager
      */
     protected function saveEntity($entity, $andFlush = true)
     {
-        $om = $this->objectManager;
-        $om->persist($entity);
+        if ($this->objectManager->getUnitOfWork()->getEntityState($entity) == \Doctrine\ORM\UnitOfWork::STATE_NEW) {
+            return $this->createEntity($entity, $andFlush);
+        } else {
+            $em = $this->objectManager;
+            $em->persist($entity);
 
-        if ($andFlush) {
-            $om->flush();
+            if ($andFlush) {
+                $em->flush();
+            }
+        }
+    }
+
+    /**
+     * Preload acls for entities
+     *
+     * @param Collection $entities
+     */
+    protected function loadAcls($entities)
+    {
+        $aclCollectionCache = $this->getAclCollectionCache();
+
+        try {
+            if ($aclCollectionCache) {
+
+                $sortedEntities = array();
+                foreach ($entities as $entity) {
+                    $sortedEntities[get_class($entity)][] = $entity;
+                }
+
+                foreach ($sortedEntities as $entitiesGroup) {
+                    $aclCollectionCache->cache($entitiesGroup);
+                }
+            }
+        } catch (\Symfony\Component\Security\Acl\Exception\NotAllAclsFoundException $e) {
+            // At least we tried...
         }
     }
 }

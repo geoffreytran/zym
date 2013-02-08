@@ -17,11 +17,14 @@ use Zym\Bundle\FrameworkBundle\Model\PageableRepositoryInterface;
 
 use Symfony\Component\Security\Core\SecurityContextInterface;
 use Symfony\Component\Security\Acl\Domain\ObjectIdentity;
+use Symfony\Component\Security\Acl\Domain\AclCollectionCache;
 use Symfony\Component\Security\Acl\Model\MutableAclProviderInterface;
 use Symfony\Component\Security\Acl\Exception\AclAlreadyExistsException;
 
 use Doctrine\Common\Persistence\ObjectManager;
 use Doctrine\Common\Persistence\ObjectRepository;
+
+use Doctrine\Common\Collections\Collection;
 
 use Doctrine\ORM\Mapping as ORM;
 use Doctrine\ORM\EntityManager;
@@ -66,6 +69,13 @@ abstract class AbstractEntityManager
     protected $aclProvider;
 
     /**
+     * Acl Collection Cache
+     *
+     * @var AclCollectionCache
+     */
+    protected $aclCollectionCache;
+
+    /**
      * Security Context
      *
      * @var SecurityContextInterface
@@ -75,21 +85,22 @@ abstract class AbstractEntityManager
     /**
      * Construct
      *
-     * @param ORM\EntityManager $entityManager
+     * @param ObjectManager $objectManager
      * @param string $class
      * @param PaginatorAdapter $paginatorAdapter
      * @param MutableAclInterface $aclProvider
      * @param SecurityContextInterface $securityContext
      */
-    public function __construct(EntityManager $entityManager, $class,
+    public function __construct(ObjectManager $objectManager, $class,
                                 Paginator $paginator,
                                 MutableAclProviderInterface $aclProvider,
-                                SecurityContextInterface $securityContext = null)
+                                SecurityContextInterface $securityContext = null,
+                                AclCollectionCache $aclCollectionCache = null)
     {
-        $this->setEntityManager($entityManager);
-        $this->setRepository($entityManager->getRepository($class));
+        $this->setObjectManager($objectManager);
+        $this->setRepository($objectManager->getRepository($class));
 
-        $metadata    = $entityManager->getClassMetadata($class);
+        $metadata    = $objectManager->getClassMetadata($class);
         $this->class = $metadata->name;
 
         if ($this->getRepository() instanceof PageableRepositoryInterface) {
@@ -100,6 +111,10 @@ abstract class AbstractEntityManager
 
         if ($securityContext) {
             $this->setSecurityContext($securityContext);
+        }
+
+        if ($aclCollectionCache) {
+            $this->setAclCollectionCache($aclCollectionCache);
         }
     }
 
@@ -123,6 +138,18 @@ abstract class AbstractEntityManager
     public function getObjectManager()
     {
         return $this->entityManager;
+    }
+
+    /**
+     * Set the object manager
+     *
+     * @param ObjectManager $objectManager
+     * @return AbstractEntityManager
+     */
+    protected function setObjectManager(ObjectManager $objectManager)
+    {
+        $this->objectManager = $objectManager;
+        return $this;
     }
 
     /**
@@ -202,6 +229,28 @@ abstract class AbstractEntityManager
     }
 
     /**
+     * Get the acl collection cache
+     *
+     * @return AclCollectionCache
+     */
+    public function getAclCollectionCache()
+    {
+        return $this->aclCollectionCache;
+    }
+
+    /**
+     * Set the acl collection cache
+     *
+     * @param AclCollectionCache $aclCollectionCache
+     * @return AbstractEntityManager
+     */
+    public function setAclCollectionCache(AclCollectionCache $aclCollectionCache)
+    {
+        $this->aclCollectionCache = $aclCollectionCache;
+        return $this;
+    }
+
+    /**
      * Get the security context
      *
      * @return SecurityContextInterface
@@ -232,7 +281,7 @@ abstract class AbstractEntityManager
     protected function createEntity($entity)
     {
         // Persist
-        $em = $this->entityManager;
+        $em = $this->objectManager;
 
         $em->beginTransaction();
 
@@ -269,7 +318,7 @@ abstract class AbstractEntityManager
     protected function deleteEntity($entity)
     {
         // Persist
-        $em = $this->entityManager;
+        $em = $this->objectManager;
 
         $em->beginTransaction();
 
@@ -300,11 +349,46 @@ abstract class AbstractEntityManager
      */
     protected function saveEntity($entity, $andFlush = true)
     {
-        $em = $this->entityManager;
-        $em->persist($entity);
+        if ($this->objectManager->getUnitOfWork()->getEntityState($entity) == \Doctrine\ORM\UnitOfWork::STATE_NEW) {
+            return $this->createEntity($entity, $andFlush);
+        } else {
+            $em = $this->objectManager;
+            $em->persist($entity);
 
-        if ($andFlush) {
-            $em->flush();
+            if ($andFlush) {
+                $em->flush();
+            }
+        }
+    }
+
+    /**
+     * Preload acls for entities
+     *
+     * @param Collection $entities
+     */
+    protected function loadAcls($entities)
+    {
+        $aclCollectionCache = $this->getAclCollectionCache();
+
+        try {
+            if ($aclCollectionCache) {
+                $securityContext    = $this->getSecurityContext();
+
+                $sortedEntities = array();
+                foreach ($entities as $entity) {
+                    $sortedEntities[get_class($entity)][] = $entity;
+                }
+
+                foreach ($sortedEntities as $entitiesGroup) {
+                    if ($securityContext->getToken() !== null) {
+                        $aclCollectionCache->cache($entitiesGroup, array($securityContext->getToken()));
+                    } else {
+                        $aclCollectionCache->cache($entitiesGroup);
+                    }
+                }
+            }
+        } catch (\Symfony\Component\Security\Acl\Exception\NotAllAclsFoundException $e) {
+            // At least we tried...
         }
     }
 }

@@ -67,7 +67,7 @@ class MenuManager extends AbstractEntityManager
     {
         $this->saveEntity($menu, $andFlush);
     }
-    
+
     /**
      * Find a menu by criteria
      *
@@ -78,8 +78,8 @@ class MenuManager extends AbstractEntityManager
     {
         return $this->repository->findOneBy($criteria);
     }
-    
-    /** 
+
+    /**
      * Whether a menu exists
      *
      * @param array $criteria
@@ -89,7 +89,7 @@ class MenuManager extends AbstractEntityManager
     {
         return $this->repository->hasMenuBy($criteria);
     }
-    
+
     /**
      * Find all menus by criteria
      *
@@ -99,8 +99,10 @@ class MenuManager extends AbstractEntityManager
      * @param array $orderBy
      * @return PaginationInterface
      */
-    public function findMenus(array $criteria = null, $page = 1, $limit = 10,array $orderBy = null)
+    public function findMenus(array $criteria = null, $page = 1, $limit = 10, array $orderBy = null)
     {
-        return $this->repository->findMenus($criteria, $page, $limit, $orderBy);
+        $entities = $this->repository->findMenus($criteria, $page, $limit, $orderBy);
+        $this->loadAcls($entities);
+        return $entities;
     }
 }
