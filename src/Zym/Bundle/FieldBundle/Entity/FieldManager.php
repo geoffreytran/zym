@@ -58,7 +58,7 @@ class FieldManager extends AbstractEntityManager
     {
         parent::saveEntity($field, $andFlush);
     }
-    
+
     /**
      * Save a field
      *
@@ -67,21 +67,21 @@ class FieldManager extends AbstractEntityManager
      */
     public function saveFields($fields, $andFlush = true)
     {
-        $em = $this->entityManager;
-        
+        $em = $this->objectManager;
+
         if ($fields instanceof FieldableInterface) {
             $fields = $fields->getFields();
         }
-        
+
         foreach ($fields as $field) {
             if ($field instanceof \ArrayAccess || is_array($field)) {
                 $this->saveFields($field, false);
                 continue;
             }
-            
+
             $this->saveField($field, false);
         }
-        
+
         if ($andFlush) {
             $em->flush();
         }
@@ -96,7 +96,7 @@ class FieldManager extends AbstractEntityManager
     {
         parent::deleteEntity($field);
     }
-    
+
     /**
      * Find fields
      *
@@ -108,7 +108,7 @@ class FieldManager extends AbstractEntityManager
      */
     public function findFields(array $criteria = null, $page = 1, $limit = 50, array $orderBy = null)
     {
-        return $this->repository->findFields($critera, $page, $limit, $orderBy);
+        return $this->repository->findFields($criteria, $page, $limit, $orderBy);
     }
 
     /**

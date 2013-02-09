@@ -21,6 +21,7 @@
             <argument>%fos_user.model.user.class%</argument>
             <argument type="service" id="knp_paginator" strict="false"  />
             <argument type="service" id="security.acl.provider" on-invalid="ignore" />
+            <argument type="service" id="security.acl.collection_cache" on-invalid="ignore" />
         </service>
 
         <service id="zym_user.group_manager.default" class="%zym_user.group_manager.default.class%" public="false">
@@ -28,6 +29,8 @@
             <argument>%fos_user.model.group.class%</argument>
             <argument type="service" id="knp_paginator" strict="false"  />
             <argument type="service" id="security.acl.provider" on-invalid="ignore" />
+            <argument type="service" id="security.context" on-invalid="ignore" />
+            <argument type="service" id="security.acl.collection_cache" on-invalid="ignore" />
         </service>
     </services>
 </container>

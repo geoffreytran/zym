@@ -44,14 +44,13 @@ class LoadMenuData extends AbstractFixture
         $menu->setName('main');
         $menu->setLabel('Main Menu');
         $menu->setDescription('The Main menu\'s links drive the main navigation structure for your site, and are often displayed prominently across the top or side of the site.');
+        $menuManager->createMenu($menu);
 
         $menuItem = new Entity\MenuItem\StaticMenuItem('home', $menuFactory);
         $menuItem->setLabel('Home');
         $menuItem->setUri('/');
         $menu->addChild($menuItem);
-
-        $menuManager->createMenu($menu);
-        $menuManager->saveMenu($menu);
+        $menuItemManager->createMenuItem($menuItem);
 
         // Management Menu
         $menu = new Entity\Menu();
@@ -66,7 +65,6 @@ class LoadMenuData extends AbstractFixture
         $menuItem->setUri('/');
         $menu->addChild($menuItem);
         $menuItemManager->createMenuItem($menuItem);
-
 
         $menuItem = new Entity\MenuItem\RoutedMenuItem('content', $menuFactory);
         $menuItem->setLabel('Content');
@@ -94,13 +92,11 @@ class LoadMenuData extends AbstractFixture
         $menuItem->setRouteParameters(array('id' => $menuItem->getId()));
         $menuItemManager->saveMenuItem($menuItem);
 
-
             $cMenuItem = new Entity\MenuItem\RoutedMenuItem('content-types', $menuFactory);
             $cMenuItem->setLabel('Content Types');
             $cMenuItem->setRoute('zym_node_node_types');
             $menuItem->addChild($cMenuItem);
             $menuItemManager->createMenuItem($cMenuItem);
-
 
             $cMenuItem = new Entity\MenuItem\RoutedMenuItem('menus', $menuFactory);
             $cMenuItem->setLabel('Menus');

@@ -22,12 +22,22 @@ class AnnotatedRouteControllerLoader extends BaseAnnotatedRouteControllerLoader
     protected function configureRoute(Route $route, \ReflectionClass $class, \ReflectionMethod $method, $annot)
     {
         parent::configureRoute($route, $class, $method, $annot);
-        
-        $pattern = $route->getPattern();
-        if (!empty($pattern) && '/' === $pattern[0] && isset($pattern[1]) && '.' === $pattern[1]) {
-            $r = new \ReflectionProperty('Symfony\Component\Routing\Route', 'pattern');
-            $r->setAccessible(true);
-            $r->setValue($route, substr($pattern, 1));
+
+        // Symfony 2.1.x
+        if (!method_exists($route, 'getPath')) {
+            $pattern = $route->getPattern();
+            if (!empty($pattern) && '/' === $pattern[0] && isset($pattern[1]) && '.' === $pattern[1]) {
+                $r = new \ReflectionProperty('Symfony\Component\Routing\Route', 'pattern');
+                $r->setAccessible(true);
+                $r->setValue($route, substr($pattern, 1));
+            }
+        } else {
+            $path = $route->getPath();
+            if (!empty($path) && '/' === $path[0] && isset($path[1]) && '.' === $path[1]) {
+                $r = new \ReflectionProperty('Symfony\Component\Routing\Route', 'path');
+                $r->setAccessible(true);
+                $r->setValue($route, substr($path, 1));
+            }
         }
     }
 }

@@ -11,7 +11,7 @@ use Symfony\Component\OptionsResolver\OptionsResolverInterface;
 
 
 class AclSecurityIdentityEntityType extends AbstractType
-{   
+{
     /**
      * Build form
      *
@@ -19,20 +19,20 @@ class AclSecurityIdentityEntityType extends AbstractType
      * @param array $options
      */
     public function buildForm(FormBuilderInterface $builder, array $options)
-    {      
+    {
         if ($options['multiple']) {
             $builder->addEventListener(FormEvents::BIND_NORM_DATA, function(Event $event) use ($options){
                 $event->stopPropagation();
             }, 4);
         }
 
-        $builder->resetClientTransformers();
+        $builder->resetViewTransformers();
 
         if ($options['multiple']) {
-            $builder->appendClientTransformer(new AclSecurityIdentityToArrayTransformer($options['choice_list']));  
+            $builder->addViewTransformer(new AclSecurityIdentityToArrayTransformer($options['choice_list']));
         } else {
-            $builder->appendClientTransformer(new AclSecurityIdentityToStringTransformer($options['choice_list']));  
-        }     
+            $builder->addViewTransformer(new AclSecurityIdentityToStringTransformer($options['choice_list']));
+        }
     }
 
     public function setDefaultOptions(OptionsResolverInterface $resolver)

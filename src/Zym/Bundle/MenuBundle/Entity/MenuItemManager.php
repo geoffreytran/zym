@@ -77,7 +77,18 @@ class MenuItemManager extends AbstractEntityManager
      */
     public function findRootMenuItemsByMenu(Menu $menu, array $criteria = null, array $orderBy = null)
     {
-        return $this->repository->findRootMenuItemsByMenu($menu, $criteria, $orderBy);
+        $entities = $this->repository->findRootMenuItemsByMenu($menu, $criteria, $orderBy);
+
+        $allEntities = array();
+        foreach ($entities as $entity) {
+            $allEntities[] = $entity;
+            foreach ($entity->getChildren() as $entity) {
+                $allEntities[] = $entity;
+            }
+        }
+        $this->loadAcls($allEntities);
+
+        return $entities;
     }
 
     /**

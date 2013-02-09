@@ -65,7 +65,9 @@ class MediaManager extends AbstractEntityManager implements MediaManagerInterfac
      */
     public function findMedias(array $criteria = null, $page = 1, $limit = 50, array $orderBy = null)
     {
-        return $this->repository->findMedias($criteria, $page, $limit, $orderBy);
+        $entities = $this->repository->findMedias($criteria, $page, $limit, $orderBy);
+        $this->loadAcls($entities);
+        return $entities;
     }
 
     /**

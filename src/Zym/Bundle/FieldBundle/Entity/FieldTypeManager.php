@@ -84,7 +84,7 @@ class FieldTypeManager extends AbstractEntityManager
      */
     public function findFieldTypes(array $criteria = null, $page = 1, $limit = 50, array $orderBy = null)
     {
-        return $this->repository->findFieldTypes($critera, $page, $limit, $orderBy);
+        return $this->repository->findFieldTypes($criteria, $page, $limit, $orderBy);
     }
 
     /**

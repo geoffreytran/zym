@@ -14,7 +14,6 @@ namespace Zym\Bundle\UserBundle\Controller;
 
 use Zym\Bundle\UserBundle\Form,
     Zym\Bundle\UserBundle\Entity,
-    Zym\Bundle\CMSBundle\Entity\AuditLog,
     Symfony\Bundle\FrameworkBundle\Controller\Controller,
     Symfony\Component\Security\Acl\Domain\ObjectIdentity,
     JMS\SecurityExtraBundle\Annotation\Secure,
@@ -68,6 +67,15 @@ class UsersController extends Controller
      * @Template()
      */
     public function createAction()
+    {
+        return $this->forward('ZymUserBundle:Users:add');
+    }
+
+    /**
+     * @Route("/add", name="zym_user_users_add")
+     * @Template()
+     */
+    public function addAction()
     {
         $securityContext = $this->get('security.context');
 

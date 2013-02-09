@@ -13,7 +13,7 @@
     <div class="btn-toolbar">
         <div class="btn-group">
             {% if is_granted('CREATE', ['class', 'Zym\\Bundle\\UserBundle\\Entity\\User']) %}
-            <a class="btn" href="{{ path('zym_user_users_create') }}">
+            <a class="btn" href="{{ path('zym_user_users_add') }}">
                 <i class="icon-plus"></i>
                 {{ 'Add User' | trans({}, 'ZymUserBundle') }}
             </a>
