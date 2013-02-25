@@ -56,27 +56,43 @@
     <div class="row-fluid">
         <div class="span6">
             <h2>Information</h2>
-            <ul>
-                <li>Size : {{ media.size }}</li>
-                <li>Width : {{ media.width }}</li>
-                <li>Height : {{ media.height }}</li>
-                <li>Content Type : {{ media.contentType }}</li>
-                <li>Copyright : {{ media.copyright }}</li>
-                <li>Author name : {{ media.authorName }}</li>
-                <li>CDN : {% if media.isCdnFlushable %}to be flushed{% else %} last flush at {{ media.cdnFlushedAt|date}} {% endif %}</li>
-            </ul>
 
-            <ul>
+            <dl class="dl-horizontal">
+                <dt>Size</dt>
+                <dd><abbr title="{{ media.size |e }}">{{ media.humanSize |e }}</a></dd>
+
+                <dt>Width</dt>
+                <dd>{{ media.width |e }}px</dd>
+
+                <dt>Height</dt>
+                <dd>{{ media.height |e }}px</dd>
+
+                <dt>Content Type</dt>
+                <dd>{{ media.contentType |e }}</dd>
+
+                <dt>Author Name</dt>
+                <dd>{{ (media.AuthorName ?: 'Not Specified' |trans({}, 'ZymMediaBundle')) |e }}</dd>
+
+                <dt>Copyright</dt>
+                <dd>{{ (media.copyright ?: 'Not Specified' |trans({}, 'ZymMediaBundle')) |e }}</dd>
+
+                <dt>CDN</dt>
+                <dd>{% if media.isCdnFlushable %}to be flushed{% else %} last flush at {{ media.cdnFlushedAt|date}} {% endif %}</dd>
+            </dl>
+
+            <h3>Metadata</h3>
+            <dl class="dl-horizontal">
                 {% for name, value in media.providerMetadata %}
-                    <li>{{ name |e }}: {{ value |e }}</li>
+                    <dt>{{ name |e }}</dt>
+                    <dd>{{ value |e }}</dd>
                 {% endfor %}
-            </ul>
+            </dl>
 
             <h2>Formats</h2>
-            <ul>
+            <ul class="nav nav-tabs nav-stacked">
                 <li><a href="{{ url('zym_media_download', { 'id' : media.id, 'format' : 'reference'}) }}">reference</a></li>
                 {% for name, format in formats %}
-                    <li><a href="{{ url('zym_media_download', { 'id' : media.id, 'format' : name}) }}">{{ name }}</a></li>
+                    <li><a href="{{ url('zym_media_download', { 'id' : media.id, 'format' : name}) }}">{{ name |e}}</a></li>
                 {% endfor %}
             </ul>
         </div>
@@ -84,8 +100,11 @@
         <div class="span6">
             <div class="thumbnail">
                 {{ media(media) }}
-                <h3>{{ media.name |e }}</h3>
-                <p>{{ media.description |e | nl2br }}</p>
+
+                <div class="caption">
+                    <h3>{{ media.name |e }}</h3>
+                    <p>{{ media.description |e | nl2br }}</p>
+                </div>
             </div>
         </div>
     </div>

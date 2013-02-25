@@ -80,7 +80,7 @@ class GroupsController extends Controller
 
         $request = $this->get('request');
         if ($request->getMethod() == 'POST') {
-            $form->bindRequest($request);
+            $form->bind($request);
 
             if ($form->isValid()) {
                 $groupManager = $this->get('fos_user.group_manager');
@@ -145,7 +145,7 @@ class GroupsController extends Controller
 
         $request = $this->get('request');
         if ($request->getMethod() == 'POST') {
-            $form->bindRequest($request);
+            $form->bind($request);
 
             if ($form->isValid()) {
                 $groupManager = $this->get('fos_user.group_manager');
@@ -189,7 +189,7 @@ class GroupsController extends Controller
 
         $request = $this->get('request');
         if ($request->getMethod() == 'POST') {
-            $form->bindRequest($request);
+            $form->bind($request);
 
             if ($form->isValid()) {
                 $groupManager = $this->get('fos_user.group_manager');

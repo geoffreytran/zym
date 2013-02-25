@@ -10,15 +10,17 @@
                 <small>{{ 'Select a content type' |trans({}, 'ZymNodeBundle') }}</small>
             </h1>
         </div>
-        
+
         {% if nodeTypes|length %}
-        <ul>
+        <ul class="nav nav-tabs nav-stacked">
             {% for nodeType in nodeTypes %}
             <li>
-                <a href="{{ path('zym_nodes_add', { 'type': nodeType.type }) }}">{{ nodeType.name }}</a>
-                <div class="description">
-                    {{ nodeType.description | raw }}
-                </div>
+                <a href="{{ path('zym_nodes_add', { 'type': nodeType.type }) }}">
+                    {{ nodeType.name }}
+                    <span class="muted">
+                        {{ nodeType.description | raw }}
+                    </span>
+                </a> 
             </li>
             {% endfor %}
         </ul>
@@ -26,16 +28,14 @@
         <p>No content types have been defined.</p>
         {% endif %}
     {% endif %}
-    
-    
-    
+
     {% if form is defined %}
     <div class="page-header">
         <h1>
             {{ 'Add Content' |trans({}, 'ZymNodeBundle') }}
             <small>{{ nodeType.name |trans({}, 'ZymNodeBundle') }}</small>
         </h1>
-        
+
         <div class="description">
             {{ nodeType.description | raw }}
         </div>
@@ -47,7 +47,7 @@
     {{ form_errors(form) }}
     <form class="form-horizontal" action="" method="post" {{ form_enctype(form) }}>
         {{ form_rest(form) }}
-    
+
         <fieldset class="form-actions">
             <button class="btn btn-primary" type="submit">{{ 'Create' | trans({}, 'ZymNodeBundle') }}</button>
             <button class="btn" type="button" onclick="history.back();">{{ 'Cancel' | trans({}, 'ZymNodeBundle') }}</button>

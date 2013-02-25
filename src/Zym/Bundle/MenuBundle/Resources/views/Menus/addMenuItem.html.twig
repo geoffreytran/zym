@@ -23,7 +23,7 @@
     <form class="form-horizontal" action="" method="post" {{ form_enctype(form) }}>
         {{ form_rest(form) }}
         {{ form_row(form.parent, { 'empty_value': '---' }) }}
-        
+
         <fieldset class="form-actions">
             <button class="btn btn-primary" type="submit">{{ 'Create' | trans({}, 'ZymMenuBundle') }}</button>
             <button class="btn" onclick="history.go(-2);">{{ 'Cancel' | trans({}, 'ZymMenuBundle') }}</button>
@@ -31,6 +31,11 @@
     </form>
     {% else %}
     <ul>
+        <li>
+            <a href="{{ path('zym_menus_item_add', { 'id': menu.name, 'type': 'section'}) }}">
+                {{ 'Section Menu Item' | trans({}, 'ZymMenuBundle') }}
+            </a>
+        </li>
         <li>
             <a href="{{ path('zym_menus_item_add', { 'id': menu.name, 'type': 'routed'}) }}">
                 {{ 'Routed Menu Item' | trans({}, 'ZymMenuBundle') }}

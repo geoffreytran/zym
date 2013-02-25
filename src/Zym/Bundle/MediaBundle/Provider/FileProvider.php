@@ -108,7 +108,9 @@ class FileProvider extends AbstractProvider
 
     public function buildMediaType(FormBuilderInterface $builder)
     {
-        $builder->add('binaryContent', 'file');
+        $builder->add('binaryContent', 'file', array(
+            'label' => 'File'
+        ));
     }
 
     /**

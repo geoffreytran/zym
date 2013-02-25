@@ -79,7 +79,7 @@ class AclRolesController extends Controller
 
         $request = $this->get('request');
         if ($request->getMethod() == 'POST') {
-            $form->bindRequest($request);
+            $form->bind($request);
 
             if ($form->isValid()) {
                 $roleManager = $this->get('zym_security.acl_security_identity_manager');
@@ -112,7 +112,7 @@ class AclRolesController extends Controller
 
         $request = $this->get('request');
         if ($request->getMethod() == 'POST') {
-            $form->bindRequest($request);
+            $form->bind($request);
 
             if ($form->isValid()) {
                 $roleManager = $this->get('zym_role.role_manager');
@@ -170,7 +170,7 @@ class AclRolesController extends Controller
         $request     = $this->get('request');
         
         if ($request->getMethod() == 'POST') {
-            $form->bindRequest($request);
+            $form->bind($request);
 
             if ($form->isValid()) {
                 $roleManager->deleteAclSecurityIdentity($role);

@@ -37,7 +37,7 @@ class ThemeRulesController extends Controller
 {
     /**
      * @Route(
-     *     "/", name="zym_theme_theme_rules")
+     *     "", name="zym_theme_theme_rules")
      * @Template()
      */
     public function listAction()
@@ -74,7 +74,7 @@ class ThemeRulesController extends Controller
 
         $request = $this->get('request');
         if ($request->getMethod() == 'POST') {
-            $form->bindRequest($request);
+            $form->bind($request);
 
             if ($form->isValid()) {
                 $themeRuleManager = $this->get('zym_theme.theme_rule_manager');
@@ -106,7 +106,7 @@ class ThemeRulesController extends Controller
 
         $request = $this->get('request');
         if ($request->getMethod() == 'POST') {
-            $form->bindRequest($request);
+            $form->bind($request);
 
             if ($form->isValid()) {
                 $themeRuleManager = $this->get('zym_theme.theme_rule_manager');
@@ -164,7 +164,7 @@ class ThemeRulesController extends Controller
         $request     = $this->get('request');
 
         if ($request->getMethod() == 'POST') {
-            $form->bindRequest($request);
+            $form->bind($request);
 
             if ($form->isValid()) {
                 $themeRuleManager->deleteThemeRule($themeRule);

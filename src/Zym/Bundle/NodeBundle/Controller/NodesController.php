@@ -97,12 +97,14 @@ class NodesController extends Controller
      *     "/add.{_format}/{type}",
      *     name="zym_nodes_add",
      *     defaults={
-     *         "type" = null,
+     *         "type" = false,
      *         "_format" = "html"
      *     }
      * )
      * @Template()
      * @SecureParam(name="nodeType", permissions="VIEW")
+     *
+     * @ParamConverter(name="nodeType", options={"id": "type"})
      */
     public function addAction(Entity\NodeType $nodeType = null)
     {
@@ -120,7 +122,7 @@ class NodesController extends Controller
 
             $request = $this->get('request');
             if ($request->getMethod() == 'POST') {
-                $form->bindRequest($request);
+                $form->bind($request);
 
                 if ($form->isValid()) {
                     $nodeManager = $this->get('zym_node.node_manager');
@@ -161,7 +163,7 @@ class NodesController extends Controller
 
         $request = $this->get('request');
         if ($request->getMethod() == 'POST') {
-            $form->bindRequest($request);
+            $form->bind($request);
 
             if ($form->isValid()) {
                 $nodeManager = $this->get('zym_node.node_manager');
@@ -218,7 +220,7 @@ class NodesController extends Controller
         $request     = $this->get('request');
 
         if ($request->getMethod() == 'POST') {
-            $form->bindRequest($request);
+            $form->bind($request);
 
             if ($form->isValid()) {
                 $nodeManager->deleteNode($node);

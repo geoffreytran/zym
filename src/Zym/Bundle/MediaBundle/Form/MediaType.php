@@ -37,10 +37,34 @@ class MediaType extends AbstractType
             'context'  => $options['context'],
         )));
 
-        $builder->add('name');
-        $builder->add('description');
-        $builder->add('authorName');
-        $builder->add('copyright');
+        $builder->add('name', 'text', array(
+            'help_inline' => 'Name to call this item.',
+            'attr' => array(
+                'class' => 'input-block-level'
+            )
+        ));
+
+        $builder->add('description', 'textarea', array(
+            'help_inline' => 'A short description of the item.',
+            'attr' => array(
+                'class' => 'input-block-level'
+            ),
+            'required' => false
+        ));
+
+        $builder->add('authorName', 'text', array(
+            'attr' => array(
+                'class' => 'input-block-level'
+            ),
+            'required' => false
+        ));
+
+        $builder->add('copyright', 'text', array(
+            'attr' => array(
+                'class' => 'input-block-level'
+            ),
+            'required' => false
+        ));
 
         $this->mediaPool->getProvider($options['provider'])->buildMediaType($builder);
     }

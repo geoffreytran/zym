@@ -407,6 +407,23 @@ abstract class AbstractMedia implements MediaInterface
         return $this->size;
     }
 
+    public function getHumanSize()
+    {
+        if ($this->size >= 1073741824) {
+            return round($this->size / 1073741824, 2) . ' GB';
+        }
+
+        if ($this->size >= 1048576) {
+            return round($this->size / 1048576, 2) . ' MB';
+        }
+
+        if ($this->size >= 1024) {
+            return round($this->size / 1024, 0) . ' KB';
+        }
+
+        return $this->size . ' B';
+    }
+
     /**
      * {@inheritdoc}
      */

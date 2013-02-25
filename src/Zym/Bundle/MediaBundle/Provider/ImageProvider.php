@@ -9,6 +9,8 @@ use Zym\Bundle\MediaBundle\Thumbnail\ThumbnailInterface;
 use Zym\Bundle\MediaBundle\Model\MediaInterface;
 use Imagine\Image\ImagineInterface;
 
+use Symfony\Component\Form\FormBuilderInterface;
+
 class ImageProvider extends FileProvider
 {
     /**
@@ -33,11 +35,19 @@ class ImageProvider extends FileProvider
      * @param array                                            $allowedMimeTypes
      * @param \Imagine\Image\ImagineInterface                  $adapter
      */
-    public function __construct($name, Filesystem $filesystem, CDNInterface $cdn, GeneratorInterface $pathGenerator, ThumbnailInterface $thumbnail, array $allowedExtensions = array(), array $allowedMimeTypes = array(), ImagineInterface $adapter)
+    public function __construct($name, Filesystem $filesystem, CDNInterface $cdn, GeneratorInterface $pathGenerator, ThumbnailInterface $thumbnail, array $allowedExtensions = array(), array $allowedMimeTypes = array(), ImagineInterface $adapter = null)
     {
         parent::__construct($name, $filesystem, $cdn, $pathGenerator, $thumbnail, $allowedExtensions, $allowedMimeTypes);
 
         $this->imagineAdapter = $adapter;
+    }
+
+
+    public function buildMediaType(FormBuilderInterface $builder)
+    {
+        $builder->add('binaryContent', 'file', array(
+            'label' => 'Image File'
+        ));
     }
 
     /**

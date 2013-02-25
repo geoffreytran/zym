@@ -14,47 +14,47 @@ class PermissionMaskType extends AbstractType
      */
     public function buildForm(FormBuilderInterface $builder, array $options)
     {
-        $builder->appendClientTransformer(new PermissionMaskTransformer());
+        $builder->addViewTransformer(new PermissionMaskTransformer());
 
         $builder->add('view', 'checkbox', array(
-                    'label'    => 'View',
-                    'help_inline' => 'Whether someone is allowed to view the domain object.',
-                    'required' => false
+                    'label'       => 'View',
+                    'help_block' => 'Whether someone is allowed to view the domain object.',
+                    'required'    => false
                 ))
                 ->add('create', 'checkbox', array(
-                    'label' => 'Create',
-                    'help_inline' => 'Whether someone is allowed to create the domain object.',
-                    'required' => false
+                    'label'       => 'Create',
+                    'help_block' => 'Whether someone is allowed to create the domain object.',
+                    'required'    => false
                 ))
                 ->add('edit', 'checkbox', array(
-                    'label' => 'Edit',
-                    'help_inline' => 'Whether someone is allowed to make changes to the domain object.',
-                    'required' => false
+                    'label'       => 'Edit',
+                    'help_block' => 'Whether someone is allowed to make changes to the domain object.',
+                    'required'    => false
                 ))
                 ->add('delete', 'checkbox', array(
-                    'label' => 'Delete',
-                    'help_inline' => 'Whether someone is allowed to delete the domain object.',
-                    'required' => false
+                    'label'       => 'Delete',
+                    'help_block' => 'Whether someone is allowed to delete the domain object.',
+                    'required'    => false
                 ))
                 ->add('undelete', 'checkbox', array(
-                    'label' => 'Undelete',
-                    'help_inline' => 'Whether someone is allowed to restore a previously deleted domain object.',
-                    'required' => false
+                    'label'       => 'Undelete',
+                    'help_block' => 'Whether someone is allowed to restore a previously deleted domain object.',
+                    'required'    => false
                 ))
                 ->add('operator', 'checkbox', array(
-                    'label' => 'Operator',
-                    'help_inline' => 'Whether someone is allowed to perform all of the above actions.',
-                    'required' => false
+                    'label'       => 'Operator',
+                    'help_block' => 'Whether someone is allowed to perform all of the above actions.',
+                    'required'    => false
                 ))
                 ->add('master', 'checkbox', array(
-                    'label' => 'Master',
-                    'help_inline' => 'Whether someone is allowed to perform all of the above actions, and in addition is allowed to grant any of the above permissions to others.',
-                    'required' => false
+                    'label'       => 'Master',
+                    'help_block' => 'Whether someone is allowed to perform all of the above actions, and in addition is allowed to grant any of the above permissions to others.',
+                    'required'    => false
                 ))
                 ->add('iddqd', 'checkbox', array(
-                    'label' => 'IDDQD',
-                    'help_inline' => 'Whether someone owns the domain object. An owner can perform any of the above actions and grant master and owner permissions.',
-                    'required' => false
+                    'label'       => 'IDDQD',
+                    'help_block' => 'Whether someone owns the domain object. An owner can perform any of the above actions and grant master and owner permissions.',
+                    'required'    => false
                 ));
     }
 

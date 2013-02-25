@@ -1,0 +1,60 @@
+{% extends "ZymRouterBundle::layout.html.twig" %}
+
+{% block title %}{{ 'Viewing Route' | trans({}, 'ZymRouterBundle') }}{% endblock %}
+
+{% block content %}
+    <div class="page-header">
+        <h1>
+            {{ 'Viewing Route' | trans({}, 'ZymRouterBundle') |e }}
+            <small>{{ route.name | trans({}, 'ZymRouterBundle') |e }}</small>
+        </h1>
+    </div>
+
+    <div class="btn-toolbar">
+        <div class="btn-group">
+            <a class="btn" href="javascript: history.back();">
+                <i class="icon-arrow-left"></i>
+                {{ 'Back' | trans({}, 'ZymRouterBundle') }}
+            </a>
+        </div>
+
+        <div class="btn-group">
+            {% if is_granted('EDIT', route) %}
+            <a class="btn" href="{{ path('zym_router_routes_edit', { 'name': route.name }) }}">
+                <i class="icon-edit"></i>
+                {{ 'Edit' | trans({}, 'ZymRouterBundle') }}
+            </a>
+            {% endif %}
+
+            <a class="btn dropdown-toggle" data-toggle="dropdown" href="#">
+                <span class="caret"></span>
+            </a>
+
+            <ul class="dropdown-menu">
+                {% if is_granted('DELETE', route) %}
+                <li>
+                    <a href="{{ path('zym_router_routes_delete', { 'name': route.name }) }}" data-toggle="ajax-modal">
+                        <i class="icon-remove"></i>
+                        {{ 'Delete' | trans({}, 'ZymRouterBundle') }}
+                    </a>
+                </li>
+                {% endif %}
+            </ul>
+        </div>
+
+        <div class="btn-group">
+            <a class="btn" href="{{ path('zym_security_acl_object_aces', { 'type': 'Zym\\Bundle\\RouterBundle\\Entity\\Route', 'identifier': route.objectIdentifier }) }}">
+                <i class="icon-lock"></i>
+                {{ 'Permissions' | trans({}, 'ZymRouterBundle') }}
+            </a>
+        </div>
+    </div>
+
+    <h2>JSON Data</h2>
+    <pre>
+        {{- route.value | json_encode |e -}}
+    </pre>
+    
+    <h2>Interpreted</h2>
+    {% debug route.value %}
+{% endblock content %}

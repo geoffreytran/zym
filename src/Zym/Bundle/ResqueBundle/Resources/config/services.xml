@@ -1,0 +1,26 @@
+<?xml version="1.0" ?>
+
+<container xmlns="http://symfony.com/schema/dic/services"
+    xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+    xsi:schemaLocation="http://symfony.com/schema/dic/services http://symfony.com/schema/dic/services/services-1.0.xsd">
+
+    <parameters>
+        <parameter key="zym_resque.resque.class">Zym\Bundle\ResqueBundle\Resque</parameter>
+    </parameters>
+
+    <services>
+        <service id="zym_resque.resque" class="%zym_resque.resque.class%">
+            <argument type="collection">
+                <argument key="kernel.root_dir">%kernel.root_dir%</argument>
+                <argument key="kernel.debug">%kernel.debug%</argument>
+                <argument key="kernel.environment">%kernel.environment%</argument>
+            </argument>
+
+            <call method="setRedisConfiguration">
+                <argument>%zym_resque.resque.redis.host%</argument>
+                <argument>%zym_resque.resque.redis.port%</argument>
+                <argument>%zym_resque.resque.redis.database%</argument>
+            </call>
+        </service>
+    </services>
+</container>

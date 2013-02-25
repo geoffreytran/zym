@@ -6,27 +6,50 @@
     <div class="page-header">
         <h1>
             {{ menuItem.label | trans }}
-            <small></small>
+            <small>{{ menuItem.description | trans }}</small>
         </h1>
     </div>
 
-    <div class="row-fluid">
+    {% if menuItem.children |length %}
         {% for child in menuItem.children %}
-        <div class="span6">
-            {% if child.hasChildren %}
-            <h2><a href="{{ child.uri }}">{{ child.label }}</a></h2>
-
-            <ul class="nav nav-tabs nav-stacked">
-                {% for c in child.children %}
-                <li>
-                    <a href="{{ c.uri }}">{{ c.label }}</a>
-                </li>
-                {% endfor %}
-            </ul>
-            {% else %}
-            <a href="{{ child.uri }}">{{ child.label }}</a>
+            {% if loop.index0 is divisibleby(2) %}
+            <div class="row-fluid">
             {% endif %}
-        </div>
+
+                <div class="span6">
+                    {% if child.hasChildren %}
+                    <h2>
+                        <a href="{{ child.uri |e }}">{{ child.label |trans }}</a>
+                        <small>{{ child.description |trans }}</small>
+                    </h2>
+
+                    <ul class="nav nav-tabs nav-stacked">
+                        {% for c in child.children %}
+                        <li>
+                            <a href="{{ c.uri |e }}">
+                                {{ c.label |trans }}
+                                <small class="muted" style="display:block;">{{ c.description |trans }}</small>
+                            </a>
+                        </li>
+                        {% endfor %}
+                    </ul>
+                    {% else %}
+                    <ul class="nav nav-tabs nav-stacked">
+                        <li>
+                            <a href="{{ child.uri |e}}">
+                                {{ child.label |trans }}
+                                <small class="muted" style="display:block;">{{ child.description |trans }}</small>
+                            </a>
+                        </li>
+                    </ul>
+                    {% endif %}
+                </div>
+
+            {% if loop.index is divisibleby(2) or loop.last %}
+            </div>
+            {% endif %}
         {% endfor %}
-    </div>
+    {% else %}
+        <p>{{ 'Nothing Here...' |trans({}, 'ZymMenuBundle') }}</p>
+    {% endif %}
 {% endblock %}

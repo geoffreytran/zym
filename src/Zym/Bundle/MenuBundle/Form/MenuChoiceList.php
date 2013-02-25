@@ -3,9 +3,14 @@
 namespace Zym\Bundle\MenuBundle\Form;
 
 use Knp\Menu\ItemInterface;
+use Symfony\Component\HttpKernel\Kernel;
+
+use Symfony\Component\Form\Util\PropertyPath as DepPropertyPath;
+use Symfony\Component\PropertyAccess\PropertyPath;
+use Symfony\Component\PropertyAccess\PropertyAccess;
+
 use Symfony\Component\Form\Extension\Core\ChoiceList\ChoiceList;
 use Symfony\Bridge\Doctrine\Form\ChoiceList\EntityLoaderInterface;
-use Symfony\Component\Form\Util\PropertyPath;
 use Symfony\Component\Form\Exception\StringCastException;
 use Symfony\Component\Form\Exception\UnexpectedTypeException;
 use Symfony\Component\Form\Exception\InvalidPropertyException;
@@ -17,17 +22,17 @@ class MenuChoiceList extends ChoiceList
      * @var ObjectManager
      */
     private $em;
-    
+
     /**
      * @var string
      */
     private $class;
-    
+
     /**
      * @var \Doctrine\Common\Persistence\Mapping\ClassMetadata
      */
     private $classMetadata;
-    
+
     /**
      * Contains the query builder that builds the query for fetching the
      * entities
@@ -37,49 +42,49 @@ class MenuChoiceList extends ChoiceList
      * @var EntityLoaderInterface
      */
     private $entityLoader;
-    
+
     /**
      * The identifier field, if the identifier is not composite
      *
      * @var array
      */
     private $idField = null;
-    
+
     /**
      * Whether to use the identifier for index generation
      *
      * @var Boolean
      */
     private $idAsIndex = false;
-    
+
     /**
      * Whether to use the identifier for value generation
      *
      * @var Boolean
      */
     private $idAsValue = false;
-    
+
     /**
      * Whether the entities have already been loaded.
      *
      * @var Boolean
      */
     private $loaded = false;
-    
+
     /**
      * The property path used to obtain the choice label.
      *
      * @var PropertyPath
      */
     private $labelPath;
-    
+
     /**
      * The property path used for object grouping.
      *
      * @var PropertyPath
      */
     private $groupPath;
-    
+
     /**
      * Creates a new entity choice list.
      *
@@ -99,30 +104,36 @@ class MenuChoiceList extends ChoiceList
         $this->classMetadata = $manager->getClassMetadata($class);
         $this->class = $this->classMetadata->getName();
         $this->loaded = is_array($entities) || $entities instanceof \Traversable;
-    
+
         $identifier = $this->classMetadata->getIdentifierFieldNames();
-    
+
         if (1 === count($identifier)) {
             $this->idField = $identifier[0];
             $this->idAsValue = true;
-    
+
             if ('integer' === $this->classMetadata->getTypeOfField($this->idField)) {
                 $this->idAsIndex = true;
             }
         }
-    
+
         if (!$this->loaded) {
             // Make sure the constraints of the parent constructor are
             // fulfilled
             $entities = array();
         }
-    
-        $this->labelPath = $labelPath ? new PropertyPath($labelPath) : null;
-        $this->groupPath = $groupPath ? new PropertyPath($groupPath) : null;
-        
+
+        if (version_compare(Kernel::VERSION, '2.1') <= 0) {
+            $this->labelPath = $labelPath ? new DepPropertyPath($labelPath) : null;
+            $this->groupPath = $groupPath ? new DepPropertyPath($groupPath) : null;
+        } else {
+            $this->labelPath = $labelPath ? new PropertyPath($labelPath) : null;
+            $this->groupPath = $groupPath ? new PropertyPath($groupPath) : null;
+        }
+
+
         parent::__construct($entities, array(), array());
     }
-    
+
     /**
      * Returns the list of entities
      *
@@ -135,10 +146,10 @@ class MenuChoiceList extends ChoiceList
         if (!$this->loaded) {
             $this->load();
         }
-    
+
         return parent::getChoices();
     }
-    
+
     /**
      * Returns the values for the entities
      *
@@ -151,10 +162,10 @@ class MenuChoiceList extends ChoiceList
         if (!$this->loaded) {
             $this->load();
         }
-    
+
         return parent::getValues();
     }
-    
+
     /**
      * Returns the choice views of the preferred choices as nested array with
      * the choice groups as top-level keys.
@@ -168,10 +179,10 @@ class MenuChoiceList extends ChoiceList
         if (!$this->loaded) {
             $this->load();
         }
-    
+
         return parent::getPreferredViews();
     }
-    
+
     /**
      * Returns the choice views of the choices that are not preferred as nested
      * array with the choice groups as top-level keys.
@@ -185,10 +196,10 @@ class MenuChoiceList extends ChoiceList
         if (!$this->loaded) {
             $this->load();
         }
-    
+
         return parent::getRemainingViews();
     }
-    
+
     /**
      * Returns the entities corresponding to the given values.
      *
@@ -207,16 +218,16 @@ class MenuChoiceList extends ChoiceList
                 if (empty($values)) {
                     return array();
                 }
-    
+
                 return $this->entityLoader->getEntitiesByIds($this->idField, $values);
             }
-    
+
             $this->load();
         }
-    
+
         return parent::getChoicesForValues($values);
     }
-    
+
     /**
      * Returns the values corresponding to the given entities.
      *
@@ -231,27 +242,27 @@ class MenuChoiceList extends ChoiceList
         if (!$this->loaded) {
             // Optimize performance for single-field identifiers. We already
             // know that the IDs are used as values
-    
+
             // Attention: This optimization does not check choices for existence
             if ($this->idAsValue) {
                 $values = array();
-    
+
                 foreach ($entities as $entity) {
                     if ($entity instanceof $this->class) {
                         // Make sure to convert to the right format
                         $values[] = $this->fixValue(current($this->getIdentifierValues($entity)));
                     }
                 }
-    
+
                 return $values;
             }
-    
+
             $this->load();
         }
-    
+
         return parent::getValuesForChoices($entities);
     }
-    
+
     /**
      * Returns the indices corresponding to the given entities.
      *
@@ -266,27 +277,27 @@ class MenuChoiceList extends ChoiceList
         if (!$this->loaded) {
             // Optimize performance for single-field identifiers. We already
             // know that the IDs are used as indices
-    
+
             // Attention: This optimization does not check choices for existence
             if ($this->idAsIndex) {
                 $indices = array();
-    
+
                 foreach ($entities as $entity) {
                     if ($entity instanceof $this->class) {
                         // Make sure to convert to the right format
                         $indices[] = $this->fixIndex(current($this->getIdentifierValues($entity)));
                     }
                 }
-    
+
                 return $indices;
             }
-    
+
             $this->load();
         }
-    
+
         return parent::getIndicesForChoices($entities);
     }
-    
+
     /**
      * Returns the entities corresponding to the given values.
      *
@@ -300,18 +311,18 @@ class MenuChoiceList extends ChoiceList
     {
         if (!$this->loaded) {
             // Optimize performance for single-field identifiers.
-    
+
             // Attention: This optimization does not check values for existence
             if ($this->idAsIndex && $this->idAsValue) {
                 return $this->fixIndices($values);
             }
-    
+
             $this->load();
         }
-    
+
         return parent::getIndicesForValues($values);
     }
-    
+
     /**
      * Creates a new unique index for this entity.
      *
@@ -329,10 +340,10 @@ class MenuChoiceList extends ChoiceList
         if ($this->idAsIndex) {
             return current($this->getIdentifierValues($entity));
         }
-    
+
         return parent::createIndex($entity);
     }
-    
+
     /**
      * Creates a new unique value for this entity.
      *
@@ -349,10 +360,10 @@ class MenuChoiceList extends ChoiceList
         if ($this->idAsValue) {
             return (string) current($this->getIdentifierValues($entity));
         }
-    
+
         return parent::createValue($entity);
     }
-    
+
     /**
      * Loads the list with entities.
      */
@@ -363,7 +374,7 @@ class MenuChoiceList extends ChoiceList
         } else {
             $entities = $this->em->getRepository($this->class)->findAll();
         }
-    
+
         try {
             // The second parameter $labels is ignored by ObjectChoiceList
             // The third parameter $preferredChoices is currently not supported
@@ -371,10 +382,10 @@ class MenuChoiceList extends ChoiceList
         } catch (StringCastException $e) {
             throw new StringCastException(str_replace('argument $labelPath', 'option "property"', $e->getMessage()), null, $e);
         }
-    
+
         $this->loaded = true;
     }
-    
+
     /**
      * Returns the values of the identifier fields of an entity.
      *
@@ -393,13 +404,13 @@ class MenuChoiceList extends ChoiceList
         if (!$this->em->contains($entity)) {
             throw new FormException('Entities passed to the choice field must be managed');
         }
-    
+
         $this->em->initializeObject($entity);
-    
+
         return $this->classMetadata->getIdentifierValues($entity);
     }
 
-    
+
     /**
      * Initializes the list with choices.
      *
@@ -414,15 +425,15 @@ class MenuChoiceList extends ChoiceList
         if (!is_array($choices) && !$choices instanceof \Traversable) {
             throw new UnexpectedTypeException($choices, 'array or \Traversable');
         }
-    
+
         if (null !== $this->groupPath) {
             $groupedChoices = array();
-    
+
             foreach ($choices as $i => $choice) {
                 if (is_array($choice)) {
                     throw new \InvalidArgumentException('You should pass a plain object array (without groups, $code, $previous) when using the "groupPath" option');
                 }
-    
+
                 try {
                     $group = $this->groupPath->getValue($choice);
                 } catch (InvalidPropertyException $e) {
@@ -430,29 +441,29 @@ class MenuChoiceList extends ChoiceList
                     // see https://github.com/symfony/symfony/commit/d9b7abb7c7a0f28e0ce970afc5e305dce5dccddf
                     $group = null;
                 }
-    
+
                 if (null === $group) {
                     $groupedChoices[$i] = $choice;
                 } else {
                     if (!isset($groupedChoices[$group])) {
                         $groupedChoices[$group] = array();
                     }
-    
+
                     $groupedChoices[$group][$i] = $choice;
                 }
             }
-    
+
             $choices = $groupedChoices;
         }
-    
-    
+
+
         $labels = array();
-    
+
         $this->extractLabels($choices, $labels);
 
         parent::initialize($choices, $labels, $preferredChoices);
     }
-    
+
     private function extractLabels($choices, array &$labels)
     {
         foreach ($choices as $i => $choice) {
@@ -461,7 +472,15 @@ class MenuChoiceList extends ChoiceList
                 $this->extractLabels($choice, $labels[$i]);
             } elseif ($this->labelPath) {
                 //$labels[$i] = $this->labelPath->getValue($choice);
-                $labels[$i] = str_repeat('-', $choice->getLevel()) . ' ' . $this->labelPath->getValue($choice);
+
+                if (version_compare(Kernel::VERSION, '2.1') <= 0) {
+                    $labelValue = $this->labelPath->getValue($choice);
+                } else {
+                    $propertyAccessor = PropertyAccess::getPropertyAccessor();
+                    $labelValue = $propertyAccessor->getValue($choice, $this->labelPath);
+                }
+                
+                $labels[$i] = str_repeat('-', $choice->getLevel()) . ' ' . $labelValue;
             } elseif (method_exists($choice, '__toString')) {
                 $labels[$i] = (string) $choice;
             } else {

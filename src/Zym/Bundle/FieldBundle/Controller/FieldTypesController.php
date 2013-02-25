@@ -73,7 +73,7 @@ class FieldTypesController extends Controller
 
         $request = $this->get('request');
         if ($request->getMethod() == 'POST') {
-            $form->bindRequest($request);
+            $form->bind($request);
 
             if ($form->isValid()) {
                 /* @var $fieldConfigManager Entity\FieldConfigManager */

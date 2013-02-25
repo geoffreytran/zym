@@ -22,6 +22,8 @@ use Doctrine\ORM\Mapping as ORM;
 use Doctrine\Common\Collections\Collection;
 use Doctrine\Common\Collections\ArrayCollection;
 
+use Symfony\Bridge\Doctrine\Validator\Constraints\UniqueEntity;
+
 /**
  * Menu Item
  *
@@ -40,9 +42,12 @@ use Doctrine\Common\Collections\ArrayCollection;
  * @ORM\InheritanceType("SINGLE_TABLE")
  * @ORM\DiscriminatorColumn(name="object_type", type="string")
  * @ORM\DiscriminatorMap({
- *     "Zym\Bundle\MenuBundle\Entity\MenuItem\StaticMenuItem" = "Zym\Bundle\MenuBundle\Entity\MenuItem\StaticMenuItem",
- *     "Zym\Bundle\MenuBundle\Entity\MenuItem\RoutedMenuItem" = "Zym\Bundle\MenuBundle\Entity\MenuItem\RoutedMenuItem"
+ *     "Zym\Bundle\MenuBundle\Entity\MenuItem\StaticMenuItem"  = "Zym\Bundle\MenuBundle\Entity\MenuItem\StaticMenuItem",
+ *     "Zym\Bundle\MenuBundle\Entity\MenuItem\RoutedMenuItem"  = "Zym\Bundle\MenuBundle\Entity\MenuItem\RoutedMenuItem",
+ *     "Zym\Bundle\MenuBundle\Entity\MenuItem\SectionMenuItem" = "Zym\Bundle\MenuBundle\Entity\MenuItem\SectionMenuItem",
  * })
+ *
+ * @UniqueEntity(fields={"name", "menu"}, repositoryMethod="findAllMenuItemsBy")
  */
 abstract class MenuItem extends BaseMenuItem
 {
@@ -232,6 +237,10 @@ abstract class MenuItem extends BaseMenuItem
      */
     public function __construct($name, FactoryInterface $factory = null, Menu $menu = null)
     {
+        if ($factory === null) {
+            $factory = new \Knp\Menu\MenuFactory();
+        }
+
         parent::__construct($name, $factory);
 
         $this->menu = $menu;

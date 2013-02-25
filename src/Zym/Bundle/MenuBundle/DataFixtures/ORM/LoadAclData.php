@@ -105,6 +105,24 @@ class LoadAclData extends AbstractFixture
         $sid = new RoleSecurityIdentity('ROLE_SUPER_ADMIN');
         $acl->insertClassAce($sid, MaskBuilder::MASK_IDDQD);
         $aclProvider->updateAcl($acl);
+
+        // Section Menu Item
+        try {
+            $oid = new ObjectIdentity('class', 'Zym\Bundle\MenuBundle\Entity\MenuItem\SectionMenuItem');
+            $acl = $aclProvider->createAcl($oid);
+        } catch (AclAlreadyExistsException $e) {
+            $acl = $aclProvider->findAcl($oid);
+        }
+
+        $sid = new RoleSecurityIdentity('IS_AUTHENTICATED_ANONYMOUSLY');
+        $acl->insertClassAce($sid, MaskBuilder::MASK_VIEW);
+
+        $sid = new RoleSecurityIdentity('ROLE_ADMIN');
+        $acl->insertClassAce($sid, MaskBuilder::MASK_MASTER);
+
+        $sid = new RoleSecurityIdentity('ROLE_SUPER_ADMIN');
+        $acl->insertClassAce($sid, MaskBuilder::MASK_IDDQD);
+        $aclProvider->updateAcl($acl);
     }
 
     /**

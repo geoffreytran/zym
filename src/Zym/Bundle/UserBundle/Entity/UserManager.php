@@ -86,9 +86,9 @@ class UserManager extends AbstractUserManager
      * @param CanonicalizerInterface  $emailCanonicalizer
      * @param EntityManager           $em
      * @param string                  $class
-     * @param PaginatorAdapter $paginatorAdapter
-     * @param MutableAclInterface $aclProvider
-     * @param FieldManager             $fieldManager
+     * @param PaginatorAdapter        $paginatorAdapter
+     * @param MutableAclInterface     $aclProvider
+     * @param FieldManager            $fieldManager
      */
     public function __construct(EncoderFactoryInterface $encoderFactory,
                                 CanonicalizerInterface $usernameCanonicalizer,
@@ -300,6 +300,7 @@ class UserManager extends AbstractUserManager
         $this->aclProvider = $aclProvider;
         return $this;
     }
+
     /**
      * Get the acl collection cache
      *
@@ -471,6 +472,8 @@ class UserManager extends AbstractUserManager
                 }
             }
         } catch (\Symfony\Component\Security\Acl\Exception\NotAllAclsFoundException $e) {
+            // At least we tried...
+        } catch (\Symfony\Component\Security\Acl\Exception\AclNotFoundException $e) {
             // At least we tried...
         }
     }

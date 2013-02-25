@@ -8,13 +8,15 @@
 
 <div class="modal-body">
         {% if nodeTypes|length %}
-        <ul>
+        <ul class="nav nav-tabs nav-stacked">
             {% for nodeType in nodeTypes %}
             <li>
-                <a href="{{ path('zym_nodes_add', { 'type': nodeType.type }) }}">{{ nodeType.name }}</a>
-                <div class="description">
-                    {{ nodeType.description | raw }}
-                </div>
+                <a href="{{ path('zym_nodes_add', { 'type': nodeType.type }) }}">
+                    {{ nodeType.name }}
+                    <span class="muted">
+                        {{ nodeType.description | raw }}
+                    </span>
+                </a>
             </li>
             {% endfor %}
         </ul>

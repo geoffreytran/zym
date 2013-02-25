@@ -23,8 +23,8 @@ class FieldCollectionItemType extends AbstractType
      */
     public function buildForm(FormBuilderInterface $builder, array $options)
     {      
-        $builder->resetClientTransformers();
-        $builder->appendClientTransformer(new ValueToTypeTransformer($fieldConfig));        
+        $builder->resetViewTransformers();
+        $builder->addViewTransformer(new ValueToTypeTransformer($fieldConfig));        
     }
 
     /**

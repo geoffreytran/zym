@@ -18,7 +18,7 @@ use Symfony\Component\Security\Acl\Permission\MaskBuilder;
 use Symfony\Component\Security\Acl\Exception\AclAlreadyExistsException;
 
 class LoadMenuData extends AbstractFixture
-                   implements ContainerAwareInterface, OrderedFixtureInterface
+                   implements ContainerAwareInterface
 {
     /**
      * Container
@@ -66,112 +66,58 @@ class LoadMenuData extends AbstractFixture
         $menu->addChild($menuItem);
         $menuItemManager->createMenuItem($menuItem);
 
-        $menuItem = new Entity\MenuItem\RoutedMenuItem('content', $menuFactory);
-        $menuItem->setLabel('Content');
-        $menuItem->setRoute('zym_nodes');
+        $menuItem = new Entity\MenuItem\SectionMenuItem('reports', $menuFactory);
+        $menuItem->setLabel('Reports');
+        $menuItem->setDescription('Manage the reporting application.');
+        $menuItem->setWeight(80);
+        $menuItem->setUri('admin/reports');
         $menu->addChild($menuItem);
         $menuItemManager->createMenuItem($menuItem);
 
-        $menuItem = new Entity\MenuItem\RoutedMenuItem('users', $menuFactory);
-        $menuItem->setLabel('Users');
-        $menuItem->setRoute('zym_user_users');
-        $menu->addChild($menuItem);
-        $menuItemManager->createMenuItem($menuItem);
-
-            $cMenuItem = new Entity\MenuItem\RoutedMenuItem('groups', $menuFactory);
-            $cMenuItem->setLabel('Groups');
-            $cMenuItem->setRoute('zym_user_groups');
-            $menuItem->addChild($cMenuItem);
-            $menuItemManager->createMenuItem($cMenuItem);
-
-        $menuItem = new Entity\MenuItem\RoutedMenuItem('structure', $menuFactory);
+        $menuItem = new Entity\MenuItem\SectionMenuItem('structure', $menuFactory);
         $menuItem->setLabel('Structure');
-        $menuItem->setRoute('zym_menu_categories');
+        $menuItem->setDescription('Manage the structure for application.');
+        $menuItem->setWeight(100);
+        $menuItem->setUri('admin/structure');
         $menu->addChild($menuItem);
         $menuItemManager->createMenuItem($menuItem);
-        $menuItem->setRouteParameters(array('id' => $menuItem->getId()));
-        $menuItemManager->saveMenuItem($menuItem);
-
-            $cMenuItem = new Entity\MenuItem\RoutedMenuItem('content-types', $menuFactory);
-            $cMenuItem->setLabel('Content Types');
-            $cMenuItem->setRoute('zym_node_node_types');
-            $menuItem->addChild($cMenuItem);
-            $menuItemManager->createMenuItem($cMenuItem);
 
             $cMenuItem = new Entity\MenuItem\RoutedMenuItem('menus', $menuFactory);
             $cMenuItem->setLabel('Menus');
+            $cMenuItem->setDescription('Manage the structure of menus.');
             $cMenuItem->setRoute('zym_menus');
+            $cMenuItem->setWeight(30);
             $menuItem->addChild($cMenuItem);
             $menuItemManager->createMenuItem($cMenuItem);
 
-            $cMenuItem = new Entity\MenuItem\RoutedMenuItem('theme-rules', $menuFactory);
-            $cMenuItem->setLabel('Themes Rules');
-            $cMenuItem->setRoute('zym_theme_theme_rules');
-            $menuItem->addChild($cMenuItem);
-            $menuItemManager->createMenuItem($cMenuItem);
-
-        $menuItem = new Entity\MenuItem\RoutedMenuItem('configuration', $menuFactory);
+        $menuItem = new Entity\MenuItem\SectionMenuItem('configuration', $menuFactory);
         $menuItem->setLabel('Configuration');
-        $menuItem->setRoute('zym_menu_categories');
+        $menuItem->setDescription('Manage the configuration for the application.');
+        $menuItem->setWeight(500);
+        $menuItem->setUri('admin/config');
         $menu->addChild($menuItem);
         $menuItemManager->createMenuItem($menuItem);
-        $menuItem->setRouteParameters(array('id' => $menuItem->getId()));
-        $menuItemManager->saveMenuItem($menuItem);
 
             $cMenuItem = new Entity\MenuItem\StaticMenuItem('security', $menuFactory);
             $cMenuItem->setLabel('Security');
+            $cMenuItem->setDescription('Manage the security for the application.');
             $cMenuItem->setUri('/');
+            $cMenuItem->setWeight(70);
             $menuItem->addChild($cMenuItem);
             $menuItemManager->createMenuItem($cMenuItem);
-
-                $ccMenuItem = new Entity\MenuItem\RoutedMenuItem('permissions', $menuFactory);
-                $ccMenuItem->setLabel('Permissions');
-                $ccMenuItem->setRoute('zym_security_acl_entries');
-                $cMenuItem->addChild($ccMenuItem);
-                $menuItemManager->createMenuItem($ccMenuItem);
-
-                $ccMenuItem = new Entity\MenuItem\RoutedMenuItem('roles', $menuFactory);
-                $ccMenuItem->setLabel('Roles');
-                $ccMenuItem->setRoute('zym_security_acl_roles');
-                $cMenuItem->addChild($ccMenuItem);
-                $menuItemManager->createMenuItem($ccMenuItem);
-
-                $ccMenuItem = new Entity\MenuItem\RoutedMenuItem('access-rules', $menuFactory);
-                $ccMenuItem->setLabel('Access Rules');
-                $ccMenuItem->setRoute('zym_security_access_rules');
-                $cMenuItem->addChild($ccMenuItem);
-                $menuItemManager->createMenuItem($ccMenuItem);
 
             $cMenuItem = new Entity\MenuItem\StaticMenuItem('system', $menuFactory);
             $cMenuItem->setLabel('System');
+            $cMenuItem->setDescription('Manage the system settings for the application.');
             $cMenuItem->setUri('/');
+            $cMenuItem->setWeight(80);
+
             $menuItem->addChild($cMenuItem);
             $menuItemManager->createMenuItem($cMenuItem);
 
-                $ccMenuItem = new Entity\MenuItem\RoutedMenuItem('mail', $menuFactory);
-                $ccMenuItem->setLabel('Mail');
-                $ccMenuItem->setRoute('zym_mail_config_edit');
-                $cMenuItem->addChild($ccMenuItem);
-                $menuItemManager->createMenuItem($ccMenuItem);
-
-                $ccMenuItem = new Entity\MenuItem\RoutedMenuItem('parameters', $menuFactory);
-                $ccMenuItem->setLabel('Parameters');
-                $ccMenuItem->setRoute('zym_runtime_config_parameters');
-                $cMenuItem->addChild($ccMenuItem);
-                $menuItemManager->createMenuItem($ccMenuItem);
 
         $menuManager->saveMenu($menu);
         $manager->flush();
-    }
-
-    /**
-     * Get the order in which fixtures will be loaded
-     *
-     * @return integer
-     */
-    public function getOrder()
-    {
-        return 10; // the order in which fixtures will be loaded
     }
 
     /**

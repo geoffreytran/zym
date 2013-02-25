@@ -8,8 +8,8 @@ class ParameterValueType extends AbstractType
 {
     public function buildForm(FormBuilderInterface $builder, array $options)
     {
-        $builder->resetClientTransformers();
-        $builder->appendClientTransformer(new ParameterValueTransformer());       
+        $builder->resetViewTransformers();
+        $builder->addViewTransformer(new ParameterValueTransformer());       
 
     }
 

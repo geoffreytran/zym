@@ -37,6 +37,21 @@ class MenuItemRepository extends NestedTreeRepository
     private $paginator;
 
     /**
+     * Finds menu items by a set of criteria regardless of type.
+     *
+     * @param array $criteria
+     * @param array|null $orderBy
+     * @param int|null $limit
+     * @param int|null $offset
+     * @return array The objects.
+     */
+    public function findAllMenuItemsBy(array $criteria, array $orderBy = null, $limit = null, $offset = null)
+    {
+        $repository = $this->getEntityManager()->getRepository('ZymMenuBundle:MenuItem');
+        return $repository->findBy($criteria, $orderBy, $limit, $offset);
+    }
+
+    /**
      * Find menu item by name
      *
      * @param \Zym\Bundle\MenuBundle\Entity\Menu $menu
@@ -71,10 +86,11 @@ class MenuItemRepository extends NestedTreeRepository
     public function findRootMenuItemsByMenu(Menu $menu, array $criteria = null, array $orderBy = null)
     {
         $qb = $this->createQueryBuilder('mi');
-        $qb->select('mi, c')
+        $qb->select('mi, c, ci')
            ->where('mi.menu = :menu')
            ->andWhere('mi.parent IS NULL')
            ->leftJoin('mi.children', 'c')
+           ->leftJoin('c.children', 'ci')
            ->orderBy('mi.weight', 'ASC')
            ->addOrderBy('mi.lft', 'ASC')
            ->addOrderBy('mi.id', 'ASC');

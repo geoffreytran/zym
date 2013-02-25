@@ -1,0 +1,85 @@
+{% extends "ZymRouterBundle::layout.html.twig" %}
+
+{% block title %}{{ 'Routes' | trans({}, 'ZymRouterBundle') }}{% endblock %}
+
+{% block content %}
+    <div class="page-header">
+        <h1 class="pull-left">
+            {{ 'Routes' | trans({}, 'ZymRouterBundle') }}
+            <small>{{ 'Manage routes' | trans({}, 'ZymRouterBundle') }}</small>
+        </h1>
+
+        <div class="clearfix" style="clear:both"></div>
+    </div>
+
+    <div class="btn-toolbar">
+        <div class="btn-group">
+            {% if is_granted('CREATE', ['class', 'Zym\\Bundle\\RouterBundle\\Entity\\Route']) %}
+            <a class="btn" href="{{ path('zym_router_routes_add') }}">
+                <i class="icon-plus"></i>
+                {{ 'New Route' | trans({}, 'ZymRouterBundle') }}
+            </a>
+            {% endif %}
+        </div>
+    </div>
+
+    <table class="table table-striped">
+        <thead>
+            <tr>
+                <th>{{ 'Name' | trans({}, 'ZymRouterBundle') }}</th>
+                <th>{{ 'Path' | trans({}, 'ZymRouterBundle') }}</th>
+
+                <th>{{ 'Actions' | trans({}, 'ZymRouterBundle') }}</th>
+            </tr>
+        </thead>
+
+        <tbody>
+        {% for route in routes %}
+            {% if is_granted('VIEW', route) %}
+            <tr>
+                <td>
+                    <a href="{{ path('zym_router_routes_show', { 'name': route.name, '_format': 'html' }) }}">{{ route.name |e }}</a>
+                </td>
+                <td>
+                    {{ route.path |e }}
+                </td>
+                <td>
+                    <div class="btn-group" style="width: 300px">
+                        <a class="btn" href="{{ path('zym_router_routes_show', { 'name': route.name, '_format': 'html' }) }}">
+                            <i class="icon-share"></i>
+                            {{ 'View' | trans({}, 'ZymRouterBundle') }}
+                        </a>
+
+                        {% if is_granted('EDIT', route) %}
+                        <a class="btn" href="{{ path('zym_router_routes_edit', { 'name': route.name }) }}">
+                            <i class="icon-edit"></i>
+                            {{ 'Edit' | trans({}, 'ZymRouterBundle') }}
+                        </a>
+                        {% endif %}
+
+                        {% if is_granted('DELETE', route) %}
+                        <a class="btn" href="{{ path('zym_router_routes_delete', { 'name': route.name }) }}" data-toggle="ajax-modal">
+                            <i class="icon-remove"></i>
+                            {{ 'Delete' | trans({}, 'ZymRouterBundle') }}
+                        </a>
+                        {% endif %}
+                    </div>
+                </td>
+            </tr>
+            {% endif %}
+        {% endfor %}
+        </tbody>
+    </table>
+
+    {% if routes | length <= 0 %}
+        <p>
+            {{ 'No routes added yet.' | trans({}, 'ZymRouterBundle') }}
+
+            {% if is_granted('CREATE', ['class', 'Zym\\Bundle\\RouterBundle\\Entity\\Route']) %}
+            <a class="" href="{{ path('zym_router_routes_add') }}">{{ 'Create a route.' | trans({}, 'ZymRouterBundle') }}</a>
+            {% endif %}
+        </p>
+    {% endif %}
+
+    {{ knp_pagination_render(routes) }}
+{% endblock %}

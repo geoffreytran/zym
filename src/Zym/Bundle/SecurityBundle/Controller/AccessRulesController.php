@@ -74,7 +74,7 @@ class AccessRulesController extends Controller
 
         $request = $this->get('request');
         if ($request->getMethod() == 'POST') {
-            $form->bindRequest($request);
+            $form->bind($request);
 
             if ($form->isValid()) {
                 $accessRuleManager = $this->get('zym_security.access_rule_manager');
@@ -106,7 +106,7 @@ class AccessRulesController extends Controller
 
         $request = $this->get('request');
         if ($request->getMethod() == 'POST') {
-            $form->bindRequest($request);
+            $form->bind($request);
 
             if ($form->isValid()) {
                 $accessRuleManager = $this->get('zym_security.access_rule_manager');
@@ -164,7 +164,7 @@ class AccessRulesController extends Controller
         $request     = $this->get('request');
 
         if ($request->getMethod() == 'POST') {
-            $form->bindRequest($request);
+            $form->bind($request);
 
             if ($form->isValid()) {
                 $accessRuleManager->deleteAccessRule($accessRule);

@@ -11,7 +11,7 @@
  * @copyright Copyright (c) 2011 Zym. (http://www.rapp.com/)
  */
 
-namespace Zym\Bundle\CMSBundle\Routing\Resource;
+namespace Zym\Bundle\RouterBundle\Routing\Resource;
 
 use Doctrine\ORM;
 use Symfony\Component\Config\Resource\ResourceInterface;

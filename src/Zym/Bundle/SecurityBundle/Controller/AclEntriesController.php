@@ -106,7 +106,7 @@ class AclEntriesController extends Controller
 
         $request = $this->get('request');
         if ($request->getMethod() == 'POST') {
-            $form->bindRequest($request);
+            $form->bind($request);
 
             if ($form->isValid()) {
                 $acl->insertClassAce(new RoleSecurityIdentity($classAce->getSecurityIdentity()),
@@ -155,7 +155,7 @@ class AclEntriesController extends Controller
         $form    = $this->createForm(new Form\AclEntryType(), $classAce);
         $request = $this->get('request');
         if ($request->getMethod() == 'POST') {
-            $form->bindRequest($request);
+            $form->bind($request);
 
             if ($form->isValid()) {
                 $acl->updateClassAce($index, $classAce->getMask());
@@ -218,7 +218,7 @@ class AclEntriesController extends Controller
         $request     = $this->get('request');
 
         if ($request->getMethod() == 'POST') {
-            $form->bindRequest($request);
+            $form->bind($request);
 
             if ($form->isValid()) {
                 $acl->deleteClassAce($index);

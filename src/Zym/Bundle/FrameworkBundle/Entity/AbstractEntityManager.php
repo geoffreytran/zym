@@ -389,6 +389,8 @@ abstract class AbstractEntityManager
             }
         } catch (\Symfony\Component\Security\Acl\Exception\NotAllAclsFoundException $e) {
             // At least we tried...
+        } catch (\Symfony\Component\Security\Acl\Exception\AclNotFoundException $e) {
+            // At least we tried...
         }
     }
 }

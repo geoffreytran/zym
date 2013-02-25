@@ -6,15 +6,25 @@
 
     <parameters>
         <parameter key="sensio_framework_extra.routing.loader.annot_class.class">Zym\Bundle\RouterBundle\Routing\Loader\AnnotatedRouteControllerLoader</parameter>
+        <parameter key="zym_router.routing.loader.doctrine_orm_loader.class">Zym\Bundle\RouterBundle\Routing\Loader\DoctrineOrmLoader</parameter>
+
+        <parameter key="zym_router.route.entity.class">Zym\Bundle\RouterBundle\Entity\Route</parameter>
+        <parameter key="zym_router.route_manager.class">Zym\Bundle\RouterBundle\Entity\RouteManager</parameter>
     </parameters>
-    
-    <!--
+
     <services>
-        <service id="zym_router.example" class="%zym_router.example.class%">
-            <argument type="service" id="service_id" />
-            <argument>plain_value</argument>
-            <argument>%parameter_name%</argument>
+        <service id="zym_router.routing.loader.doctrine_orm_loader" class="%zym_router.routing.loader.doctrine_orm_loader.class%">
+            <argument type="service" id="doctrine.orm.entity_manager" />
+            <tag name="routing.loader" />
+        </service>
+
+        <service id="zym_router.route_manager" class="%zym_router.route_manager.class%">
+            <argument type="service" id="doctrine.orm.entity_manager" />
+            <argument type="string">%zym_router.route.entity.class%</argument>
+            <argument type="service" id="knp_paginator" strict="false"  />
+            <argument type="service" id="security.acl.provider" on-invalid="ignore" />
+            <argument type="service" id="security.context" on-invalid="ignore" />
+            <argument type="service" id="security.acl.collection_cache" on-invalid="ignore" />
         </service>
     </services>
-    -->
 </container>

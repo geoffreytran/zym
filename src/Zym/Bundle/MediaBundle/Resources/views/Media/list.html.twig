@@ -35,8 +35,8 @@
             {% if is_granted('VIEW', media) %}
             <tr>
                 <td>
-                    <a class="thumbnail" href="{{ path('zym_media_show', { 'id': media.id }) }}">
-                    {{ media_thumbnail(media, 'admin') }}
+                    <a href="{{ path('zym_media_show', { 'id': media.id }) }}">
+                        {{ media_thumbnail(media, 'admin') }}
                     </a>
                 </td>
                 <td>

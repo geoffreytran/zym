@@ -28,7 +28,10 @@ class MenuItemType extends AbstractType
     public function buildForm(FormBuilderInterface $builder, array $options)
     {
         $builder
-            ->add('name', 'text', array('label' => 'Name'))
+            ->add('name', 'text', array(
+                'label'       => 'Name',
+                'help_inline' => 'Name must be unique to the menu.'
+            ))
             ->add('label', 'text', array('label' => 'Label'))
             ->add('description', 'text', array('label' => 'Description'))
             ->add('weight', 'integer')

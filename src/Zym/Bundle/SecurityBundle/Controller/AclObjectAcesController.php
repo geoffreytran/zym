@@ -88,7 +88,7 @@ class AclObjectAcesController extends Controller
 
         $request = $this->get('request');
         if ($request->getMethod() == 'POST') {
-            $form->bindRequest($request);
+            $form->bind($request);
 
             if ($form->isValid()) {
                 $acl->insertClassAce($index, $classAce->getMask());
@@ -128,7 +128,7 @@ class AclObjectAcesController extends Controller
         $form    = $this->createForm(new Form\AclEntryType(), $classAce);
         $request = $this->get('request');
         if ($request->getMethod() == 'POST') {
-            $form->bindRequest($request);
+            $form->bind($request);
 
             if ($form->isValid()) {
                 $acl->updateClassAce($index, $classAce->getMask());
@@ -181,7 +181,7 @@ class AclObjectAcesController extends Controller
         $request     = $this->get('request');
 
         if ($request->getMethod() == 'POST') {
-            $form->bindRequest($request);
+            $form->bind($request);
 
             if ($form->isValid()) {
                 $aclClassManager->deleteAclClass($aclClass);

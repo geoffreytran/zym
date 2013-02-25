@@ -1,0 +1,21 @@
+{% extends "ZymRouterBundle::layout.html.twig" %}
+
+{% block title %}{{ 'Add a Route' | trans({}, 'ZymRouterBundle') }}{% endblock %}
+
+{% block content %}
+    <div class="page-header">
+        <h1>
+            {{ 'New Route' | trans({}, 'ZymRouterBundle') }}
+            <small>{{ 'Create a new route' | trans({}, 'ZymRouterBundle') }}</small>
+        </h1>
+    </div>
+
+    <form class="form-horizontal" action="" method="post" {{ form_enctype(form) }}>
+        {{ form_rest(form) }}
+
+        <fieldset class="form-actions">
+            <button class="btn btn-primary" type="submit">{{ 'Create' | trans({}, 'ZymRouterBundle') }}</button>
+            <button class="btn" type="button" onclick="history.back();">{{ 'Cancel' | trans({}, 'ZymRouterBundle') }}</button>
+        </fieldset>
+    </form>
+{% endblock content %}

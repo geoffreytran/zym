@@ -79,7 +79,7 @@ class RouteManager extends AbstractEntityManager
         return $this->repository->findOneBy($criteria);
     }
 
-    /** 
+    /**
      * Whether a route exists
      *
      * @param array $criteria
@@ -101,6 +101,8 @@ class RouteManager extends AbstractEntityManager
      */
     public function findRoutes(array $criteria = null, $page = 1, $limit = 10,array $orderBy = null)
     {
-        return $this->repository->findRoutes($criteria, $page, $limit, $orderBy);
+        $entities = $this->repository->findRoutes($criteria, $page, $limit, $orderBy);
+        $this->loadAcls($entities);
+        return $entities;
     }
 }

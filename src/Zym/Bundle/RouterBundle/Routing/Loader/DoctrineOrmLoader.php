@@ -56,10 +56,14 @@ class DoctrineOrmLoader extends BaseLoader
         $entityManager = $this->getEntityManager();
 
         $collection = new RouteCollection();
-        $collection->addResource(new DoctrineOrmResource($resource));
+        $collection->addResource(new DoctrineOrmResource('ZymRouterBundle:Route'));
 
-        $routes = $entityManager->getRepository($resource)
-                                ->findAll();
+        try {
+            $routes = $entityManager->getRepository('ZymRouterBundle:Route')
+                                    ->findAll();
+        } catch (\Doctrine\DBAL\DBALException $e) {
+            $routes = array();
+        }
 
         foreach ($routes as $route) {
             $collection->add($route->getName(), $route);
@@ -78,17 +82,7 @@ class DoctrineOrmLoader extends BaseLoader
      */
     public function supports($resource, $type = null)
     {
-        if (!is_string($resource)) {
-            return false;
-        }
-
-        //TODO: Verify entity is a Route
-        if (!is_subclass_of($resource, 'Zym\Bundle\RouterBundle\Entity\Route')
-            && $resource != 'Zym\Bundle\RouterBundle\Entity\Route') {
-            return false;
-        }
-
-        return (!$type || 'orm' === $type);
+        return ('orm' === $type);
     }
 
     /**

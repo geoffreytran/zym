@@ -108,13 +108,13 @@
             <dl>
                 <dt>Enabled</dt>
                 <dd>{{ user.enabled ? 'Yes' : 'No'|trans({}, 'ZymUserBundle') }}</dd>
-                
+
                 <dt>Locked</dt>
                 <dd>{{ user.locked ? 'Yes' : 'No'|trans({}, 'ZymUserBundle') }}</dd>
-                
+
                 <dt>Last Login</dt>
                 <dd>{{ user.lastLogin ? user.lastLogin.format(constant('DateTime::ISO8601')) : 'Never' }}</dd>
-                
+
                 <dt>Expired</dt>
                 <dd>{{ user.expired ? 'Yes' : 'No' | trans({}, 'ZymUserBundle') }}</dd>
             </dl>

@@ -1,0 +1,37 @@
+{% extends "ZymRouterBundle::layout.html.twig" %}
+
+{% block title %}{{ 'Edit Route' | trans({}, 'ZymRouterBundle') }}{% endblock %}
+
+{% block content %}
+    <div class="page-header">
+        <h1>
+            {{ 'Edit Route' | trans({}, 'ZymRouterBundle') |e }}
+            <small>{{ route.name | trans({}, 'ZymRouterBundle') |e }}</small>
+        </h1>
+    </div>
+
+    <div class="btn-toolbar">
+        <div class="btn-group">
+            <a class="btn" href="javascript: history.back();">
+                <i class="icon-arrow-left"></i>
+                {{ 'Back' | trans({}, 'ZymRouterBundle') }}
+            </a>
+        </div>
+
+        <div class="btn-group">
+            <a class="btn" href="{{ path('zym_security_acl_object_aces', { 'type': 'Zym\\Bundle\\RouterBundle\\Entity\\Route', 'identifier': route.objectIdentifier }) }}">
+                <i class="icon-lock"></i>
+                {{ 'Permissions' | trans({}, 'ZymRouterBundle') }}
+            </a>
+        </div>
+    </div>
+
+    <form action="" method="post" {{ form_enctype(form) }}>
+        {{ form_rest(form) }}
+
+        <fieldset class="form-actions">
+            <button class="btn btn-primary" type="submit">{{ 'Save changes' | trans({}, 'ZymRouterBundle') }}</button>
+            <button class="btn" type="button" onclick="history.back();">{{ 'Cancel' | trans({}, 'ZymRouterBundle') }}</button>
+        </fieldset>
+    </form>
+{% endblock content %}

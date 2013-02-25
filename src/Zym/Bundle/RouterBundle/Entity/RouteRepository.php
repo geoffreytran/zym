@@ -25,6 +25,26 @@ use Zend\Paginator\Paginator;
  */
 class RouteRepository extends AbstractEntityRepository
 {
+    /**
+     * Find routes
+     *
+     * @param array $critera
+     * @param integer $page
+     * @param integer $limit
+     * @param array $orderBy
+     * @return PaginationInterface
+     */
+    public function findRoutes(array $criteria = null, $page = 1, $limit = 10, array $orderBy = null)
+    {
+        $qb = $this->createQueryBuilder('r');
+        $this->setQueryBuilderOptions($qb, $criteria, $orderBy);
+
+        $query     = $qb->getQuery();
+        $paginator = $this->getPaginator();
+
+        return $paginator->paginate($query, $page, $limit);
+    }
+
     public function findLatestUpdatedTimestamp()
     {
         $qb = $this->createQueryBuilder('r');

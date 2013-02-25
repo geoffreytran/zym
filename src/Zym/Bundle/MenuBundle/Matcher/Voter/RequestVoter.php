@@ -11,31 +11,44 @@ use Symfony\Component\DependencyInjection\ContainerInterface;
  */
 class RequestVoter implements VoterInterface
 {
-	/**
-	 * @var ContainerInterface
-	 */
-	private $container;
+    /**
+     * @var ContainerInterface
+     */
+    private $container;
 
-	public function __construct(ContainerInterface $container)
-	{
-		$this->container = $container;
-	}
+    public function __construct(ContainerInterface $container)
+    {
+        $this->container = $container;
+    }
 
-	/**
-	 * Checks whether an item is current.
-	 *
-	 * If the voter is not able to determine a result,
-	 * it should return null to let other voters do the job.
-	 *
-	 * @param ItemInterface $item
-	 * @return boolean|null
-	 */
-	public function matchItem(ItemInterface $item)
-	{
-		if ($item->getUri() === $this->container->get('request')->getRequestUri()) {
-			return true;
-		}
+    /**
+     * Checks whether an item is current.
+     *
+     * If the voter is not able to determine a result,
+     * it should return null to let other voters do the job.
+     *
+     * @param ItemInterface $item
+     * @return boolean|null
+     */
+    public function matchItem(ItemInterface $item)
+    {
+        /* @var $request \Symfony\Component\HttpFoundation\Request */
+        $request = $this->container->get('request');
 
-		return null;
-	}
+        if ($item->getUri() === $request->getRequestUri()) {
+            return true;
+        }
+
+//        if ($item instanceof \Zym\Bundle\MenuBundle\Entity\MenuItem\RoutedMenuItem) {
+//            /* @var $router \Symfony\Component\Routing\Router */
+//            $router = $this->container->get('router');
+//            $route  = $router->match($request->getPathInfo());
+//
+//            if ($item->getRoute() == $route['_route'] && ) {
+//
+//            }
+//        }
+
+        return null;
+    }
 }

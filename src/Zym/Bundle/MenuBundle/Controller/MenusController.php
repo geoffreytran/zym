@@ -14,6 +14,8 @@ namespace Zym\Bundle\MenuBundle\Controller;
 
 use Zym\Bundle\MenuBundle\Form;
 use Zym\Bundle\MenuBundle\Entity;
+use Zym\Bundle\MenuBundle\MenuItemEvents;
+use Zym\Bundle\MenuBundle\Event;
 
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use Symfony\Component\Security\Acl\Domain\ObjectIdentity;
@@ -50,11 +52,11 @@ class MenusController extends Controller
         $limit    = $request->query->get('limit', 50);
         $orderBy  = $request->query->get('orderBy');
         $filterBy = $request->query->get('filterBy');
-        
+
         /* @var $menuManager Entity\MenuManager */
         $menuManager  = $this->get('zym_menu.menu_manager');
         $menus        = $menuManager->findMenus($filterBy, $page, $limit, $orderBy);
-        
+
         return array(
             'menus' => $menus
         );
@@ -73,12 +75,12 @@ class MenusController extends Controller
             throw new \Symfony\Component\Security\Core\Exception\AccessDeniedException();
         }
 
-        $menu = new Entity\Menu();        
+        $menu = new Entity\Menu();
         $form = $this->createForm(new Form\MenuType(), $menu);
 
         $request = $this->get('request');
         if ($request->getMethod() == 'POST') {
-            $form->bindRequest($request);
+            $form->bind($request);
 
             if ($form->isValid()) {
                 /* @var $menuManager Entity\MenuManager */
@@ -112,7 +114,7 @@ class MenusController extends Controller
 
         $request = $this->get('request');
         if ($request->getMethod() == 'POST') {
-            $form->bindRequest($request);
+            $form->bind($request);
 
             if ($form->isValid()) {
                 /* @var $menuManager Entity\MenuManager */
@@ -139,7 +141,7 @@ class MenusController extends Controller
      *     requirements={ "_method" = "DELETE"}
      * )
      * @Route(
-     *     "/{id}/delete.{_format}", 
+     *     "/{id}/delete.{_format}",
      *     name="zym_menus_delete",
      *     defaults={
      *         "_format" = "html"
@@ -160,7 +162,7 @@ class MenusController extends Controller
 
         $request = $this->get('request');
         if ($request->getMethod() == 'POST') {
-            $form->bindRequest($request);
+            $form->bind($request);
 
             if ($form->isValid()) {
                 $menuManager->deleteMenu($menu);
@@ -234,12 +236,13 @@ class MenusController extends Controller
            throw new \Symfony\Component\Security\Core\Exception\AccessDeniedException();
        }
 
-        if ($type) {
+       if ($type) {
+
             switch ($type) {
                 case 'routed':
                     $menuItem = new Entity\MenuItem\RoutedMenuItem(null, $this->get('knp_menu.factory'), $menu);
                     $menuItem->setRouter($this->get('router'));
-                    
+
                     $form     = $this->createForm(new Form\MenuItem\RoutedMenuItemType(), $menuItem);
                     break;
 
@@ -248,13 +251,18 @@ class MenusController extends Controller
                     $form     = $this->createForm(new Form\MenuItem\StaticMenuItemType(), $menuItem);
                     break;
 
+                case 'section':
+                    $menuItem = new Entity\MenuItem\SectionMenuItem(null, $this->get('knp_menu.factory'), $menu);
+                    $form     = $this->createForm(new Form\MenuItem\SectionMenuItemType(), $menuItem);
+                    break;
+
                 default:
                     throw $this->createNotFoundException('Invalid MenuItem Type');
             }
 
             $request = $this->get('request');
             if ($request->getMethod() == 'POST') {
-                $form->bindRequest($request);
+                $form->bind($request);
 
                 if ($form->isValid()) {
                     $menuItemManager = $this->get('zym_menu.menu_item_manager');
@@ -303,7 +311,7 @@ class MenusController extends Controller
 
         $request = $this->get('request');
         if ($request->getMethod() == 'POST') {
-            $form->bindRequest($request);
+            $form->bind($request);
 
             if ($form->isValid()) {
                 $menuItemManager = $this->get('zym_menu.menu_item_manager');
@@ -346,7 +354,7 @@ class MenusController extends Controller
 
         $request = $this->get('request');
         if ($request->getMethod() == 'POST') {
-            $form->bindRequest($request);
+            $form->bind($request);
 
             if ($form->isValid()) {
                 $menuItemManager->deleteMenuItem($menuItem);

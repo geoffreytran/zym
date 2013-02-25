@@ -75,7 +75,7 @@ class NodeTypesController extends Controller
 
         $request = $this->get('request');
         if ($request->getMethod() == 'POST') {
-            $form->bindRequest($request);
+            $form->bind($request);
 
             if ($form->isValid()) {
                 /* @var $nodeTypeManager Entity\NodeTypeManager */
@@ -100,7 +100,7 @@ class NodeTypesController extends Controller
 
         $request = $this->get('request');
         if ($request->getMethod() == 'POST') {
-            $form->bindRequest($request);
+            $form->bind($request);
 
             if ($form->isValid()) {
                 /* @var $nodeTypeManager Entity\NodeTypeManager */
@@ -152,7 +152,7 @@ class NodeTypesController extends Controller
         $request     = $this->get('request');
         
         if ($request->getMethod() == 'POST') {
-            $form->bindRequest($request);
+            $form->bind($request);
 
             if ($form->isValid()) {
                 $nodeManager->deleteNodeType($nodeType);

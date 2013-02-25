@@ -89,7 +89,7 @@ class UsersController extends Controller
 
         $request = $this->get('request');
         if ($request->getMethod() == 'POST') {
-            $form->bindRequest($request);
+            $form->bind($request);
 
             if ($form->isValid()) {
                 $userManager = $this->get('fos_user.user_manager');
@@ -158,7 +158,7 @@ class UsersController extends Controller
 
         $request = $this->get('request');
         if ($request->getMethod() == 'POST') {
-            $form->bindRequest($request);
+            $form->bind($request);
 
             if ($form->isValid()) {
                 $userManager = $this->get('fos_user.user_manager');
@@ -202,7 +202,7 @@ class UsersController extends Controller
 
         $request = $this->get('request');
         if ($request->getMethod() == 'POST') {
-            $form->bindRequest($request);
+            $form->bind($request);
 
             if ($form->isValid()) {
                 $userManager = $this->get('fos_user.user_manager');

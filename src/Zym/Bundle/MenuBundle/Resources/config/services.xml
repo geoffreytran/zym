@@ -57,5 +57,11 @@
 
             <tag name="knp_menu.voter" />
         </service>
+
+        <service id="zym_menu.menu_item.section_menu_item_listener" class="Zym\Bundle\MenuBundle\Entity\MenuItem\SectionMenuItemListener" public="false">
+            <tag name="doctrine.event_listener" event="postPersist" />
+            <tag name="doctrine.event_listener" event="preUpdate" />
+            <tag name="doctrine.event_listener" event="postRemove" />
+        </service>
     </services>
 </container>

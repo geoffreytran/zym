@@ -63,17 +63,33 @@ class GroupManager extends AbstractGroupManager
     protected $aclProvider;
 
     /**
+     * Acl Collection Cache
+     *
+     * @var AclCollectionCache
+     */
+    protected $aclCollectionCache;
+
+    /**
+     * Security Context
+     *
+     * @var SecurityContextInterface
+     */
+    protected $securityContext;
+
+    /**
      * Constructor.
      *
-     * @param ObjectManager           $om
-     * @param string                  $class
-     * @param PaginatorAdapter $paginatorAdapter
-     * @param MutableAclInterface $aclProvider
-     * @param FieldManager             $fieldManager
+     * @param ObjectManager               $om
+     * @param string                      $class
+     * @param PaginatorAdapter            $paginatorAdapter
+     * @param MutableAclProviderInterface $aclProvider
+     * @param AclCollectionCache          $aclCollectionCache
      */
     public function __construct(ObjectManager $om, $class,
                                 Paginator $paginator,
-                                MutableAclProviderInterface $aclProvider)
+                                MutableAclProviderInterface $aclProvider,
+                                SecurityContextInterface $securityContext = null,
+                                AclCollectionCache $aclCollectionCache = null)
     {
         parent::__construct($om, $class);
 
@@ -87,6 +103,14 @@ class GroupManager extends AbstractGroupManager
         }
 
         $this->setAclProvider($aclProvider);
+
+        if ($securityContext) {
+            $this->setSecurityContext($securityContext);
+        }
+
+        if ($aclCollectionCache) {
+            $this->setAclCollectionCache($aclCollectionCache);
+        }
     }
 
     /*
@@ -215,6 +239,50 @@ class GroupManager extends AbstractGroupManager
     }
 
     /**
+     * Get the acl collection cache
+     *
+     * @return AclCollectionCache
+     */
+    public function getAclCollectionCache()
+    {
+        return $this->aclCollectionCache;
+    }
+
+    /**
+     * Set the acl collection cache
+     *
+     * @param AclCollectionCache $aclCollectionCache
+     * @return AbstractEntityManager
+     */
+    public function setAclCollectionCache(AclCollectionCache $aclCollectionCache)
+    {
+        $this->aclCollectionCache = $aclCollectionCache;
+        return $this;
+    }
+
+    /**
+     * Get the security context
+     *
+     * @return SecurityContextInterface
+     */
+    public function getSecurityContext()
+    {
+        return $this->securityContext;
+    }
+
+    /**
+     * Set the security context
+     *
+     * @param SecurityContextInterface $securityContext
+     * @return AbstractEntityManager
+     */
+    public function setSecurityContext(SecurityContextInterface $securityContext)
+    {
+        $this->securityContext = $securityContext;
+        return $this;
+    }
+
+    /**
      * Create an entity
      *
      * @param object $entity
@@ -327,6 +395,8 @@ class GroupManager extends AbstractGroupManager
                 }
             }
         } catch (\Symfony\Component\Security\Acl\Exception\NotAllAclsFoundException $e) {
+            // At least we tried...
+        } catch (\Symfony\Component\Security\Acl\Exception\AclNotFoundException $e) {
             // At least we tried...
         }
     }
