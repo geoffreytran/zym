@@ -80,11 +80,11 @@ class FileLocator extends BaseFileLocator
      */
     public function locate($name, $dir = null, $first = true)
     {
-//        // update the paths if the theme changed since the last lookup
-//        $theme = $this->themeManager->getActiveTheme();
-//        if ($this->lastTheme !== $theme) {
-//            $this->setCurrentTheme($theme);
-//        }
+        // update the paths if the theme changed since the last lookup
+        $theme = $this->themeManager->getActiveTheme();
+        if ($this->lastTheme !== $theme) {
+            $this->setCurrentTheme($theme);
+        }
 
         if ('@' === $name[0]) {
             return $this->locateBundleResource($name, $this->path, $first);
