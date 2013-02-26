@@ -11,17 +11,17 @@ class FileLocator extends BaseFileLocator
     protected $kernel;
     protected $path;
     protected $basePaths = array();
-    
+
     /**
      * @var ActiveTheme
      */
     protected $activeTheme;
-    
+
     /**
      * @var string
      */
     protected $lastTheme;
-    
+
     /**
      * Constructor.
      *
@@ -36,10 +36,10 @@ class FileLocator extends BaseFileLocator
         $this->themeManager = $themeManager;
         $this->path = $path;
         $this->basePaths = $paths;
-    
+
         $this->setCurrentTheme($this->themeManager->getActiveTheme());
     }
-    
+
     /**
      * Set the active theme.
      *
@@ -48,16 +48,16 @@ class FileLocator extends BaseFileLocator
     public function setCurrentTheme($theme)
     {
         $this->lastTheme = $theme;
-    
+
         $paths = $this->basePaths;
-    
+
         // add active theme as Resources/themes/views folder as well.
         $paths[] = $this->path . '/themes/' . $theme;
         $paths[] = $this->path;
-    
+
         $this->paths = $paths;
     }
-    
+
     /**
      * Returns the file path for a given resource for the first directory it
      * has a match.
@@ -80,25 +80,25 @@ class FileLocator extends BaseFileLocator
      */
     public function locate($name, $dir = null, $first = true)
     {
-        // update the paths if the theme changed since the last lookup
-        $theme = $this->themeManager->getActiveTheme();
-        if ($this->lastTheme !== $theme) {
-            $this->setCurrentTheme($theme);
-        }
-    
+//        // update the paths if the theme changed since the last lookup
+//        $theme = $this->themeManager->getActiveTheme();
+//        if ($this->lastTheme !== $theme) {
+//            $this->setCurrentTheme($theme);
+//        }
+
         if ('@' === $name[0]) {
             return $this->locateBundleResource($name, $this->path, $first);
         }
-    
+
         if (0 === strpos($name, 'views/')) {
             if ($res = $this->locateAppResource($name, $this->path, $first)) {
                 return $res;
             }
         }
-    
+
         return parent::locate($name, $dir, $first);
     }
-    
+
     /**
      * Locate Resource Theme aware. Only working for bundle resources!
      *
@@ -114,32 +114,32 @@ class FileLocator extends BaseFileLocator
         if (false !== strpos($name, '..')) {
             throw new \RuntimeException(sprintf('File name "%s" contains invalid characters (..).', $name));
         }
-    
+
         $bundleName = substr($name, 1);
         $path = '';
         if (false !== strpos($bundleName, '/')) {
             list($bundleName, $path) = explode('/', $bundleName, 2);
         }
-    
+
         if (0 !== strpos($path, 'Resources')) {
             throw new \RuntimeException('Template files have to be in Resources.');
         }
-    
+
         $overridePath = substr($path, 9);
         $subPath = substr($path, 15);
         $resourceBundle = null;
         $bundles = $this->kernel->getBundle($bundleName, false);
         $files = array();
-    
+
         foreach ($bundles as $bundle) {
             $checkPaths = array();
             if ($dir) {
                 $checkPaths[] = $dir.'/themes/'.$this->lastTheme.'/'.$bundle->getName().$subPath;
                 $checkPaths[] = $dir.'/'.$bundle->getName().$overridePath;
             }
-    
+
             $checkPaths[] = $bundle->getPath().'/Resources/themes/'.$this->lastTheme.$subPath;
-    
+
             foreach ($checkPaths as $checkPath) {
                 if (file_exists($checkPath)) {
                     if (null !== $resourceBundle) {
@@ -149,14 +149,14 @@ class FileLocator extends BaseFileLocator
                             $checkPath
                         ));
                     }
-    
+
                     if ($first) {
                         return $checkPath;
                     }
                     $files[] = $checkPath;
                 }
             }
-    
+
             $file = $bundle->getPath().'/'.$path;
             if (file_exists($file)) {
                 if ($first) {
@@ -166,14 +166,14 @@ class FileLocator extends BaseFileLocator
                 $resourceBundle = $bundle->getName();
             }
         }
-    
+
         if (count($files) > 0) {
             return $first ? $files[0] : $files;
         }
-    
+
         throw new \InvalidArgumentException(sprintf('Unable to find file "%s".', $name));
     }
-    
+
     /**
      * Locate Resource Theme aware. Only working for app/Resources
      *
@@ -187,9 +187,9 @@ class FileLocator extends BaseFileLocator
         if (false !== strpos($name, '..')) {
             throw new \RuntimeException(sprintf('File name "%s" contains invalid characters (..).', $name));
         }
-    
+
         $files = array();
-    
+
         $file = $dir.'/themes/'.$this->lastTheme.'/'.substr($name, 6);
         if (file_exists($file)) {
             if ($first) {
@@ -197,7 +197,7 @@ class FileLocator extends BaseFileLocator
             }
             $files[] = $file;
         }
-    
+
         $file = $dir.'/'.$name;
         if (file_exists($file)) {
             if ($first) {
@@ -205,7 +205,7 @@ class FileLocator extends BaseFileLocator
             }
             $files[] = $file;
         }
-    
+
         return $files;
     }
 }
