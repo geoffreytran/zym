@@ -14,14 +14,14 @@ class RequestMapResolver implements ResolverInterface
      * @var array
      */
     private $map = array();
-    
+
     /**
      * ThemeRuleManager
      *
      * @var ThemeRuleManager
      */
     private $themeRuleManager;
-    
+
     private $initiated = false;
 
     /**
@@ -32,7 +32,7 @@ class RequestMapResolver implements ResolverInterface
     {
         $this->themeRuleManager = $themeRuleManager;
     }
-    
+
     /**
      * Sleep
      *
@@ -41,7 +41,7 @@ class RequestMapResolver implements ResolverInterface
     {
         return array('map', 'initiated');
     }
-    
+
     /**
      * Add a theme to be matched to a request
      *
@@ -54,7 +54,7 @@ class RequestMapResolver implements ResolverInterface
         $this->map[] = array($requestMatcher, $theme);
         return $this;
     }
-    
+
     /**
      * Resolve the active theme
      *
@@ -68,7 +68,7 @@ class RequestMapResolver implements ResolverInterface
             foreach ($rules as $rule) {
                 $this->add($rule->getRequestMatcher(), $rule->getTheme());
             }
-            
+
             $this->initiated = true;
         }
 
@@ -79,8 +79,8 @@ class RequestMapResolver implements ResolverInterface
             if ($requestMatcher->matches($request)) {
                 return $theme;
             }
-        }    
-        
+        }
+
         throw new NoMatchException();
     }
 }

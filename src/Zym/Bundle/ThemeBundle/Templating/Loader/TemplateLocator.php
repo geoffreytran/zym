@@ -10,13 +10,13 @@ use Symfony\Component\Templating\TemplateReferenceInterface;
 
 class TemplateLocator extends BaseTemplateLocator
 {
-    /** 
+    /**
      * Theme Manager
      *
      * @var ThemeManager
      */
     private $themeManager;
-    
+
     /**
      * Constructor.
      *
@@ -27,15 +27,15 @@ class TemplateLocator extends BaseTemplateLocator
     public function __construct(FileLocatorInterface $locator, $cacheDir = null, ThemeManager $themeManager = null)
     {
         $this->themeManager = $themeManager;
-    
+
         parent::__construct($locator, $cacheDir);
     }
-    
+
     public function getLocator()
     {
        return $this->locator;
     }
-    
+
     /**
      * Returns a full path for a given file.
      *
@@ -46,14 +46,14 @@ class TemplateLocator extends BaseTemplateLocator
     protected function getCacheKey($template)
     {
         $name = $template->getLogicalName();
-    
+
         if ($this->themeManager->getActiveTheme()) {
             $name.= '|'.$this->themeManager->getActiveTheme();
         }
-    
+
         return $name;
     }
-    
+
     /**
      * Returns a full path for a given file.
      *
@@ -71,13 +71,14 @@ class TemplateLocator extends BaseTemplateLocator
         if (!$template instanceof TemplateReferenceInterface) {
             throw new \InvalidArgumentException("The template must be an instance of TemplateReferenceInterface.");
         }
-    
+
+        $curTheme = $this->themeManager->getActiveTheme();
         if ($template instanceof ThemeTemplateReference && $template->get('theme')) {
             $this->themeManager->setActiveTheme($template->get('theme'));
         }
-    
+
         $key = $this->getCacheKey($template);
-    
+
         if (!isset($this->cache[$key])) {
             try {
                 $this->cache[$key] = $this->locator->locate($template->getPath(), $currentPath);
@@ -85,7 +86,9 @@ class TemplateLocator extends BaseTemplateLocator
                 throw new \InvalidArgumentException(sprintf('Unable to find template "%s" in "%s".', $template, $e->getMessage()), 0, $e);
             }
         }
-    
+
+        $this->themeManager->setActiveTheme($curTheme);
+
         return $this->cache[$key];
     }
 }
