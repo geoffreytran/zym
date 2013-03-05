@@ -70,7 +70,7 @@ class MediaController extends Controller
 
         // check for create access
         if (!$securityContext->isGranted('CREATE', new ObjectIdentity('class', 'Zym\Bundle\MediaBundle\Entity\Media'))) {
-           // throw new \Symfony\Component\Security\Core\Exception\AccessDeniedException();
+            throw new \Symfony\Component\Security\Core\Exception\AccessDeniedException();
         }
 
         $media = new Entity\Media();

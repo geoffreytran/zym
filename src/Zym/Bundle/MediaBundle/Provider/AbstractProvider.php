@@ -147,7 +147,7 @@ abstract class AbstractProvider implements MediaProviderInterface
             return 'reference';
         }
 
-        $baseName = $media->getContext().'_';
+        $baseName = $media->getContext() . '_';
         if (substr($format, 0, strlen($baseName)) == $baseName) {
             return $format;
         }
