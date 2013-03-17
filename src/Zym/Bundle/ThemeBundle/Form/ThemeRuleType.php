@@ -15,9 +15,18 @@ class ThemeRuleType extends AbstractType
     public function buildForm(FormBuilderInterface $builder, array $options)
     {
 
-        $builder->add('path', 'text')
-                ->add('theme', 'text');
+        $builder->add('path', 'text', array(
+            'help_inline' => 'Regular expression path to match.'
+        ));
 
+        $builder->add('host', 'text', array(
+            'required' => false,
+            'help_inline' => 'Regular expression host to match.'
+        ));
+
+        $builder->add('theme', 'text', array(
+
+        ));
     }
 
     /**

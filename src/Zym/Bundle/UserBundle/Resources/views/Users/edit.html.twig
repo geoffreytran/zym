@@ -5,8 +5,14 @@
 {% block content %}
     <div class="page-header">
         <h1>
-            {{ 'Editing User' | trans({}, 'ZymUserBundle') }} {{ user.fullName is defined ? user.fullName : user.username |e }}
-            <small>{{ user.username |e }}</small>
+            {{ 'Editing User' | trans({}, 'ZymUserBundle') }}
+            <small>
+                {% if '@' in user.username %}
+                    {{ user.email |e }}
+                {% else %}
+                    {{ user.username |e }}
+                {% endif %}
+            </small>
         </h1>
     </div>
 
