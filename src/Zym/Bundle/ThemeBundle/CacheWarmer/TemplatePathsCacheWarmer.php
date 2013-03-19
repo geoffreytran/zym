@@ -56,7 +56,7 @@ class TemplatePathsCacheWarmer extends BaseTemplatePathsCacheWarmer
         }
 
         $this->themeManager->setActiveTheme($curTheme);
-var_dump($curTheme);
+
         $this->writeCacheFile($cacheDir . '/templates.php', sprintf('<?php return %s;', var_export($templates, true)));
     }
 
