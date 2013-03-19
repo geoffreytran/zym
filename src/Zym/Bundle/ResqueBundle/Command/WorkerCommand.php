@@ -27,7 +27,7 @@ class WorkerCommand extends ContainerAwareCommand
         $container = $this->getContainer();
         $job = new \Zym\Bundle\ResqueBundle\TestJob();
         $container->get('zym_resque.resque')->enqueue($job);
-return;
+
         $env = array(
             'APP_INCLUDE'   => $this->getContainer()->getParameter('zym_resque.resque.vendor_dir') . '/autoload.php',
             'VVERBOSE'      => $input->getOption('verbose'),
@@ -39,7 +39,12 @@ return;
             )
         );
 
-        $workerCommand = 'php '.$this->getContainer()->getParameter('zym_resque.resque.vendor_dir') . '/chrisboulton/php-resque/resque.php';
+        //
+        if (file_exists($this->getContainer()->getParameter('zym_resque.resque.vendor_dir') . '/chrisboulton/php-resque/resque.php')) {
+            $workerCommand = 'php ' . $this->getContainer()->getParameter('zym_resque.resque.vendor_dir') . '/chrisboulton/php-resque/resque.php';
+        } else {
+            $workerCommand = $this->getContainer()->getParameter('zym_resque.resque.vendor_dir') . '/chrisboulton/php-resque/bin/resque';
+        }
 
         $process = new Process($workerCommand, null, $env);
 

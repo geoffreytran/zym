@@ -143,6 +143,12 @@ class ThemeRule
         return $this->path;
     }
 
+    /**
+     * Set the theme
+     *
+     * @param string $theme
+     * @return \Zym\Bundle\ThemeBundle\Entity\ThemeRule
+     */
     public function setTheme($theme)
     {
         $this->theme = $theme;
@@ -159,6 +165,12 @@ class ThemeRule
         return $this->theme;
     }
 
+    /**
+     * Set the channel
+     *
+     * @param string $channel
+     * @return \Zym\Bundle\ThemeBundle\Entity\ThemeRule
+     */
     public function setChannel($channel)
     {
         $this->channel = $channel;
@@ -175,6 +187,12 @@ class ThemeRule
         return $this->channel;
     }
 
+    /**
+     * Set the host
+     *
+     * @param string $host
+     * @return \Zym\Bundle\ThemeBundle\Entity\ThemeRule
+     */
     public function setHost($host)
     {
         $this->host = $host;

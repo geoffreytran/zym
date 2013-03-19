@@ -2,7 +2,7 @@
 
 namespace Zym\Bundle\ResqueBundle;
 
-abstract class Job
+abstract class AbstractJob
 {
     /**
      * @var \Resque_Job
@@ -19,23 +19,48 @@ abstract class Job
      */
     public $args = array();
 
+    /**
+     * Get the job name
+     *
+     * @return string
+     */
     public function getName()
     {
         return \get_class($this);
     }
 
+    /**
+     * Setup the job
+     *
+     * @return void
+     */
     public function setUp()
     {
 
     }
 
+    /**
+     * Perform the job
+     *
+     * @return void
+     */
     public function perform()
     {
         $this->run($this->args);
     }
 
-    public abstract function run($args);
+    /**
+     * Run
+     *
+     * @return void
+     */
+    public abstract function run(array $args);
 
+    /**
+     * Tear down
+     *
+     * @return void
+     */
     public function tearDown()
     {
 

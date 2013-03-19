@@ -6,7 +6,7 @@ use Symfony\Component\Finder\Finder;
 use Symfony\Component\HttpKernel\KernelInterface;
 use Symfony\Component\DependencyInjection\ContainerInterface;
 
-abstract class ContainerAwareJob extends Job
+abstract class ContainerAwareJob extends AbstractJob
 {
     /**
      * @var KernelInterface
@@ -38,15 +38,16 @@ abstract class ContainerAwareJob extends Job
     {
         $finder = new Finder();
         $finder->name('*Kernel.php')->depth(0)->in($this->args['kernel.root_dir']);
+
         $results = iterator_to_array($finder);
-        $file = current($results);
-        $class = $file->getBasename('.php');
+        $file    = current($results);
+        $class   = $file->getBasename('.php');
 
         require_once $file;
 
         return new $class(
-            isset($this->args['kernel.environment']) ? $this->args['kernel.environment'] : 'dev',
-            isset($this->args['kernel.debug']) ? $this->args['kernel.debug'] : true
+            isset($this->args['kernel.environment']) ? $this->args['kernel.environment'] : 'prod',
+            isset($this->args['kernel.debug'])       ? $this->args['kernel.debug'] : false
         );
     }
 

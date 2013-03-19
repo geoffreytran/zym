@@ -51,7 +51,7 @@ class Resque
             return new \Resque_Job_Status($result);
         }
 
-        return null;
+        return $result;
     }
 
     public function enqueueOnce(Job $job, $trackStatus = false)
