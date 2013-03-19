@@ -22,17 +22,17 @@ class Parameter extends BaseParameter
     /**
      * @ORM\Id
      * @ORM\Column(type="string")
-     * @Assert\MaxLength(groups={"Entity"}, limit=255)
+     * @Assert\Length(groups={"Entity"}, min="0", max="255")
      * @Assert\NotBlank(groups={"Entity"})
      */
     protected $name;
-    
+
     /**
      * @ORM\Column(type="json_array", nullable=true)
-     * @Assert\MaxLength(groups={"Entity"}, limit=255)
+     * @Assert\Length(groups={"Entity"}, min="0", max="255")
      */
     protected $value = array();
-    
+
     /**
      * Returns a unique identifier for this domain object.
      *
