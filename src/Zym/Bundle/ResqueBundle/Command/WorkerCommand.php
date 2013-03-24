@@ -37,7 +37,7 @@ class WorkerCommand extends ContainerAwareCommand
             )
         );
 
-        //
+        // Handle breaking changes in new version of php-resque
         if (file_exists($this->getContainer()->getParameter('zym_resque.resque.vendor_dir') . '/chrisboulton/php-resque/resque.php')) {
             $workerCommand = 'php ' . $this->getContainer()->getParameter('zym_resque.resque.vendor_dir') . '/chrisboulton/php-resque/resque.php';
         } else {
