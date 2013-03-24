@@ -1,4 +1,4 @@
-{% extends "ZymMailBundle::layout.html.twig" %}
+{% extends "ZymResqueBundle::layout.html.twig" %}
 
 {% block title %}{{ 'Queues' | trans({}, 'ZymResqueBundle') }}{% endblock %}
 
@@ -106,6 +106,16 @@
                 {% endfor %}
             </table>
         </div>
+    </div>
+
+    <h2>Failures</h2>
+    <div class="row-fluid">
+        {% for failure in resque.failures %}
+            {{ failure.failed_at }}<br>
+            {% debug failure.payload %}<br>
+            {% debug failure.backtrace %}<br>
+
+        {% endfor %}
     </div>
 
     <div class="row-fluid">

@@ -46,6 +46,7 @@ abstract class AbstractJob
      */
     public function perform()
     {
+        \Resque_Failure::setBackend('\Zym\Bundle\ResqueBundle\Failure\Redis');
         $this->run($this->args);
     }
 

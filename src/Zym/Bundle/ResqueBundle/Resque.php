@@ -39,7 +39,7 @@ class Resque
         return $this->redisConfiguration;
     }
 
-    public function enqueue(Job $job, $trackStatus = false)
+    public function enqueue(AbstractJob $job, $trackStatus = false)
     {
         if ($job instanceof ContainerAwareJob) {
             $job->setKernelOptions($this->kernelOptions);
@@ -54,7 +54,7 @@ class Resque
         return $result;
     }
 
-    public function enqueueOnce(Job $job, $trackStatus = false)
+    public function enqueueOnce(AbstractJob $job, $trackStatus = false)
     {
         $queue = new Queue($job->queue);
         $jobs  = $queue->getJobs();
@@ -93,5 +93,10 @@ class Resque
         }
 
         return new Worker($worker);
+    }
+
+    public function getFailures()
+    {
+        return Failure\Redis::all();
     }
 }
