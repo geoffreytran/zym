@@ -25,8 +25,6 @@ class WorkerCommand extends ContainerAwareCommand
         set_time_limit(0);
 
         $container = $this->getContainer();
-        $job = new \Zym\Bundle\ResqueBundle\TestJob();
-        $container->get('zym_resque.resque')->enqueue($job);
 
         $env = array(
             'APP_INCLUDE'   => $this->getContainer()->getParameter('zym_resque.resque.vendor_dir') . '/autoload.php',
