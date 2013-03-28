@@ -21,6 +21,9 @@ class DefaultController extends Controller
      */
     public function indexAction()
     {
+        //$a = new \RAPP\Bundle\EchoBundle\Job\AddPostalCodeJob();
+        //$this->get('zym_resque.resque')->enqueueOnce($a);
+
         return array(
             'resque'  => $this->get('zym_resque.resque'),
         );

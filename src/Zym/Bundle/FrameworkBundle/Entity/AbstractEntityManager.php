@@ -41,11 +41,11 @@ use Knp\Component\Pager\Paginator;
 abstract class AbstractEntityManager
 {
     /**
-     * EntityManager
+     * ObjectManager
      *
-     * @var EntityManager
+     * @var ObjectManager
      */
-    protected $entityManager;
+    protected $objectManager;
 
     /**
      * Repository
@@ -137,7 +137,7 @@ abstract class AbstractEntityManager
      */
     public function getObjectManager()
     {
-        return $this->entityManager;
+        return $this->objectManager;
     }
 
     /**
@@ -149,6 +149,7 @@ abstract class AbstractEntityManager
     protected function setObjectManager(ObjectManager $objectManager)
     {
         $this->objectManager = $objectManager;
+
         return $this;
     }
 
@@ -159,7 +160,7 @@ abstract class AbstractEntityManager
      */
     public function getEntityManager()
     {
-        return $this->entityManager;
+        return $this->objectManager;
     }
 
     /**
@@ -170,8 +171,7 @@ abstract class AbstractEntityManager
      */
     protected function setEntityManager(EntityManager $entityManager)
     {
-        $this->entityManager = $entityManager;
-        return $this;
+        return $this->setObjectManager($entityManager);
     }
 
     /**
