@@ -16,7 +16,7 @@ use Sensio\Bundle\FrameworkExtraBundle\Configuration\ParamConverter;
 class DefaultController extends Controller
 {
     /**
-     * @Route("/", name="zym_resque")
+     * @Route("", name="zym_resque")
      * @Template()
      */
     public function indexAction()
