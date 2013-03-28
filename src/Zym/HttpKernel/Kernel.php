@@ -6,6 +6,8 @@ namespace Zym\HttpKernel;
 // read http://symfony.com/doc/current/book/installation.html#configuration-and-setup for more information
 umask(0000);
 
+ini_set('xdebug.max_nesting_level', 200);
+
 use Symfony\Component\HttpKernel\Kernel as BaseKernel;
 use Symfony\Component\Config\Loader\LoaderInterface;
 
@@ -15,7 +17,7 @@ abstract class Kernel extends BaseKernel
      * Debugging environment
      */
     const ENVIRONMENT_DEBUG  = 'debug';
-    
+
     /**
      * Development environment
      */
@@ -105,7 +107,7 @@ abstract class Kernel extends BaseKernel
     protected function getKernelParameters()
     {
         $params = array_merge(
-            parent::getKernelParameters(), 
+            parent::getKernelParameters(),
             array(
                 'kernel.data_dir' => $this->getDataDir()
             )
@@ -140,6 +142,8 @@ abstract class Kernel extends BaseKernel
             $_SERVER['PHP_SELF']        = str_replace('/' . basename($_SERVER['PHP_SELF']),
                                                       $environmentMatch[0],
                                                       $_SERVER['PHP_SELF']);
+
+            ini_set('display_errors', true);
         }
 
         return $environment;
