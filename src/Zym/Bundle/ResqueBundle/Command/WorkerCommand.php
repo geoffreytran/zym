@@ -3,7 +3,6 @@
 namespace Zym\Bundle\ResqueBundle\Command;
 
 use Symfony\Bundle\FrameworkBundle\Command\ContainerAwareCommand;
-use Symfony\Component\Process\Process;
 use Symfony\Component\Console\Input\InputArgument;
 use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Input\InputOption;
@@ -16,7 +15,8 @@ class WorkerCommand extends ContainerAwareCommand
         $this
             ->setName('zym:resque:worker')
             ->setDescription('Start a resque worker')
-            ->addArgument('queues', InputArgument::OPTIONAL, 'Queue names (separate using comma)', '*')
+            ->addArgument('queues', InputArgument::OPTIONAL, 'Queue names (separate using comma).', '*')
+            ->addOption('interval', 'i', InputOption::VALUE_OPTIONAL, 'Interval in seconds to check for jobs.', 5)
         ;
     }
 
@@ -26,30 +26,15 @@ class WorkerCommand extends ContainerAwareCommand
 
         $container = $this->getContainer();
 
-        $env = array(
-            'APP_INCLUDE'   => $this->getContainer()->getParameter('zym_resque.resque.vendor_dir') . '/autoload.php',
-            'VVERBOSE'      => $input->getOption('verbose'),
-            'QUEUE'         => $input->getArgument('queues'),
-            'REDIS_BACKEND' => sprintf(
-                '%s:%s',
-                $container->getParameter('zym_resque.resque.redis.host'),
-                $container->getParameter('zym_resque.resque.redis.port')
-            )
-        );
+        /* @var $resque \Zym\Bundle\ResqueBundle\Resque */
+        $resque    = $container->get('zym_resque.resque');
 
-        // Handle breaking changes in new version of php-resque
-        if (file_exists($this->getContainer()->getParameter('zym_resque.resque.vendor_dir') . '/chrisboulton/php-resque/resque.php')) {
-            $workerCommand = 'php ' . $this->getContainer()->getParameter('zym_resque.resque.vendor_dir') . '/chrisboulton/php-resque/resque.php';
-        } else {
-            $workerCommand = $this->getContainer()->getParameter('zym_resque.resque.vendor_dir') . '/chrisboulton/php-resque/bin/resque';
-        }
+        $worker = new \Resque_Worker(explode(',', $input->getArgument('queues')));
+	$worker->logLevel = ($input->getOption('verbose'))
+                                ? \Resque_Worker::LOG_VERBOSE
+                                : \Resque_Worker::LOG_NORMAL;
 
-        $process = new Process($workerCommand, null, $env);
-
-        $output->writeln(\sprintf('Starting worker <info>%s</info>', $process->getCommandLine()));
-
-        $process->run(function ($type, $buffer) use ($output) {
-            $output->write($buffer);
-        });
+        $output->writeln(\sprintf('Starting worker <info>%s</info>', $worker));
+	$worker->work($input->getOption('interval'));
     }
 }
