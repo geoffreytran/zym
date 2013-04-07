@@ -112,8 +112,9 @@
     <div class="row-fluid">
         {% for failure in resque.failures %}
             {{ failure.failed_at }}<br>
+            {% debug failure %}<br>
+
             {% debug failure.payload %}<br>
-            {% debug failure.backtrace %}<br>
 
         {% endfor %}
     </div>

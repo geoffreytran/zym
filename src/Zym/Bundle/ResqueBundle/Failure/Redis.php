@@ -41,6 +41,15 @@ class Redis implements \Resque_Failure_Interface
 
     public static function requeue($id)
     {
+//        item = all(id)
+//        item['retried_at'] = Time.now.rfc2822
+//        Resque.redis.lset(:failed, id, Resque.encode(item))
+//        Job.create(item['queue'], item['payload']['class'], *item['payload']['args'])
+        $item = current(self::all($id, $id));
+        $item->retried_at = strftime('%a %b %d %H:%M:%S %Z %Y');
+        $data = json_encode($item);
 
+        \Resque::redis()->lset('failed', $id, $data);
+        \Resque::enqueue($item->queue, $item->payload->class, (array)$item->payload->args[0]);
     }
 }
