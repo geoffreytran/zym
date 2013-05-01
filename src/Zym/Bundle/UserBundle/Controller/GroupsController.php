@@ -12,16 +12,20 @@
  */
 namespace Zym\Bundle\UserBundle\Controller;
 
-use Zym\Bundle\UserBundle\Form,
-    Zym\Bundle\UserBundle\Entity,
-    Symfony\Bundle\FrameworkBundle\Controller\Controller,
-    Symfony\Component\Security\Acl\Domain\ObjectIdentity,
-    JMS\SecurityExtraBundle\Annotation\Secure,
-    JMS\SecurityExtraBundle\Annotation\SecureParam,
-    Sensio\Bundle\FrameworkExtraBundle\Configuration\Route,
-    Sensio\Bundle\FrameworkExtraBundle\Configuration\Cache,
-    Sensio\Bundle\FrameworkExtraBundle\Configuration\Template,
-    Sensio\Bundle\FrameworkExtraBundle\Configuration\ParamConverter;
+use Zym\Bundle\UserBundle\Form;
+use Zym\Bundle\UserBundle\Entity;
+
+use Symfony\Bundle\FrameworkBundle\Controller\Controller;
+use Symfony\Component\Security\Acl\Domain\ObjectIdentity;
+use Symfony\Component\Security\Core\Exception\AccessDeniedException;
+
+use JMS\SecurityExtraBundle\Annotation\Secure;
+use JMS\SecurityExtraBundle\Annotation\SecureParam;
+
+use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
+use Sensio\Bundle\FrameworkExtraBundle\Configuration\Cache;
+use Sensio\Bundle\FrameworkExtraBundle\Configuration\Template;
+use Sensio\Bundle\FrameworkExtraBundle\Configuration\ParamConverter;
 
 /**
  * Groups Controller
