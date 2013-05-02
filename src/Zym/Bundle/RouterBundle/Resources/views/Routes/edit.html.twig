@@ -26,7 +26,7 @@
         </div>
     </div>
 
-    <form action="" method="post" {{ form_enctype(form) }}>
+    <form action="{{ path('zym_router_routes_edit', { 'name' : route.name }) }}" method="post" {{ form_enctype(form) }}>
         {{ form_rest(form) }}
 
         <fieldset class="form-actions">

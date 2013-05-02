@@ -11,7 +11,7 @@
         <strong>Are you sure you want to proceed?</strong>
     </p>
 
-    <form action="" method="post" {{ form_enctype(form) }}>
+    <form action="{{ path('zym_menus_delete', {{ 'id' : menu.name }}) }}" method="post" {{ form_enctype(form) }}>
         {{ form_rest(form) }}
         
         <fieldset class="form-actions">

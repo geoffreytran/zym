@@ -14,7 +14,7 @@
         {% trans from 'ZymRuntimeConfigBundle' %}Parameters allow for advanced custom configurations. Only modify parameters if you know what you are doing.{% endtrans %}
     </p>
 
-    <form class="form-horizontal" action="" method="post" {{ form_enctype(form) }}>
+    <form class="form-horizontal" action="{{ path('zym_runtime_config_parameters_add') }}" method="post" {{ form_enctype(form) }}>
         {{ form_rest(form) }}
 
         <fieldset class="form-actions">

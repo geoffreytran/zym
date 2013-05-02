@@ -66,7 +66,7 @@
         </div>
     </div>
 
-    <form class="form-horizontal" action="" method="post" {{ form_enctype(form) }}>
+    <form class="form-horizontal" action="{{ path('zym_user_users_edit', { 'id': user.id }) }}" method="post" {{ form_enctype(form) }}>
         {{ form_errors(form) }}
 
         <fieldset>

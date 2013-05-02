@@ -45,7 +45,7 @@
     </div>
 
     {{ form_errors(form) }}
-    <form class="form-horizontal" action="" method="post" {{ form_enctype(form) }}>
+    <form class="form-horizontal" action="{{ path('zym_nodes_add') }}" method="post" {{ form_enctype(form) }}>
         {{ form_rest(form) }}
 
         <fieldset class="form-actions">

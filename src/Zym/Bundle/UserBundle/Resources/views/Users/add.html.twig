@@ -10,7 +10,7 @@
         </h1>
     </div>
 
-    <form class="form-horizontal" action="" method="post" {{ form_enctype(form) }}>
+    <form class="form-horizontal" action="{{ path('zym_user_users_add') }}" method="post" {{ form_enctype(form) }}>
         <fieldset>
             <legend>{{ 'User Information' | trans({}, 'ZymUserBundle') }}</legend>
 

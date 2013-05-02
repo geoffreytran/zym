@@ -23,7 +23,7 @@
         {% trans from 'ZymMenuBundle' %}Menus are a collection of links (menu items) used to navigate a website.{% endtrans %}
     </p>
 
-    <form class="form-horizontal" action="" method="post" {{ form_enctype(form) }}>
+    <form class="form-horizontal" action="{{ path('zym_menus_add') }}" method="post" {{ form_enctype(form) }}>
         {{ form_rest(form) }}
     
         <fieldset class="form-actions">

@@ -20,7 +20,7 @@
     </div>
 
     {% if form is defined %}
-    <form class="form-horizontal" action="" method="post" {{ form_enctype(form) }}>
+    <form class="form-horizontal" action="{{ path('zym_menus_item_add') }}" method="post" {{ form_enctype(form) }}>
         {{ form_rest(form) }}
         {{ form_row(form.parent, { 'empty_value': '---' }) }}
 

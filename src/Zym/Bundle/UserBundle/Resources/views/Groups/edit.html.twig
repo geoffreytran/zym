@@ -30,7 +30,7 @@
         
         <div class="btn-group">
             {% if is_granted('DELETE', group) %}
-            <a class="btn" href="{{ path('zym_user_groups_delete', { "id": group.id }) }}">
+            <a class="btn" href="{{ path('zym_user_groups_delete', { 'id': group.id }) }}">
                 <i class="icon-remove"></i>
                 {{ 'Delete' | trans({}, 'ZymUserBundle') }}
             </a>
@@ -38,7 +38,7 @@
         </div>
     </div>
 
-    <form class="form-horizontal" action="" method="post" {{ form_enctype(form) }}>
+    <form class="form-horizontal" action="{{ path('zym_user_groups_edit', { 'id' : group.id }) }}" method="post" {{ form_enctype(form) }}>
         {{ form_rest(form) }}
 
         <fieldset class="form-actions">

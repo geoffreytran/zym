@@ -19,7 +19,7 @@
         </div>
     </div>
 
-    <form class="form-horizontal" action="" method="post" {{ form_enctype(form) }}>
+    <form class="form-horizontal" action="{{ path('zym_security_acl_entries_edit', { 'classType' : aclClass.type, 'index' : index }) }}" method="post" {{ form_enctype(form) }}>
         {{ form_rest(form) }}
 
         <fieldset class="form-actions">

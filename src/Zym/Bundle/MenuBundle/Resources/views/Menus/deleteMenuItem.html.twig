@@ -8,7 +8,7 @@
          This action cannot be undone.
     </p>
 
-    <form action="" method="post" {{ form_enctype(form) }}>
+    <form action="{{ path('zym_menus_item_delete', {{ 'menu': menu.name, 'id': menuItem.id }}) }}" method="post" {{ form_enctype(form) }}>
         {{ form_rest(form) }}
         
         <fieldset class="form-actions">
