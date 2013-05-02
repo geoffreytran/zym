@@ -115,7 +115,7 @@ class AccessRulesController extends Controller
                 $translator = $this->get('translator');
 
                 $this->get('session')
-                     ->setFlash($translator->trans('Saved'), 'success');
+                     ->getFlashBag()->add('success', $translator->trans('Changes saved!'));
 
 
                 return $this->redirect($this->generateUrl('zym_security_access_rules'));

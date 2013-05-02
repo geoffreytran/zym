@@ -115,7 +115,7 @@ class ParametersController extends Controller
                 $translator = $this->get('translator');
 
                 $this->get('session')
-                     ->setFlash($translator->trans('Successfully created'), 'success');
+                     ->getFlashBag()->add('success', $translator->trans('Added successfully!'));
 
                 return $this->redirect($this->generateUrl('zym_runtime_config_parameters'));
             }
@@ -149,7 +149,7 @@ class ParametersController extends Controller
                 $translator = $this->get('translator');
 
                 $this->get('session')
-                     ->setFlash($translator->trans('Saved'), 'success');
+                     ->getFlashBag()->add('success', $translator->trans('Changes saved!'));
 
 
                 return $this->redirect($this->generateUrl('zym_runtime_config_parameters'));
