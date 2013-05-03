@@ -92,6 +92,10 @@ class User extends BaseUser
      */
     public function getTimeZone()
     {
+        if ($this->timeZone === null) {
+            return date_default_timezone_get();
+        }
+        
         return $this->timeZone;
     }
 
