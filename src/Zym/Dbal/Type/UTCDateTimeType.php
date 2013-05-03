@@ -1,11 +1,11 @@
 <?php 
 namespace Zym\Dbal\Type;
 
-use Doctrine\DBAL\Types\DateType;
+use Doctrine\DBAL\Types\DateTimeType;
 use Doctrine\DBAL\Platforms\AbstractPlatform;
 use Doctrine\DBAL\Types\ConversionException;
 
-class UTCDateTimeType extends DateType
+class UTCDateTimeType extends DateTimeType
 {
     static private $utc = null;
 

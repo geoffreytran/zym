@@ -21,7 +21,7 @@ class UTCDateType extends DateType
 
         $value->setTimeZone(self::$utc);
 
-        return $value->format($platform->getDateTimeFormatString());
+        return $value->format($platform->getDateFormatString());
     }
 
     public function convertToPHPValue($value, AbstractPlatform $platform)
@@ -34,7 +34,7 @@ class UTCDateType extends DateType
             self::$utc = new \DateTimeZone('UTC');
         }
 
-        $val = \DateTime::createFromFormat($platform->getDateTimeFormatString(), $value, self::$utc);
+        $val = \DateTime::createFromFormat($platform->getDateFormatString(), $value, self::$utc);
 
         if (!$val) {
             throw ConversionException::conversionFailed($value, $this->getName());
