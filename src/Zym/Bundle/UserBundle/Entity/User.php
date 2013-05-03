@@ -86,16 +86,24 @@ class User extends BaseUser
     }
     
     /**
+     * Get a DateTimeZone instance for the user
+     * 
+     * @return \DateTimeZone
+     */
+    public function getDateTimeZone()
+    {
+        $timeZone = $this->timeZone ?: date_default_timezone_get();
+        
+        return new \DateTimeZone($timeZone);
+    }
+    
+    /**
      * Get the time zone
      * 
      * @return string
      */
     public function getTimeZone()
     {
-        if ($this->timeZone === null) {
-            return date_default_timezone_get();
-        }
-        
         return $this->timeZone;
     }
 
