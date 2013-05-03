@@ -168,7 +168,8 @@ class AclEntriesController extends Controller
 
         return array(
             'aclClass' => $origAclClass,
-            'form' => $form->createView()
+            'index'    => $index,
+            'form'     => $form->createView()
         );
     }
 

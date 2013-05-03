@@ -35,10 +35,14 @@
         <fieldset>
             <legend>{{ 'Groups and Permissions' | trans({}, 'ZymUserBundle') }}</legend>
             {{ form_row(form.groups) }}
+            {{ form_row(form.roles) }}
         </fieldset>
 
-        {{ form_rest(form) }}
-
+        <fieldset>
+            <legend>{{ 'Miscellaneous' | trans({}, 'ZymUserBundle') }}</legend>
+            {{ form_rest(form) }}
+        </fieldset>
+            
         <fieldset class="form-actions">
             <button class="btn btn-primary" type="submit">{{ 'Create' | trans({}, 'ZymUserBundle') }}</button>
             <button class="btn" type="button" onclick="history.back();">{{ 'Cancel' | trans({}, 'ZymUserBundle') }}</button>

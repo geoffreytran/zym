@@ -93,9 +93,13 @@
         <fieldset>
             <legend>Groups and Permissions</legend>
             {{ form_row(form.groups) }}
+            {{ form_row(form.roles) }}
         </fieldset>
 
-        {{ form_rest(form) }}
+        <fieldset>
+            <legend>{{ 'Miscellaneous' | trans({}, 'ZymUserBundle') }}</legend>
+            {{ form_rest(form) }}
+        </fieldset>
 
         <fieldset class="form-actions">
             <button class="btn btn-primary" type="submit">{{ 'Save changes' | trans({}, 'ZymUserBundle') }}</button>

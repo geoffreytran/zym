@@ -62,6 +62,13 @@ class UserType extends AbstractType
                 'multiple' => true,
                 'required' => false
             ));
+        
+        $builder->add('timeZone', 'timezone', array(
+            'label'       => 'Time Zone',
+            'empty_value' => 'Choose your time zone',
+            'empty_data'  => null,
+            'required'    => false
+        ));
     }
 
     /**

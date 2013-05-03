@@ -61,6 +61,15 @@ class User extends BaseUser
      * @var string
      */
     protected $plainPassword;
+    
+    /**
+     * Time Zone
+     *
+     * @var string
+     * 
+     * @ORM\Column(type="string", nullable=true)
+     */
+    protected $timeZone;
 
     /**
      * Sets the email.
@@ -74,5 +83,25 @@ class User extends BaseUser
         }
 
         parent::setEmail($email);
+    }
+    
+    /**
+     * Get the time zone
+     * 
+     * @return string
+     */
+    public function getTimeZone()
+    {
+        return $this->timeZone;
+    }
+
+    /**
+     * Set the time zone
+     * 
+     * @param string $timeZone
+     */
+    public function setTimeZone($timeZone)
+    {
+        $this->timeZone = $timeZone;
     }
 }

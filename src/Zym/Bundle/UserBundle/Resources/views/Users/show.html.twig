@@ -79,7 +79,7 @@
         </h2>
     </div>
 
-    <div class="row">
+    <div class="row-fluid">
         <div class="span6">
             <dl>
                 {% if user.firstName is defined and user.lastName is defined and (user.firstName|length > 0 or user.lastName|length > 0) %}
@@ -100,6 +100,11 @@
                 <dt>Email</dt>
                 <dd>
                     <a href="mailto:{{ user.email |url_encode }}">{{ user.email |e }}</a>
+                </dd>
+                
+                <dt>Time Zone</dt>
+                <dd>
+                    {{ user.timeZone ?: 'Not set' |e }}
                 </dd>
             </dl>
         </div>
@@ -130,7 +135,7 @@
         </h2>
     </div>
 
-    <div class="row">
+    <div class="row-fluid">
         <div class="span6">
             <h3>Groups</h3>
 
