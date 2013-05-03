@@ -67,7 +67,7 @@ class User extends BaseUser
      *
      * @var string
      * 
-     * @ORM\Column(type="string", nullable=true)
+     * @ORM\Column(name="time_zone", type="string", nullable=true)
      */
     protected $timeZone;
 
