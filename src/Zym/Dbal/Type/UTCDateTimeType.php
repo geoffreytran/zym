@@ -19,9 +19,10 @@ class UTCDateTimeType extends DateTimeType
             self::$utc = new \DateTimeZone('UTC');
         }
 
-        $value->setTimeZone(self::$utc);
+        $cloneDate = clone $value;
+        $cloneDate->setTimeZone(self::$utc);
 
-        return $value->format($platform->getDateTimeFormatString());
+        return $cloneDate->format($platform->getDateTimeFormatString());
     }
 
     public function convertToPHPValue($value, AbstractPlatform $platform)
