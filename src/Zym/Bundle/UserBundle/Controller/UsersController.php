@@ -10,6 +10,7 @@
  * @category  Zym
  * @copyright Copyright (c) 2011 Zym. (http://www.zym.com/)
  */
+
 namespace Zym\Bundle\UserBundle\Controller;
 
 use Zym\Bundle\UserBundle\Form;

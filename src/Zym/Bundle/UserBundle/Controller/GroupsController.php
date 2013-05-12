@@ -10,6 +10,7 @@
  * @category  Zym
  * @copyright Copyright (c) 2011 Zym. (http://www.zym.com/)
  */
+
 namespace Zym\Bundle\UserBundle\Controller;
 
 use Zym\Bundle\UserBundle\Form;
@@ -119,7 +120,7 @@ class GroupsController extends Controller
      * )
      * @Template()
      *
-     * SecureParam(name="group", permissions="VIEW")
+     * @SecureParam(name="group", permissions="VIEW")
      */
     public function showAction(Entity\Group $group)
     {
