@@ -3,11 +3,12 @@
 {% block title %}{{ 'Queues' | trans({}, 'ZymResqueBundle') }}{% endblock %}
 
 {% block content %}
-    <div class="row-fluid">
-        <h2 class="span">
-            Queues
-        </h2>
-    </div>
+        <div class="page-header">
+            <h1>
+                {{ 'Queues' |trans({}, 'ZymNodeBundle') }}
+                <small>{{ 'Manage the queues' |trans({}, 'ZymNodeBundle') }}</small>
+            </h1>
+        </div>
 
     <div class="row-fluid">
         <div class="span">
@@ -29,6 +30,10 @@
                     </tr>
                 {% endfor %}
             </table>
+                
+            {% if resque.queues |length <= 0 %}
+                <p>No queues currently.</p>
+            {% endif %}
         </div>
     </div>
     <div class="row-fluid">
@@ -110,13 +115,19 @@
 
     <h2>Failures</h2>
     <div class="row-fluid">
-        {% for failure in resque.failures %}
+        {% if resque.failures %}
+        {% for index,failure in resque.failures %}
+            #{{index}}
             {{ failure.failed_at }}<br>
+            
             {% debug failure %}<br>
 
             {% debug failure.payload %}<br>
 
         {% endfor %}
+        {% else %}
+            <p>No failed jobs.</p>
+        {% endif %}
     </div>
 
     <div class="row-fluid">

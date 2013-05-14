@@ -31,8 +31,8 @@ class RequeueCommand extends ContainerAwareCommand
         /* @var $resque \Zym\Bundle\ResqueBundle\Resque */
         $resque    = $container->get('zym_resque.resque');
 
-        for ($x=0; $x < 13831; $x++) {
-                Redis::requeue($x);
+        for ($x=0; $x < Redis::count(); $x++) {
+            Redis::requeue($x);
         }
     }
 }

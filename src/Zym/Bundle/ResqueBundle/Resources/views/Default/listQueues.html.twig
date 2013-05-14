@@ -6,9 +6,19 @@
     <div class="page-header">
         <h1>
             {{ 'Queues List' | trans({}, 'ZymResqueBundle') }}
-            <small></small>
+            <small>All items in queues</small>
         </h1>
     </div>
+
+    <div class="btn-toolbar">
+        <div class="btn-group">
+            <a class="btn" href="javascript: history.back();">
+                <i class="icon-arrow-left"></i>
+                {{ 'Back' | trans({}, 'ZymResqueBundle') }}
+            </a>
+        </div>
+    </div>
+    
     {% for queue in queues %}
         <div class="row">
             <h3 class="span">
@@ -47,4 +57,8 @@
             </div>
         </div>
     {% endfor %}
+
+    {% if queues |length <= 0 %}
+        <p>No items in queue.</p>
+    {% endif %}
 {% endblock %}

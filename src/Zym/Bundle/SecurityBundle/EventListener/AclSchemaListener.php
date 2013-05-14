@@ -23,14 +23,14 @@ use Doctrine\ORM\Tools\Event\GenerateSchemaTableEventArgs;
  */
 class AclSchemaListener extends BaseAclSchemaListener
 {
-	private $container;
+    private $container;
 
-	public function __construct(ContainerInterface $container)
-	{
-    	parent::__construct($container);
-    	
-		$this->container = $container;
-	}
+    public function __construct(ContainerInterface $container)
+    {
+        parent::__construct($container);
+
+        $this->container = $container;
+    }
 
     public function postGenerateSchemaTable(GenerateSchemaTableEventArgs $args)
     {

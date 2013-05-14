@@ -57,8 +57,8 @@ class GroupsController extends Controller
         $orderBy  = $request->query->get('orderBy');
         $filterBy = $request->query->get('filterBy');
 
-        $groupManager = $this->container->get('fos_user.group_manager');
         /* @var $groupManager \Zym\Bundle\GroupBundle\Entity\GroupManager */
+        $groupManager = $this->container->get('fos_user.group_manager');
 
         $groups = $groupManager->findGroups($filterBy, $page, $limit, $orderBy);
 
@@ -88,8 +88,8 @@ class GroupsController extends Controller
             $form->bind($request);
 
             if ($form->isValid()) {
-                $groupManager = $this->get('fos_user.group_manager');
                 /* @var $groupManager \Zym\Bundle\GroupBundle\Entity\GroupManager */
+                $groupManager = $this->get('fos_user.group_manager');
 
                 $groupManager->addGroup($group);
 
@@ -153,9 +153,8 @@ class GroupsController extends Controller
             $form->bind($request);
 
             if ($form->isValid()) {
-                $groupManager = $this->get('fos_user.group_manager');
                 /* @var $groupManager \Zym\Bundle\GroupBundle\Entity\GroupManager */
-
+                $groupManager = $this->get('fos_user.group_manager');
                 $groupManager->saveGroup($group);
 
                 return $this->redirect($this->generateUrl(
@@ -167,7 +166,7 @@ class GroupsController extends Controller
 
         return array(
             'group' => $originalGroup,
-            'form' => $form->createView()
+            'form'  => $form->createView()
         );
     }
 
@@ -197,8 +196,8 @@ class GroupsController extends Controller
             $form->bind($request);
 
             if ($form->isValid()) {
-                $groupManager = $this->get('fos_user.group_manager');
                 /* @var $groupManager \FOS\GroupBundle\Entity\GroupManager */
+                $groupManager = $this->get('fos_user.group_manager');
                 $groupManager->deleteGroup($group);
 
                 return $this->redirect($this->generateUrl(
@@ -210,7 +209,7 @@ class GroupsController extends Controller
 
         return array(
             'group' => $group,
-            'form' => $form->createView()
+            'form'  => $form->createView()
         );
     }
 }
