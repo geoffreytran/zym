@@ -8,8 +8,7 @@ use Symfony\Component\Validator\Constraints as Assert;
 use Doctrine\ORM\Mapping as ORM;
 use Doctrine\Common\Collections\Collection;
 use Doctrine\Common\Collections\ArrayCollection;
-use Symfony\Component\Form\Extension\Core\Type\FieldType as FormFieldType;
-use Symfony\Component\Form\AbstractType as FormAbstractType;
+use Symfony\Component\Form\Extension\Core\Type\FormType;
 use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\OptionsResolver\OptionsResolverInterface;
 
@@ -17,7 +16,7 @@ use Symfony\Component\OptionsResolver\OptionsResolverInterface;
  * @ORM\Entity(repositoryClass="FieldConfigRepository")
  * @ORM\Table(name="field_configs")
  */
-class FieldConfig extends    FormFieldType 
+class FieldConfig extends    FormType 
                   implements FieldConfigInterface
 {
     /**

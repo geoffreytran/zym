@@ -21,7 +21,14 @@ class AclSecurityIdentityEntityType extends AbstractType
     public function buildForm(FormBuilderInterface $builder, array $options)
     {
         if ($options['multiple']) {
-            $builder->addEventListener(FormEvents::BIND_NORM_DATA, function(Event $event) use ($options){
+            // Symfony <2.3
+            if (defined('Symfony\Component\Form\FormEvents::BIND_NORM_DATA')) {
+                $eventName = FormEvents::BIND_NORM_DATA;
+            } else {
+                $eventName = FormEvents::BIND;
+            }
+            
+            $builder->addEventListener($eventName, function(Event $event) use ($options){
                 $event->stopPropagation();
             }, 4);
         }
