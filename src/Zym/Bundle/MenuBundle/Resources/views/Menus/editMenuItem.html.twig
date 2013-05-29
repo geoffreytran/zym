@@ -26,7 +26,7 @@
         </div>
     </div>
     
-    <form action="{{ path('zym_menus_item_edit', { 'menu': menu.name, 'id': menuItem.id }) }}" method="post" {{ form_enctype(form) }}>
+    <form class="form-horizontal" action="{{ path('zym_menus_item_edit', { 'menu': menu.name, 'id': menuItem.id }) }}" method="post" {{ form_enctype(form) }}>
         {{ form_rest(form) }}
         {{ form_row(form.parent, { 'empty_value': '---' }) }}
     
