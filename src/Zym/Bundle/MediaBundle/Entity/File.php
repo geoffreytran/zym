@@ -13,7 +13,7 @@ use Doctrine\Common\Collections\Collection;
 use Doctrine\Common\Collections\ArrayCollection;
 
 /**
- * ORM\Entity()
+ * @ORM\Entity()
  */
 class File extends Media
 {

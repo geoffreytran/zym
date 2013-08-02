@@ -13,6 +13,6 @@
             <tag name="gaufrette.adapter.factory" />
         </service>
 
-        <service id="zym_gaufrette.adapter.rackspace_cloudfiles" class="Gaufrette\Adapter\RackspaceCloudfiles" abstract="true" public="false" />
+        <service id="zym_gaufrette.adapter.rackspace_cloudfiles" class="Zym\Gaufrette\Adapter\RackspaceCloudfiles" abstract="true" public="false" />
     </services>
 </container>
