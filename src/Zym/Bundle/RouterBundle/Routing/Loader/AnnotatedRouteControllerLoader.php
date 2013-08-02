@@ -33,10 +33,10 @@ class AnnotatedRouteControllerLoader extends BaseAnnotatedRouteControllerLoader
             }
         } else {
             $path = $route->getPath();
-            if (!empty($path) && '/' === $path[0] && isset($path[1]) && '.' === $path[1]) {
+            if (!empty($path) && '/' === $path) {
                 $r = new \ReflectionProperty('Symfony\Component\Routing\Route', 'path');
                 $r->setAccessible(true);
-                $r->setValue($route, substr($path, 1));
+                $r->setValue($route, '');
             }
         }
     }
