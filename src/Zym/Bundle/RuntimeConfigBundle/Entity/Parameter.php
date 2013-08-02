@@ -1,7 +1,7 @@
 <?php
 namespace Zym\Bundle\RuntimeConfigBundle\Entity;
 
-use OpenSky\Bundle\RuntimeConfigBundle\Entity\Parameter as BaseParameter;
+use OpenSky\Bundle\RuntimeConfigBundle\Model\Parameter as BaseParameter;
 use Symfony\Component\Security\Acl\Model\DomainObjectInterface;
 use Symfony\Component\Validator\Constraints as Assert;
 use Symfony\Component\Validator\ExecutionContext;
@@ -12,9 +12,13 @@ use Doctrine\ORM\Mapping as ORM;
 use Doctrine\Common\Collections\Collection;
 use Doctrine\Common\Collections\ArrayCollection;
 
+use Symfony\Bridge\Doctrine\Validator\Constraints\UniqueEntity;
+
 /**
  * @ORM\Entity(repositoryClass="ParameterRepository")
  * @ORM\Table(name="parameters")
+ * 
+ * @UniqueEntity(groups={"Entity"}, fields={"name"}, message="A parameter with the same name already exists; name must be unique")
  */
 class Parameter extends BaseParameter
                 implements DomainObjectInterface
