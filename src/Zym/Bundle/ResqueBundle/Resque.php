@@ -17,10 +17,6 @@ class Resque
     function __construct(array $kernelOptions)
     {
         $this->kernelOptions = $kernelOptions;
-
-        // HACK, prune dead workers, just in case
-        $worker = new \Resque_Worker('temp');
-        $worker->pruneDeadWorkers();
     }
 
     public function setRedisConfiguration($host, $port, $database)
@@ -32,6 +28,10 @@ class Resque
         );
 
         \Resque::setBackend($host.':'.$port, $database);
+        
+        // HACK, prune dead workers, just in case
+        $worker = new \Resque_Worker('temp');
+        $worker->pruneDeadWorkers();
     }
 
     public function getRedisConfiguration()
