@@ -274,7 +274,8 @@ class MenusController extends Controller
 
             return array(
                 'menu' => $menu,
-                'form' => $form->createView()
+                'form' => $form->createView(),
+                'type' => $type
             );
         }
     }

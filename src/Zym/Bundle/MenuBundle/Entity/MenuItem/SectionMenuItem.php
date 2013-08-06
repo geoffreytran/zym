@@ -125,7 +125,7 @@ class SectionMenuItem extends Entity\MenuItem
         return $this->isAbsolute();
     }
 
-        /**
+    /**
      * Get the uri of the link
      *
      * @return string

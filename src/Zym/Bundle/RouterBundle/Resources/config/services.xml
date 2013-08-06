@@ -15,6 +15,7 @@
     <services>
         <service id="zym_router.routing.loader.doctrine_orm_loader" class="%zym_router.routing.loader.doctrine_orm_loader.class%">
             <argument type="service" id="doctrine.orm.entity_manager" />
+            
             <tag name="routing.loader" />
         </service>
 
@@ -25,6 +26,12 @@
             <argument type="service" id="security.acl.provider" on-invalid="ignore" />
             <argument type="service" id="security.context" on-invalid="ignore" />
             <argument type="service" id="security.acl.collection_cache" on-invalid="ignore" />
+        </service>
+        
+        <service id="zym_router.route_subscriber" class="Zym\Bundle\RouterBundle\EventListener\RouteSubscriber" public="false">
+            <argument type="service" id="router" />
+
+            <tag name="doctrine.event_subscriber" />
         </service>
     </services>
 </container>
