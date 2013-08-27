@@ -95,8 +95,8 @@ class Resque
         return new Worker($worker);
     }
 
-    public function getFailures()
+    public function getFailures($offset = 0, $limit = 100)
     {
-        return Failure\Redis::all();
+        return Failure\Redis::all($offset, $limit);
     }
 }

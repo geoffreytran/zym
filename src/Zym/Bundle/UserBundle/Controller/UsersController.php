@@ -44,7 +44,7 @@ class UsersController extends Controller
      *         "_format" = "html"
      *     },
      *     requirements={
-     *         "_format" = "html|json"
+     *         "_format" = "html|json|xml"
      *     }
      * )
      * @Template()

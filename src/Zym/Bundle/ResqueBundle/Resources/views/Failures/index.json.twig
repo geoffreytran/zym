@@ -1,0 +1,11 @@
+{{ 
+    {
+        'data': {
+            'pageIndex': page,
+            'itemsPerPage': limit,
+            'items' : failures,
+            'totalItems': count
+        }
+    } 
+    |serialize('json') |raw
+}}

@@ -1,0 +1,30 @@
+{% extends "ZymResqueBundle::layout.html.twig" %}
+
+{% block title %}{{ 'Queue Job Failures' | trans({}, 'ZymResqueBundle') }}{% endblock %}
+
+{% block content %}
+    <div class="page-header">
+        <h1>
+            {{ 'Queue Job Failures' |trans({}, 'ZymResqueBundle') }}
+            <small>{{ 'Manage job failures' |trans({}, 'ZymResqueBundle') }}</small>
+        </h1>
+    </div>
+
+
+  
+    {% if resque.failures %}
+    <div class="list-group">
+        {% for index,failure in resque.failures %}
+            #{{index}}
+            {{ failure.failed_at }}<br>
+
+            {% debug failure %}<br>
+
+            {% debug failure.payload %}<br>
+
+        {% endfor %}
+    </div>
+    {% else %}
+        <p>No failed jobs.</p>
+    {% endif %}
+{% endblock %}

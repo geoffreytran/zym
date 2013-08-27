@@ -32,7 +32,7 @@ class MediaType extends AbstractType
      */
     public function buildForm(FormBuilderInterface $builder, array $options)
     {
-        $builder->appendNormTransformer(new ProviderDataTransformer($this->mediaPool, array(
+        $builder->addModelTransformer(new ProviderDataTransformer($this->mediaPool, array(
             'provider' => $options['provider'],
             'context'  => $options['context'],
         )));

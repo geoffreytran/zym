@@ -13,6 +13,8 @@
 
 namespace Zym\Bundle\UserBundle\Entity;
 
+use JMS\Serializer\Annotation as Serializer;
+
 use Symfony\Component\HttpKernel\Bundle\Bundle;
 use Symfony\Component\DependencyInjection\ContainerBuilder;
 use Symfony\Component\Validator\Constraints as Assert;
@@ -54,11 +56,31 @@ class User extends BaseUser
      * )
      */
     protected $groups;
+    
+    /**
+     * The salt to use for hashing
+     *
+     * @var string
+     * 
+     * @Serializer\Exclude()
+     */
+    protected $salt;
+
+    /**
+     * Encrypted password. Must be persisted.
+     *
+     * @var string
+     * 
+     * @Serializer\Exclude()
+     */
+    protected $password;
 
     /**
      * Plain password. Used for model validation. Must not be persisted.
      *
      * @var string
+     * 
+     * @Serializer\Exclude()
      */
     protected $plainPassword;
     

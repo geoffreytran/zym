@@ -4,6 +4,7 @@
     xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
     xsi:schemaLocation="http://symfony.com/schema/routing http://symfony.com/schema/routing/routing-1.0.xsd">
 
-    <import resource="@ZymResqueBundle/Controller/DefaultController.php" type="annotation" />
-    <import resource="@ZymResqueBundle/Controller/FailuresController.php" type="annotation" prefix="failures" />
+    <route id="zym_paginator_homepage" pattern="/hello/{name}">
+        <default key="_controller">ZymPaginatorBundle:Default:index</default>
+    </route>
 </routes>
