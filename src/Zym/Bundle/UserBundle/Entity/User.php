@@ -35,7 +35,7 @@ use Doctrine\ORM\Mapping as ORM;
  * @ORM\InheritanceType("SINGLE_TABLE")
  * @ORM\DiscriminatorColumn(name="object_type", type="string")
  * @ORM\DiscriminatorMap({"Zym\Bundle\UserBundle\Entity\User" = "Zym\Bundle\UserBundle\Entity\User"})
- *
+ * 
  * @UniqueEntity(fields="username", message="This username is already exists.")
  * @UniqueEntity(fields="email",    message="This email is already exists.")
  */
@@ -92,6 +92,34 @@ class User extends BaseUser
      * @ORM\Column(name="time_zone", type="string", nullable=true)
      */
     protected $timeZone;
+    
+    /**
+     * Created At
+     *
+     * @var \DateTime
+     * 
+     * @ORM\Column(name="created_at", type="datetime")
+     */
+    protected $createdAt;
+    
+    /**
+     * Updated At
+     *
+     * @var \DateTime
+     * 
+     * @ORM\Column(name="updated_at", type="datetime", nullable=true)
+     */
+    protected $updatedAt;
+    
+    /**
+     * Construct
+     */
+    public function __construct()
+    {
+        parent::__construct();
+        
+        $this->createdAt = new \DateTime();
+    }
 
     /**
      * Sets the email.
@@ -137,5 +165,45 @@ class User extends BaseUser
     public function setTimeZone($timeZone)
     {
         $this->timeZone = $timeZone;
+    }
+    
+    /**
+     * Get created at
+     * 
+     * @return \DateTime
+     */
+    public function getCreatedAt()
+    {
+        return $this->createdAt;
+    }
+
+    /**
+     * Set created at
+     * 
+     * @param \DateTime $createdAt
+     */
+    public function setCreatedAt(\DateTime $createdAt)
+    {
+        $this->createdAt = $createdAt;
+    }
+
+    /**
+     * Get updated at
+     * 
+     * @return \DateTime
+     */
+    public function getUpdatedAt()
+    {
+        return $this->updatedAt;
+    }
+
+    /**
+     * Set updated at
+     * 
+     * @param \DateTime $updatedAt
+     */
+    public function setUpdatedAt(\DateTime $updatedAt)
+    {
+        $this->updatedAt = $updatedAt;
     }
 }

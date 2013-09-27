@@ -101,6 +101,14 @@ class NodesController extends Controller
      *         "_format" = "html"
      *     }
      * )
+     * @Route(
+     *     "/add/{type}.{_format}",
+     *     name="zym_nodes_add_type",
+     *     defaults={
+     *         "type" = false,
+     *         "_format" = "html"
+     *     }
+     * )
      * @Template()
      * @SecureParam(name="nodeType", permissions="VIEW")
      *

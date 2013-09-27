@@ -116,14 +116,64 @@ abstract class AbstractEntityRepository extends EntityRepository
                 $paramName = 'qo_' . $key;
                 $x         = $qb->getRootAlias() . '.' . $key;
 
-                if ($value instanceof Criteria\Comparison) {
-                    $expr = new Expr\Comparison($x, $value->getOperator(), ':' . $paramName);
-                    $qb->setParameter($paramName, $value->getRightExpr());
-                } else if ($value === null) {
-                    $expr = $qb->expr()->isNull($x);
+                if (is_array($value) && isset($value['value'])) {
+                    if (!isset($value['operator'])) {
+                        $value['operator'] = '=';
+                    }
+
+                    switch (strtolower($value['operator'])) {
+                        case '<>':
+                            $expr = new Expr\Comparison($x, '<>', ':' . $paramName);
+                            break;
+                        
+                        case '<':
+                            $expr = new Expr\Comparison($x, '<', ':' . $paramName);
+                            break;
+                        
+                        case '<=':
+                            $expr = new Expr\Comparison($x, '<=', ':' . $paramName);
+                            break;
+                        
+                        case '>':
+                            $expr = new Expr\Comparison($x, '>', ':' . $paramName);
+                            break;
+                        
+                        case '>=':
+                            $expr = new Expr\Comparison($x, '>=', ':' . $paramName);
+                            break;
+                        
+                        case 'contains':
+                            $expr = new Expr\Comparison($x, 'LIKE', ':' . $paramName);
+                            $value['value'] = '%' . $value['value'] . '%';
+                            break;
+                        
+                        case 'not-contains':
+                            $expr = new Expr\Comparison($x, 'NOT LIKE', ':' . $paramName);
+                            $value['value'] = '%' . $value['value'] . '%';
+                            break;
+                        
+                        case 'between':
+                            $expr = $x . ' BETWEEN ' . ':' . $paramName . ' AND :' . $paramName . '_2';
+                            $qb->setParameter($paramName . '_2', isset($value['value2']) ? $value['value2'] : null);
+                            break;
+                        
+                        case '=':
+                        default:
+                            $expr = new Expr\Comparison($x, '=', ':' . $paramName);
+                            break;
+                    }
+                    
+                    $qb->setParameter($paramName, $value['value']);
                 } else {
-                    $expr = $qb->expr()->eq($x, ':' . $paramName);
-                    $qb->setParameter($paramName, $value);
+                    if ($value instanceof Criteria\Comparison) {
+                        $expr = new Expr\Comparison($x, $value->getOperator(), ':' . $paramName);
+                        $qb->setParameter($paramName, $value->getRightExpr());
+                    } else if ($value === null) {
+                        $expr = $qb->expr()->isNull($x);
+                    } else {
+                        $expr = $qb->expr()->eq($x, ':' . $paramName);
+                        $qb->setParameter($paramName, $value);
+                    }
                 }
 
                 $qb->andWhere($expr);

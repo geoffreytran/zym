@@ -31,6 +31,9 @@ class Resque
         
         // HACK, prune dead workers, just in case
         $worker = new \Resque_Worker('temp');
+        if (method_exists($worker, 'setLogger')) {
+            $worker->setLogger(new \Psr\Log\NullLogger());
+        }
         $worker->pruneDeadWorkers();
     }
 

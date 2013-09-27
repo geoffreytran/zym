@@ -442,6 +442,11 @@ class UserManager extends AbstractUserManager
             return $this->createEntity($entity, $andFlush);
         } else {
             $em = $this->objectManager;
+            
+            if (method_exists($entity, 'setUpdatedAt')) {
+                $entity->setUpdatedAt(new \DateTime());
+            }
+            
             $em->persist($entity);
 
             if ($andFlush) {

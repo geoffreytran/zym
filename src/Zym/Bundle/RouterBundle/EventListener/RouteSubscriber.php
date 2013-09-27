@@ -66,8 +66,13 @@ class RouteSubscriber implements EventSubscriber
             $generatorClass = $this->router->getOption('generator_cache_class');
             $matcherClass = $this->router->getOption('matcher_cache_class');
             
-            unlink($cacheDir .'/' . $generatorClass . '.php');
-            unlink($cacheDir .'/' . $matcherClass . '.php');
+            if (file_exists($cacheDir .'/' . $generatorClass . '.php')) {
+                unlink($cacheDir .'/' . $generatorClass . '.php');
+            }
+            
+            if (file_exists($cacheDir .'/' . $matcherClass . '.php')) {
+                unlink($cacheDir .'/' . $matcherClass . '.php');
+            }
             
             $this->router->getGenerator();
             $this->router->getMatcher();

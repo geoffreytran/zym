@@ -28,6 +28,7 @@ use Sensio\Bundle\FrameworkExtraBundle\Configuration\Cache;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Template;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\ParamConverter;
 
+
 /**
  * Users Controller
  *
@@ -57,8 +58,8 @@ class UsersController extends Controller
         $orderBy  = $request->query->get('orderBy');
         $filterBy = $request->query->get('filterBy');
 
-        $userManager = $this->container->get('fos_user.user_manager');
         /* @var $userManager \Zym\Bundle\UserBundle\Entity\UserManager */
+        $userManager = $this->container->get('fos_user.user_manager');
 
         $users = $userManager->findUsers($filterBy, $page, $limit, $orderBy);
 
