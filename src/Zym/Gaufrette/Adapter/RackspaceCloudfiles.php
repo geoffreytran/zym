@@ -18,7 +18,11 @@ class RackspaceCloudfiles extends BaseRackspaceCloudfiles
             $object = $this->container->create_object($key);
         }
 
-        if (!$object->write($content)) {
+        if (!$object->content_type) {
+            $object->content_type = 'application/octet-stream';
+        }
+
+        if (!$object->write($content, 0, false)) {
             return false;
         }
 

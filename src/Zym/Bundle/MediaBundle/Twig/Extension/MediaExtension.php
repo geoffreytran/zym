@@ -99,12 +99,10 @@ class MediaExtension extends \Twig_Extension
             return '';
         }
 
-        $provider = $this
-            ->mediaPool
-            ->getProvider($media->getProviderName());
+        $provider = $this->mediaPool
+                         ->getProvider($media->getProviderName());
 
-        $format = $provider->getFormatName($media, $format);
-
+        $format  = $provider->getFormatName($media, $format);
         $options = $provider->getHelperProperties($media, $format, $options);
 
         return $this->render($provider->getTemplate('view'), array(
@@ -128,10 +126,8 @@ class MediaExtension extends \Twig_Extension
              return '';
         }
 
-        $provider = $this->mediaPool
-           ->getProvider($media->getProviderName());
-
-        $format = $provider->getFormatName($media, $format);
+        $provider = $this->mediaPool->getProvider($media->getProviderName());
+        $format   = $provider->getFormatName($media, $format);
 
         return $provider->generatePublicUrl($media, $format);
     }
@@ -153,22 +149,21 @@ class MediaExtension extends \Twig_Extension
             return '';
         }
 
-        $provider = $this->mediaPool
-           ->getProvider($media->getProviderName());
+        $provider = $this->mediaPool->getProvider($media->getProviderName());
 
-        $format = $provider->getFormatName($media, $format);
-        $format_definition = $provider->getFormat($format);
+        $format           = $provider->getFormatName($media, $format);
+        $formatDefinition = $provider->getFormat($format);
 
         // build option
         $defaultOptions = array(
             'title' => $media->getName(),
         );
 
-        if ($format_definition['width']) {
-            $defaultOptions['width'] = $format_definition['width'];
+        if ($formatDefinition['width']) {
+            $defaultOptions['width'] = $formatDefinition['width'];
         }
-        if ($format_definition['height']) {
-            $defaultOptions['height'] = $format_definition['height'];
+        if ($formatDefinition['height']) {
+            $defaultOptions['height'] = $formatDefinition['height'];
         }
 
         $options = array_merge($defaultOptions, $options);

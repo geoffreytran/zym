@@ -31,7 +31,7 @@ class MediaPool
     public function getProvider($name)
     {
         if (!isset($this->providers[$name])) {
-            throw new \RuntimeException(sprintf('unable to retrieve the provider named : `%s`', $name));
+            throw new \RuntimeException(sprintf('Unable to retrieve the provider named: "%s"', $name));
         }
 
         return $this->providers[$name];

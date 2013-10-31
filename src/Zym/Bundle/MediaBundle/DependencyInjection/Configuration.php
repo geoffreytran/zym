@@ -254,6 +254,35 @@ class Configuration implements ConfigurationInterface
                             ->end()
                         ->end()
 
+                        ->arrayNode('audio')
+                            ->addDefaultsIfNotSet()
+                                ->children()
+                                    ->scalarNode('service')->defaultValue('zym_media.provider.audio')->end()
+                                    ->scalarNode('resizer')->defaultValue('zym_media.resizer.simple_image')->end()
+                                    ->scalarNode('filesystem')->defaultValue('zym_media.filesystem.local')->end()
+                                    ->scalarNode('cdn')->defaultValue('zym_media.cdn.server')->end()
+                                    ->scalarNode('generator')->defaultValue('zym_media.generator.default')->end()
+                                    ->scalarNode('thumbnail')->defaultValue('zym_media.thumbnail.format')->end()
+                                    ->scalarNode('adapter')->defaultValue('zym_media.adapter.image.gd')->end()
+                                    ->arrayNode('allowed_extensions')
+                                    ->prototype('scalar')->end()
+                                    ->defaultValue(array('aac', 'mp4', 'm4a', 'mp1', 'mp2', 'mp3', 'mpg', 'mpeg', 'oga', 'ogg', 'wav', 'webm'))
+                                ->end()
+                                ->arrayNode('allowed_mime_types')
+                                    ->prototype('scalar')->end()
+                                    ->defaultValue(array(
+                                        'audio/aac',
+                                        'audio/mp4',
+                                        'audio/mpeg',
+                                        'audio/ogg',
+                                        'audio/wav',
+                                        'audio/webm'
+                                    ))
+
+                                ->end()
+                            ->end()
+                        ->end()
+
                         ->arrayNode('youtube')
                             ->addDefaultsIfNotSet()
                             ->children()
