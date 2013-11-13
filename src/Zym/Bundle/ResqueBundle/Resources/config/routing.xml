@@ -5,4 +5,5 @@
     xsi:schemaLocation="http://symfony.com/schema/routing http://symfony.com/schema/routing/routing-1.0.xsd">
 
     <import resource="@ZymResqueBundle/Controller/DefaultController.php" type="annotation" />
+    <import resource="@ZymResqueBundle/Controller/FailuresController.php" type="annotation" prefix="failures" />
 </routes>

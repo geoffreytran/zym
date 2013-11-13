@@ -1,1 +1,1 @@
-{{ users | serialize('json') | raw }}
+{{ { 'data': users } | serialize('json') | raw }}

@@ -23,7 +23,7 @@ class FileProvider extends AbstractProvider
      */
     protected $templates = array(
         'thumbnail' => 'ZymMediaBundle:Provider:thumbnail.html.twig',
-        'view'      => 'ZymMediaBundle:Provider:view.html.twig'
+        'view'      => 'ZymMediaBundle:Provider:viewFile.html.twig'
     );
 
     protected $allowedExtensions;
@@ -121,7 +121,7 @@ class FileProvider extends AbstractProvider
         return array_merge(array(
             'title'       => $media->getName(),
             'thumbnail'   => $this->getReferenceImage($media),
-            'file'        => $this->getReferenceImage($media),
+            'file'        => $this->generatePublicUrl($media, $format),
         ), $options);
     }
 
@@ -134,9 +134,14 @@ class FileProvider extends AbstractProvider
             $path = $this->getReferenceImage($media);
         } else {
             $path = sprintf('media_bundle/images/files/%s/file.png', $format);
+            //$path = $path = $this->thumbnail->generatePublicUrl($this, $media, $format);;
         }
 
-        return $this->getCdn()->getPath($path, $media->getCdnIsFlushable());
+        try {
+            return $this->getCdn()->getPath($path, $media->isCdnFlushable());
+        } catch (\Exception $e) {
+            return '';
+        }
     }
 
     /**
@@ -203,7 +208,7 @@ class FileProvider extends AbstractProvider
     public function updateMetadata(MediaInterface $media, $force = true)
     {
         // this is now optimized at all!!!
-        $path = tempnam(sys_get_temp_dir(), 'sonata_update_metadata');
+        $path = tempnam(sys_get_temp_dir(), 'zym_media_update_metadata');
 
         $fileObject = new \SplFileObject($path, 'w');
         $fileObject->fwrite($this->getReferenceFile($media)->getContent());
@@ -222,7 +227,7 @@ class FileProvider extends AbstractProvider
 
         $this->setFileContents($media);
 
-        $this->generateThumbnails($media);
+        //$this->generateThumbnails($media);
     }
 
     /**

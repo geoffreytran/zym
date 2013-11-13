@@ -1,0 +1,7 @@
+<audio src="{{ options.src }}" controls preload>
+    {% if options.sources %}
+        {% for source in  options.sources %}
+            <source src="{{ source.src }}" />
+        {% endfor %}
+    {% endif %}
+</audio>

@@ -30,7 +30,7 @@ class DefaultController extends Controller
     }
 
     /**
-     * @Route("/queues", name="zym_resque_list_queues")
+     * @Route("queues", name="zym_resque_list_queues")
      * @Template()
      */
     public function listQueuesAction()

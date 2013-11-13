@@ -83,6 +83,11 @@ class ZymMediaExtension extends Extension
      */
     public function configureProviders(ContainerBuilder $container, $config)
     {
+        $container->getDefinition('zym_media.provider.audio')
+            ->replaceArgument(5, array_map('strtolower', $config['providers']['audio']['allowed_extensions']))
+            ->replaceArgument(6, $config['providers']['audio']['allowed_mime_types'])
+        ;
+
         $container->getDefinition('zym_media.provider.image')
             ->replaceArgument(5, array_map('strtolower', $config['providers']['image']['allowed_extensions']))
             ->replaceArgument(6, $config['providers']['image']['allowed_mime_types'])
@@ -90,7 +95,7 @@ class ZymMediaExtension extends Extension
         ;
 
         $container->getDefinition('zym_media.provider.file')
-            ->replaceArgument(5, $config['providers']['file']['allowed_extensions'])
+            ->replaceArgument(5, array_map('strtolower', $config['providers']['file']['allowed_extensions']))
             ->replaceArgument(6, $config['providers']['file']['allowed_mime_types'])
         ;
     }

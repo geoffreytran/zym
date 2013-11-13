@@ -25,6 +25,7 @@ use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Cache;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Template;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\ParamConverter;
+use Zym\Bundle\MediaBundle\MediaPool;
 
 
 /**
@@ -247,6 +248,7 @@ class MediaController extends Controller
      */
     public function downloadAction(Entity\Media $media, $format = 'reference')
     {
+        /** @var MediaPool  */
         $mediaPool = $this->get('zym_media.media_pool');
         $provider  = $mediaPool->getProvider($media->getProviderName());
 

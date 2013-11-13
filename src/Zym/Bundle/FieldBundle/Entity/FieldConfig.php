@@ -196,7 +196,6 @@ class FieldConfig extends    FormType
         );
         
         $defaultOptions = array_merge(
-            parent::getDefaultOptions(array()),
             $defaultOptions,
             $this->getWidgetOptions()
         );

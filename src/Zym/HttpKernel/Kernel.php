@@ -10,6 +10,7 @@ ini_set('xdebug.max_nesting_level', 200);
 
 use Symfony\Component\HttpKernel\Kernel as BaseKernel;
 use Symfony\Component\Config\Loader\LoaderInterface;
+use Symfony\Component\Debug\Debug;
 
 abstract class Kernel extends BaseKernel
 {
@@ -52,6 +53,10 @@ abstract class Kernel extends BaseKernel
      */
     public function __construct($environment, $debug = null)
     {
+        if (empty($environment)) {
+            throw new \InvalidArgumentException('Application environment is not set.');
+        }
+        
         // Normalize environment string
         $environment = strtolower($environment);
 
@@ -142,8 +147,6 @@ abstract class Kernel extends BaseKernel
             $_SERVER['PHP_SELF']        = str_replace('/' . basename($_SERVER['PHP_SELF']),
                                                       $environmentMatch[0],
                                                       $_SERVER['PHP_SELF']);
-
-            ini_set('display_errors', true);
         }
 
         return $environment;
@@ -161,6 +164,12 @@ abstract class Kernel extends BaseKernel
         // Enable debug for supported environments by default
         if ($debug === null && in_array($environment, $this->debugEnvironments)) {
             $debug = true;
+        } else if ($debug === null) {
+            $debug = false;
+        }
+        
+        if ($debug === true) {
+            Debug::enable();
         }
 
         return $debug;

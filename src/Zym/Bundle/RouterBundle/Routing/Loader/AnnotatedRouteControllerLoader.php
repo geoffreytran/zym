@@ -26,17 +26,17 @@ class AnnotatedRouteControllerLoader extends BaseAnnotatedRouteControllerLoader
         // Symfony 2.1.x
         if (!method_exists($route, 'getPath')) {
             $pattern = $route->getPattern();
-            if (!empty($pattern) && '/' === $pattern[0] && isset($pattern[1]) && '.' === $pattern[1]) {
+            if (!empty($pattern) && '/' === $pattern[0] && (isset($pattern[1]) && '.' === $pattern[1] || isset($pattern[1]))) {
                 $r = new \ReflectionProperty('Symfony\Component\Routing\Route', 'pattern');
                 $r->setAccessible(true);
                 $r->setValue($route, substr($pattern, 1));
             }
         } else {
             $path = $route->getPath();
-            if (!empty($path) && '/' === $path) {
+            if (!empty($path) && '/' === $path[0] && ((isset($path[1]) && '.' === $path[1]) || !isset($path[1]))) {
                 $r = new \ReflectionProperty('Symfony\Component\Routing\Route', 'path');
                 $r->setAccessible(true);
-                $r->setValue($route, '');
+                $r->setValue($route, substr($path, 1));
             }
         }
     }

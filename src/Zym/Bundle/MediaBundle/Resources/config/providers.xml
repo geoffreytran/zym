@@ -6,11 +6,25 @@
 
     <parameters>
         <parameter key="zym_media.provider.image.class">Zym\Bundle\MediaBundle\Provider\ImageProvider</parameter>
+        <parameter key="zym_media.provider.audio.class">Zym\Bundle\MediaBundle\Provider\AudioProvider</parameter>
         <parameter key="zym_media.provider.file.class">Zym\Bundle\MediaBundle\Provider\FileProvider</parameter>
     </parameters>
 
     <services>
         <service id="zym_media.provider.image" class="%zym_media.provider.image.class%">
+            <tag name="zym_media.provider" />
+
+            <argument>zym_media.provider.image</argument>
+            <argument />
+            <argument />
+            <argument />
+            <argument type="service" id="zym_media.thumbnail.format" />
+            <argument />
+            <argument />
+            <argument />
+        </service>
+
+        <service id="zym_media.provider.audio" class="%zym_media.provider.audio.class%">
             <tag name="zym_media.provider" />
 
             <argument>zym_media.provider.image</argument>

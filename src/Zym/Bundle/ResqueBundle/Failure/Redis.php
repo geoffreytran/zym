@@ -34,9 +34,25 @@ class Redis implements \Resque_Failure_Interface
 
     public static function all($offset = 0, $limit = 100)
     {
-        return \array_map(function($data) {
-            return json_decode($data);
-        }, \Resque::redis()->lrange('failed', $offset, $limit));
+        $failures = array();
+        
+        $data = \Resque::redis()->lrange('failed', $offset, $offset + $limit - 1);
+        foreach ($data as $key => $item) {
+            $json = json_decode($item, true);
+            
+            $failure = new \Zym\Bundle\ResqueBundle\FailedJob();
+            $failure->setId($offset + $key);
+            $failure->setFailedAt($json['failed_at']);
+            $failure->setPayload($json['payload']);
+            $failure->setException($json['exception']);
+            $failure->setError($json['error']);
+            $failure->setBacktrace((array)$json['backtrace']);
+            $failure->setWorker($json['worker']);
+            $failure->setQueue($json['queue']);
+            $failures[] = $failure;
+        }
+        
+        return $failures;
     }
 
     public static function requeue($id)
@@ -45,7 +61,7 @@ class Redis implements \Resque_Failure_Interface
 //        item['retried_at'] = Time.now.rfc2822
 //        Resque.redis.lset(:failed, id, Resque.encode(item))
 //        Job.create(item['queue'], item['payload']['class'], *item['payload']['args'])
-        $item = current(self::all($id, $id));
+        $item = current(self::all($id, 1));
         $item->retried_at = strftime('%a %b %d %H:%M:%S %Z %Y');
         $data = json_encode($item);
 
