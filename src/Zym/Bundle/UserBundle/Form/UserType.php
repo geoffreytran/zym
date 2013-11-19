@@ -55,20 +55,36 @@ class UserType extends AbstractType
                 'error_bubbling'  => true,
                 'invalid_message' => 'Passwords do not match'
             ))
-            ->add('roles', 'acl_security_identity_entity')
+            ->add('roles', 'acl_security_identity_entity', array(
+                'attr'     => array(
+                    'placeholder' => 'Choose your roles.'
+                )
+            ))
             ->add('groups', 'entity', array(
                 'class'    => 'ZymUserBundle:Group',
                 'property' => 'name',
                 'multiple' => true,
+                'required' => false,
+                'attr'     => array(
+                    'placeholder' => 'Choose your groups.'
+                )
+            ))
+            ->add('timeZone', 'timezone', array(
+                'label'       => 'Time Zone',
+                'empty_value' => 'Choose your time zone.',
+                'empty_data'  => null,
+                'required'    => false
+            ))
+            ->add('enabled', 'checkbox', array(
+                'label'       => 'Enabled',
+                'help_block'  => 'Whether user is enabled.',
+                'help_widget_popover' => array(
+                    'title' => 'help popover text',
+                    'content' => 'beautiful, isn\'t it?'
+                ),
                 'required' => false
-            ));
-        
-        $builder->add('timeZone', 'timezone', array(
-            'label'       => 'Time Zone',
-            'empty_value' => 'Choose your time zone',
-            'empty_data'  => null,
-            'required'    => false
-        ));
+            ))
+        ;
     }
 
     /**

@@ -12,6 +12,7 @@ use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Cache;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Template;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\ParamConverter;
+use Zym\Bundle\ResqueBundle\Tests\ExceptionJob;
 
 class DefaultController extends Controller
 {
@@ -21,8 +22,8 @@ class DefaultController extends Controller
      */
     public function indexAction()
     {
-        //$a = new \RAPP\Bundle\EchoBundle\Job\AddPostalCodeJob();
-        //$this->get('zym_resque.resque')->enqueueOnce($a);
+        $a = new ExceptionJob();
+        $this->get('zym_resque.resque')->enqueueOnce($a);
 
         return array(
             'resque'  => $this->get('zym_resque.resque'),

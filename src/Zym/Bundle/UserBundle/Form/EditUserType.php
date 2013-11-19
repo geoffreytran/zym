@@ -37,6 +37,6 @@ class EditUserType extends UserType
      */
     public function getName()
     {
-        return 'zym_user_edit_user';
+        return 'zym_user_user';
     }
 }

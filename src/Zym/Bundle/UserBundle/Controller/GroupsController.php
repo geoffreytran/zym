@@ -13,6 +13,8 @@
 
 namespace Zym\Bundle\UserBundle\Controller;
 
+use FOS\RestBundle\View\View as ViewResponse;
+use FOS\RestBundle\Util\Codes;
 use Zym\Bundle\UserBundle\Form;
 use Zym\Bundle\UserBundle\Entity;
 
@@ -27,6 +29,9 @@ use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Cache;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Template;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\ParamConverter;
+
+use FOS\RestBundle\Controller\Annotations\View;
+use Nelmio\ApiDocBundle\Annotation\ApiDoc;
 
 /**
  * Groups Controller
@@ -43,11 +48,20 @@ class GroupsController extends Controller
      *     defaults={
      *         "_format" = "html"
      *     },
-     *     requirements={
-     *         "_format" = "html|json"
+     *     methods={"GET"}
+     * )
+     * @View()
+     *
+     * @ApiDoc(
+     *     description="Returns a list user groups",
+     *     section="User Groups",
+     *     filters={
+     *         {"name"="page", "dataType"="integer"},
+     *         {"name"="limit", "dataType"="integer"},
+     *         {"name"="orderBy", "dataType"="array"},
+     *         {"name"="filterBy", "dataType"="array"}
      *     }
      * )
-     * @Template()
      */
     public function listAction()
     {
@@ -68,37 +82,54 @@ class GroupsController extends Controller
     }
 
     /**
-     * @Route("/add", name="zym_user_groups_add")
-     * @Template()
+     * @Route(
+     *     "/add.{_format}",
+     *     name="zym_user_groups_add",
+     *     defaults={"_format" = "html"},
+     *     methods={"GET","POST"}
+     * )
+     * @Route(
+     *     ".{_format}",
+     *     name="zym_user_groups_post_add",
+     *     methods={"POST"}
+     * )
+     * @View()
+     * @ApiDoc(
+     *     description="Add a group",
+     *     section="User Groups",
+     *     parameters={
+     *         {"name"="zym_user_group[name]", "dataType"="string", "required"=true, "description"="Name", "readonly"=false},
+     *         {"name"="zym_user_user[roles]", "dataType"="array", "required"=true, "description"="Roles", "readonly"=false}
+     *     }
+     * )
      */
     public function addAction()
     {
         $securityContext = $this->get('security.context');
+        $request         = $this->getRequest();
 
-        // check for edit access
+        // Check for edit access
         if (!$securityContext->isGranted('CREATE', new ObjectIdentity('class', 'Zym\Bundle\UserBundle\Entity\Group'))) {
-            throw new \Symfony\Component\Security\Core\Exception\AccessDeniedException();
+            throw new AccessDeniedException();
         }
 
         $group = new Entity\Group();
-        $form = $this->createForm(new Form\GroupType(), $group);
+        $form = $this->createForm(new Form\GroupType(), $group, array(
+            'method' => in_array($request->getMethod(), array('PUT', 'PATCH')) ? $request->getMethod() : 'POST'
+        ));
 
-        $request = $this->get('request');
-        if ($request->getMethod() == 'POST') {
-            $form->bind($request);
+        $form->handleRequest($request);
 
-            if ($form->isValid()) {
-                /* @var $groupManager \Zym\Bundle\GroupBundle\Entity\GroupManager */
-                $groupManager = $this->get('fos_user.group_manager');
+        if ($form->isValid()) {
+            /* @var $groupManager \Zym\Bundle\GroupBundle\Entity\GroupManager */
+            $groupManager = $this->get('fos_user.group_manager');
+            $groupManager->addGroup($group);
 
-                $groupManager->addGroup($group);
-
-                return $this->redirect($this->generateUrl('zym_user_groups'));
-            }
+            return ViewResponse::createRouteRedirect('zym_user_groups_show', array('id' => $group->getId()), Codes::HTTP_CREATED);
         }
 
         return array(
-            'form' => $form->createView()
+            'form' => $form
         );
     }
 
@@ -106,6 +137,7 @@ class GroupsController extends Controller
      * Show a group
      *
      * @param Entity\Group $group
+     * @return array
      *
      * @Route(
      *     "/{id}.{_format}",
@@ -114,13 +146,18 @@ class GroupsController extends Controller
      *         "_format" = "html"
      *     },
      *     requirements = {
-     *         "id" = "\d+",
-     *         "_format" = "html|json"
-     *     }
+     *         "id" = "\d+"
+     *     },
+     *     methods={"GET"}
      * )
-     * @Template()
      *
      * @SecureParam(name="group", permissions="VIEW")
+     *
+     * @View()
+     * @ApiDoc(
+     *     description="Returns a group",
+     *     section="User Groups"
+     * )
      */
     public function showAction(Entity\Group $group)
     {
@@ -131,17 +168,37 @@ class GroupsController extends Controller
      * Edit a group
      *
      * @param Entity\Group $group
+     * @return array
      *
      * @Route(
-     *     "/{id}/edit",
+     *     "/{id}/edit.{_format}",
      *     name="zym_user_groups_edit",
+     *     defaults={"_format" = "html"},
      *     requirements = {
      *         "id" = "\d+"
-     *     }
+     *     },
+     *     methods={"GET", "POST"}
      * )
-     * @Template()
+     * @Route(
+     *     "/{id}.{_format}",
+     *     name="zym_user_groups_put_edit",
+     *     requirements = {
+     *         "id" = "\d+"
+     *     },
+     *     methods={"PUT"}
+     * )
      *
      * @SecureParam(name="group", permissions="EDIT")
+     *
+     * @View()
+     * @ApiDoc(
+     *     description="Edit a group",
+     *     section="User Groups",
+     *     parameters={
+     *         {"name"="zym_user_group[name]", "dataType"="string", "required"=true, "description"="Name", "readonly"=false},
+     *         {"name"="zym_user_user[roles]", "dataType"="array", "required"=true, "description"="Roles", "readonly"=false}
+     *     }
+     * )
      */
     public function editAction(Entity\Group $group)
     {
@@ -149,19 +206,18 @@ class GroupsController extends Controller
         $form         = $this->createForm(new Form\GroupType(), $group);
 
         $request = $this->get('request');
-        if ($request->getMethod() == 'POST') {
-            $form->bind($request);
+        $form->handleRequest($request);
 
-            if ($form->isValid()) {
-                /* @var $groupManager \Zym\Bundle\GroupBundle\Entity\GroupManager */
-                $groupManager = $this->get('fos_user.group_manager');
-                $groupManager->saveGroup($group);
+        if ($form->isValid()) {
+            /* @var $groupManager \Zym\Bundle\GroupBundle\Entity\GroupManager */
+            $groupManager = $this->get('fos_user.group_manager');
+            $groupManager->saveGroup($group);
 
-                return $this->redirect($this->generateUrl(
-                    'zym_user_groups_show',
-                    array('id' => $group->getId())
-                ));
-            }
+            return ViewResponse::createRouteRedirect(
+                'zym_user_groups_show',
+                array('id' => $group->getId()),
+                Codes::HTTP_OK
+            );
         }
 
         return array(
@@ -174,6 +230,7 @@ class GroupsController extends Controller
      * Delete a group
      *
      * @param Entity\Group $group
+     * @return array
      *
      * @Route(
      *     "/{id}/delete.{_format}",
@@ -181,35 +238,48 @@ class GroupsController extends Controller
      *     defaults={ "_format" = "html" },
      *     requirements = {
      *         "id" = "\d+"
-     *     }
+     *     },
+     *     methods={"GET", "POST"}
      * )
-     * @Template()
+     * @Route(
+     *     "/{id}.{_format}",
+     *     name="zym_user_groups_delete_delete",
+     *     requirements = {
+     *         "id" = "\d+"
+     *     },
+     *     methods={"DELETE"}
+     * )
+     * @View()
      *
      * @SecureParam(name="group", permissions="DELETE")
+     *
+     * @ApiDoc(
+     *     description="Delete a group",
+     *     section="User Groups"
+     * )
      */
     public function deleteAction(Entity\Group $group)
     {
         $form = $this->createForm(new Form\DeleteType(), $group);
 
-        $request = $this->get('request');
-        if ($request->getMethod() == 'POST') {
-            $form->bind($request);
+        $request = $this->getRequest();
+        $form->handleRequest($request);
 
-            if ($form->isValid()) {
-                /* @var $groupManager \FOS\GroupBundle\Entity\GroupManager */
-                $groupManager = $this->get('fos_user.group_manager');
-                $groupManager->deleteGroup($group);
+        if ($form->isValid() || $request->getMethod() == 'DELETE') {
+            /* @var $groupManager \FOS\GroupBundle\Entity\GroupManager */
+            $groupManager = $this->get('fos_user.group_manager');
+            $groupManager->deleteGroup($group);
 
-                return $this->redirect($this->generateUrl(
-                    'zym_user_groups',
-                    array('id' => $group->getId())
-                ));
-            }
+            return ViewResponse::createRouteRedirect(
+                'zym_user_groups',
+                array(),
+                Codes::HTTP_OK
+            );
         }
 
         return array(
             'group' => $group,
-            'form'  => $form->createView()
+            'form'  => $form
         );
     }
 }

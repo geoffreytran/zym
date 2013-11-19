@@ -49,6 +49,37 @@ class User extends BaseUser
     protected $id;
 
     /**
+     * @var string
+     *
+     * @Assert\NotBlank()
+     * @Assert\Regex(
+     *      pattern="/^[a-z0-9\._@]+$/i",
+     *      message="Username can only contain alphanumeric characters and '.' or '_'."
+     * )
+     * @Assert\Length(
+     *      min = "3",
+     *      max = "255",
+     *      minMessage = "Username must be at least {{ limit }} characters.|Username must be at least {{ limit }} characters.",
+     *      maxMessage = "Username cannot be longer than {{ limit }} characters.|Username cannot be longer than {{ limit }} characters"
+     * )
+     */
+    protected $username;
+
+    /**
+     * @var string
+     *
+     * @Assert\NotBlank()
+     * @Assert\Length(
+     *      min = "3",
+     *      max = "255",
+     *      minMessage = "Email must be at least {{ limit }} characters.|Email must be at least {{ limit }} characters.",
+     *      maxMessage = "Email cannot be longer than {{ limit }} characters.|Email cannot be longer than {{ limit }} characters"
+     * )
+     * @Assert\Email()
+     */
+    protected $email;
+
+    /**
      * @ORM\ManyToMany(targetEntity="Zym\Bundle\UserBundle\Entity\Group")
      * @ORM\JoinTable(name="user_groups",
      *      joinColumns={@ORM\JoinColumn(name="user_id", referencedColumnName="id", onDelete="CASCADE")},
@@ -125,6 +156,7 @@ class User extends BaseUser
      * Sets the email.
      *
      * @param string $email
+     * @return void
      */
     public function setEmail($email)
     {

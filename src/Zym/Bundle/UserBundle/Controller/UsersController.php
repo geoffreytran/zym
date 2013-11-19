@@ -13,6 +13,10 @@
 
 namespace Zym\Bundle\UserBundle\Controller;
 
+use FOS\RestBundle\EventListener\ViewResponseListener;
+use FOS\RestBundle\View\View as ViewResponse;
+use FOS\RestBundle\Util\Codes;
+use Symfony\Component\HttpFoundation\Request;
 use Zym\Bundle\UserBundle\Form;
 use Zym\Bundle\UserBundle\Entity;
 
@@ -28,6 +32,8 @@ use Sensio\Bundle\FrameworkExtraBundle\Configuration\Cache;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Template;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\ParamConverter;
 
+use FOS\RestBundle\Controller\Annotations\View;
+use Nelmio\ApiDocBundle\Annotation\ApiDoc;
 
 /**
  * Users Controller
@@ -38,21 +44,32 @@ use Sensio\Bundle\FrameworkExtraBundle\Configuration\ParamConverter;
 class UsersController extends Controller
 {
     /**
+     * List all users
+     *
      * @Route(
      *     ".{_format}",
      *     name="zym_user_users",
      *     defaults={
      *         "_format" = "html"
      *     },
-     *     requirements={
-     *         "_format" = "html|json|xml"
+     *     methods={"GET"}
+     * )
+     * @View()
+     *
+     * @ApiDoc(
+     *     description="Returns a list users",
+     *     section="Users",
+     *     filters={
+     *         {"name"="page", "dataType"="integer"},
+     *         {"name"="limit", "dataType"="integer"},
+     *         {"name"="orderBy", "dataType"="array"},
+     *         {"name"="filterBy", "dataType"="array"}
      *     }
      * )
-     * @Template()
      */
     public function listAction()
     {
-        $request = $this->get('request');
+        $request  = $this->get('request');
         $page     = $request->query->get('page', 1);
         $limit    = $request->query->get('limit', 50);
         $orderBy  = $request->query->get('orderBy');
@@ -69,6 +86,8 @@ class UsersController extends Controller
     }
 
     /**
+     * @deprecated
+     *
      * @Route("/create", name="zym_user_users_create")
      * @Template()
      */
@@ -78,39 +97,74 @@ class UsersController extends Controller
     }
 
     /**
-     * @Route("/add", name="zym_user_users_add")
-     * @Template()
+     * Add a user
+     *
+     * @Route(
+     *     "/add.{_format}",
+     *     name="zym_user_users_add",
+     *     defaults={
+     *         "_format" = "html"
+     *     },
+     *     methods={"GET", "POST"}
+     * )
+     * @Route(
+     *     ".{_format}",
+     *     name="zym_user_users_post_add",
+     *     defaults={
+     *         "_format" = "html"
+     *     },
+     *     methods={"POST"}
+     * )
+     *
+     * @View()
+     * @ApiDoc(
+     *     description="Add a user",
+     *     section="Users",
+     *     parameters={
+     *         {"name"="zym_user_user[email]", "dataType"="string", "required"=true, "description"="Email address", "readonly"=false},
+     *         {"name"="zym_user_user[plainPassword][password]", "dataType"="string", "required"=true, "description"="Password", "readonly"=false},
+     *         {"name"="zym_user_user[plainPassword][confirmPassword]", "dataType"="string", "required"=true, "description"="Confirm Password", "readonly"=false}
+     *     }
+     * )
      */
     public function addAction()
     {
         $securityContext = $this->get('security.context');
 
-        // check for edit access
+        // Check for create access
         if (!$securityContext->isGranted('CREATE', new ObjectIdentity('class', 'Zym\Bundle\UserBundle\Entity\User'))) {
-            throw new \Symfony\Component\Security\Core\Exception\AccessDeniedException();
+            throw new AccessDeniedException();
         }
 
         $user = new Entity\User();
         $form = $this->createForm(new Form\UserType(), $user);
 
-        $request = $this->get('request');
-        if ($request->getMethod() == 'POST') {
-            $form->bind($request);
+        $request = $this->getRequest();
+        $form->handleRequest($request);
 
-            if ($form->isValid()) {
-                $userManager = $this->get('fos_user.user_manager');
-                /* @var $userManager \Zym\Bundle\UserBundle\Entity\UserManager */
+        if ($form->isValid()) {
+            /* @var $userManager \Zym\Bundle\UserBundle\Entity\UserManager */
+            $userManager = $this->get('fos_user.user_manager');
 
-                $user->setConfirmationToken(null);
-                $user->setEnabled(true);
-                $userManager->addUser($user);
+            $user->setConfirmationToken(null);
 
-                return $this->redirect($this->generateUrl('zym_user_users'));
-            }
+            $userManager->addUser($user);
+
+            return ViewResponse::createRouteRedirect(
+                                   'zym_user_users_show',
+                                   array(
+                                        'id'     => $user->getId(),
+                                       '_format' => $request->getRequestFormat()
+                                   ),
+                                   Codes::HTTP_CREATED
+                                )
+                                ->setData(array(
+                                    'user' => $user
+                                ));
         }
 
         return array(
-            'form' => $form->createView()
+            'form' => $form
         );
     }
 
@@ -119,6 +173,8 @@ class UsersController extends Controller
      *
      * @param Entity\User $user
      *
+     * @return array
+     *
      * @Route(
      *     "/{id}.{_format}",
      *     name="zym_user_users_show",
@@ -126,14 +182,19 @@ class UsersController extends Controller
      *         "_format" = "html"
      *     },
      *     requirements = {
-     *         "id" = "\d+",
-     *         "_format" = "html|json"
-     *     }
+     *         "id" = "\d+"
+     *     },
+     *     methods={"GET"}
      * )
      * @ParamConverter("user", class="ZymUserBundle:User")
-     * @Template()
+     * @View()
      *
      * @SecureParam(name="user", permissions="VIEW")
+     *
+     * @ApiDoc(
+     *     description="Returns a user",
+     *     section="Users"
+     * )
      */
     public function showAction(Entity\User $user)
     {
@@ -145,43 +206,86 @@ class UsersController extends Controller
      *
      * @param Entity\User $user
      *
+     * @return array
+     *
      * @Route(
-     *     "/{id}/edit",
+     *     "/{id}/edit.{_format}",
      *     name="zym_user_users_edit",
+     *     defaults = {
+     *         "_format" = "html"
+     *     },
      *     requirements = {
      *         "id" = "\d+"
-     *     }
+     *     },
+     *     methods={"GET", "POST"}
      * )
+     * @Route(
+     *     "/{id}.{_format}",
+     *     name="zym_user_users_put_edit",
+     *     defaults = {
+     *         "_format" = "html"
+     *     },
+     *     requirements = {
+     *         "id" = "\d+"
+     *     },
+     *     methods={"PUT"}
+     * )
+     * @Route(
+     *     "/{id}.{_format}",
+     *     name="zym_user_users_patch_edit",
+     *     defaults = {
+     *         "_format" = "html"
+     *     },
+     *     requirements = {
+     *         "id" = "\d+"
+     *     },
+     *     methods={"PATCH"}
+     * )
+     *
      * @ParamConverter("user", class="ZymUserBundle:User")
-     * @Template()
+     * @View()
      *
      * @SecureParam(name="user", permissions="EDIT")
+     *
+     * @ApiDoc(
+     *     description="Edit a user",
+     *     section="Users",
+     *     parameters={
+     *         {"name"="zym_user_user[email]", "dataType"="string", "required"=true, "description"="Email address", "readonly"=false},
+     *         {"name"="zym_user_user[plainPassword][password]", "dataType"="string", "required"=true, "description"="Password", "readonly"=false},
+     *         {"name"="zym_user_user[plainPassword][confirmPassword]", "dataType"="string", "required"=true, "description"="Confirm Password", "readonly"=false}
+     *     }
+     * )
      */
     public function editAction(Entity\User $user)
     {
+        $request = $this->getRequest();
+
         $originalUser = clone $user;
-        $form         = $this->createForm(new Form\EditUserType(), $user);
+        $form         = $this->createForm(new Form\EditUserType(), $user, array(
+            'method' => in_array($request->getMethod(), array('PUT', 'PATCH')) ? $request->getMethod() : 'POST'
+        ));
 
-        $request = $this->get('request');
-        if ($request->getMethod() == 'POST') {
-            $form->bind($request);
+        $form->handleRequest($request);
 
-            if ($form->isValid()) {
-                $userManager = $this->get('fos_user.user_manager');
-                /* @var $userManager \Zym\Bundle\UserBundle\Entity\UserManager */
+        if ($form->isValid()) {
+            /* @var $userManager \Zym\Bundle\UserBundle\Entity\UserManager */
+            $userManager = $this->get('fos_user.user_manager');
+            $userManager->saveUser($user);
 
-                $userManager->saveUser($user);
-
-                return $this->redirect($this->generateUrl(
-                    'zym_user_users_show',
-                    array('id' => $user->getId())
-                ));
-            }
+            return ViewResponse::createRouteRedirect(
+                                    'zym_user_users_show',
+                                    array('id' => $user->getId()),
+                                    Codes::HTTP_OK
+                                )
+                                ->setData(array(
+                                    'user' => $user
+                                ));
         }
 
         return array(
             'user' => $originalUser,
-            'form' => $form->createView()
+            'form' => $form
         );
     }
 
@@ -190,41 +294,56 @@ class UsersController extends Controller
      *
      * @param Entity\User $user
      *
+     * @return array
+     *
      * @Route(
      *     "/{id}/delete.{_format}",
      *     name="zym_user_users_delete",
      *     defaults={ "_format" = "html" },
      *     requirements = {
      *         "id" = "\d+"
-     *     }
+     *     },
+     *     methods={"GET", "POST"}
      * )
-     * @Template()
+     * @Route(
+     *     "/{id}.{_format}",
+     *     name="zym_user_users_delete_delete",
+     *     defaults={ "_format" = "html" },
+     *     requirements = {
+     *         "id" = "\d+"
+     *     },
+     *     methods={"DELETE"}
+     * )
      *
      * @SecureParam(name="user", permissions="DELETE")
+     *
+     * @View()
+     * @ApiDoc(
+     *     description="Delete a user",
+     *     section="Users"
+     * )
      */
     public function deleteAction(Entity\User $user)
     {
-        $form = $this->createForm(new Form\DeleteType(), $user);
+        $request = $this->getRequest();
 
-        $request = $this->get('request');
-        if ($request->getMethod() == 'POST') {
-            $form->bind($request);
+        $form = $this->createForm(new Form\DeleteType(), $user, array(
+            'method' => in_array($request->getMethod(), array('DELETE')) ? $request->getMethod() : 'POST'
+        ));
 
-            if ($form->isValid()) {
-                $userManager = $this->get('fos_user.user_manager');
-                /* @var $userManager \FOS\UserBundle\Entity\UserManager */
-                $userManager->deleteUser($user);
+        $form->handleRequest($request);
 
-                return $this->redirect($this->generateUrl(
-                    'zym_user_users',
-                    array('id' => $user->getId())
-                ));
-            }
+        if ($form->isValid() || $request->getMethod() == 'DELETE') {
+            /* @var $userManager Entity\UserManager */
+            $userManager = $this->get('fos_user.user_manager');
+            $userManager->deleteUser($user);
+
+            return ViewResponse::createRouteRedirect('zym_user_users', array(), Codes::HTTP_OK);
         }
 
         return array(
             'user' => $user,
-            'form' => $form->createView()
+            'form' => $form
         );
     }
 }

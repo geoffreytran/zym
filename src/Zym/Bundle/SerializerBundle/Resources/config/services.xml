@@ -4,16 +4,20 @@
     xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
     xsi:schemaLocation="http://symfony.com/schema/dic/services http://symfony.com/schema/dic/services/services-1.0.xsd">
 
-    <!--
     <parameters>
-        <parameter key="zym_serializer.example.class">Zym\Bundle\SerializerBundle\Example</parameter>
+        <parameter key="zym_serializer.handler.ajax_form_view_handler.class">Zym\Bundle\SerializerBundle\Handler\AjaxFormViewHandler</parameter>
+        <parameter key="zym_serializer.handler.rest_exception_wrapper_handler.class">Zym\Bundle\SerializerBundle\Handler\RestExceptionWrapperHandler</parameter>
     </parameters>
-    -->
+
     <services>
         <service id="jms_serializer.serialized_name_annotation_strategy" class="%jms_serializer.serialized_name_annotation_strategy.class%">
             <argument type="service">
                 <service class="Zym\Bundle\SerializerBundle\Naming\CamelCasedNamingStrategy" />
             </argument>
+        </service>
+
+        <service id="zym_serializer.handler.ajax_form_view_handler" class="%zym_serializer.handler.ajax_form_view_handler.class%" public="true">
+            <tag name="jms_serializer.subscribing_handlerd" />
         </service>
     </services>
 </container>
