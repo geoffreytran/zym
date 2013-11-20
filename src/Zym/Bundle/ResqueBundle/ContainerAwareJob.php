@@ -20,6 +20,17 @@ abstract class ContainerAwareJob extends AbstractJob
     {
         if ($this->kernel === null) {
             $this->kernel = $this->createKernel();
+
+            // We can't load the class cache because Symfony2 uses
+            // Psr Logger which php-resque does too. Symfony2 will load all classes
+            // without checking causing conflicts.
+            if (method_exists($this->kernel, 'loadClassCache')) {
+                $refObject   = new \ReflectionObject($this->kernel);
+                $refProperty = $refObject->getProperty('loadClassCache');
+                $refProperty->setAccessible(true);
+                $refProperty->setValue($this->kernel, null);
+            }
+
             $this->kernel->boot();
         }
 
