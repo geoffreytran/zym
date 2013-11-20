@@ -22,8 +22,8 @@ class DefaultController extends Controller
      */
     public function indexAction()
     {
-        $a = new ExceptionJob();
-        $this->get('zym_resque.resque')->enqueueOnce($a);
+        //$a = new ExceptionJob();
+        //$this->get('zym_resque.resque')->enqueueOnce($a);
 
         return array(
             'resque'  => $this->get('zym_resque.resque'),
