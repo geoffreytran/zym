@@ -31,7 +31,6 @@ class WorkerCommand extends ContainerAwareCommand
     protected function execute(InputInterface $input, OutputInterface $output)
     {
         set_time_limit(0);
-
         $container = $this->getContainer();
 
         $env = array(
@@ -55,7 +54,7 @@ class WorkerCommand extends ContainerAwareCommand
             $workerCommand = $vendorDir . '/chrisboulton/php-resque/bin/resque';
         }
 
-        $process = new Process($workerCommand, null, $env, null, null);
+        $process = new Process($workerCommand, $container->getParameter('kernel.root_dir'), $env, null, null);
 
         $process->start();
 
