@@ -59,19 +59,8 @@ class WorkerCommand extends ContainerAwareCommand
         $process->start();
 
         if(function_exists('pcntl_signal')) {
-            // Get the process pid
-            $reflectionClass    = new \ReflectionClass('Symfony\Component\Process\Process');
-            $reflectionProperty = $reflectionClass->getProperty('process');
-            $reflectionProperty->setAccessible(true);
-            $processPid = $reflectionProperty->getValue($process);
-
-            $status = proc_get_status($processPid);
-            posix_setpgid($status['pid'], $status['pid']);
-
-            declare(ticks = 1);
-
             $worker = $this;
-            $signalHandler = function($signal) use ($status, $output, $worker) {
+            $signalHandler = function($signal) use ($process, $output, $worker) {
                 switch ($signal) {
                     case \SIGTERM:
                         $signalName = 'SIGTERM';
@@ -107,8 +96,7 @@ class WorkerCommand extends ContainerAwareCommand
 
                 $output->writeln(sprintf('<error>%s signal caught</error>', $signalName));
                 $worker->signaled = true;
-                posix_kill(-$status['pid'], $signal);
-                //proc_terminate($processPid, $signal);
+                $process->signal($signal);
             };
 
             pcntl_signal(\SIGTERM, $signalHandler);
@@ -121,11 +109,21 @@ class WorkerCommand extends ContainerAwareCommand
         }
 
         $output->writeln(\sprintf('Starting worker <info>%s</info>', $process->getCommandLine()));
+        $output->writeln('');
 
         try {
             $process->wait(function ($type, $buffer) use ($output) {
+                // Color level
+                $buffer = preg_replace('/^(\[info\])/', '<info>$1</info>', $buffer);
+                $buffer = preg_replace('/^(\[debug\])/', '<fg=white>$1</fg=white>', $buffer);
+                $buffer = preg_replace('/^(\[notice\])/', '<comment>$1</comment>', $buffer);
+                $buffer = preg_replace('/^(\[warning\])/', '<error>$1</error>', $buffer);
+                $buffer = preg_replace('/^(\[critical\])/', '<error>$1</error>', $buffer);
+
+
                 // Color timestamp
                 $buffer = preg_replace('/(\*\* \[\d{2}:\d{2}:\d{2} \d{4}-\d{2}-\d{2}\])/', '<comment>$1</comment>', $buffer);
+                $buffer = preg_replace('/(\[\d{2}:\d{2}:\d{2} \d{4}-\d{2}-\d{2}\])/', '<comment>$1</comment>', $buffer);
 
                 // Color
                 $buffer = preg_replace('/\(Job(.*?)\|(.*?)\|(.*?)\|/', '(Job$1|$2|<info>$3</info>|', $buffer);
@@ -139,11 +137,14 @@ class WorkerCommand extends ContainerAwareCommand
                 $output->write($buffer);
             });
         } catch (\Symfony\Component\Process\Exception\RuntimeException $e) {
-            if (!$this->signaled) {
+            if (!$this->signaled && !$process->getStopSignal() && !$process->getTermSignal()) {
                 throw $e;
             }
         }
 
         $process->stop();
+
+        $output->writeln('');
+        $output->writeln('<info>Worker stopped...</info>');
     }
 }
