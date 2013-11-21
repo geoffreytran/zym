@@ -11,7 +11,7 @@
     <services>
         <service id="zym_resque.resque" class="%zym_resque.resque.class%">
             <argument type="collection">
-                <argument key="kernel.root_dir">%kernel.root_dir%</argument>
+                <argument key="kernel.root_dir">../app</argument>
                 <argument key="kernel.debug">%kernel.debug%</argument>
                 <argument key="kernel.environment">%kernel.environment%</argument>
             </argument>
