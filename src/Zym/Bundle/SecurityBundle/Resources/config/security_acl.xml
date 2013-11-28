@@ -5,7 +5,10 @@
                         http://symfony.com/schema/dic/services/services-1.0.xsd">
 
     <parameters>
-        <parameter key="security.acl.object_identity_retrieval_strategy.class">Zym\Bundle\SecurityBundle\Acl\Domain\ObjectIdentityRetrievalStrategy</parameter>
+        <parameter key="security.acl.object_identity_retrieval_strategy.class">Zym\Security\Acl\Domain\ObjectIdentityRetrievalStrategy</parameter>
+
+        <parameter key="zym_security.acl.voter.acl_voter">Zym\Security\Acl\Voter\AclVoter</parameter>
+        <parameter key="security.acl_voter.disabled">true</parameter>
     </parameters>
 
     <services>
@@ -13,6 +16,18 @@
             <argument type="service" id="security.acl.provider" />
             <argument type="service" id="security.acl.object_identity_retrieval_strategy" />
             <argument type="service" id="security.acl.security_identity_retrieval_strategy" />
+        </service>
+
+        <service id="zym_security.acl.voter.basic_permissions" class="%zym_security.acl.voter.acl_voter%" public="false">
+            <tag name="monolog.logger" channel="security" />
+
+            <argument type="service" id="security.acl.provider" />
+            <argument type="service" id="security.acl.object_identity_retrieval_strategy" />
+            <argument type="service" id="security.acl.security_identity_retrieval_strategy" />
+            <argument type="service" id="security.acl.permission.map" />
+            <argument type="service" id="logger" on-invalid="null" />
+
+            <tag name="security.voter" priority="255" />
         </service>
     </services>
 </container>
