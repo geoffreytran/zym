@@ -2,13 +2,12 @@
 
 namespace Zym\Bundle\RouterBundle\EventListener;
 
+use Symfony\Component\Routing\RouterInterface;
 use Zym\Bundle\RouterBundle\Entity\Route;
 
 use Doctrine\Common\EventSubscriber;
 use Doctrine\ORM\Events;
 use Doctrine\ORM\Event\OnFlushEventArgs;
-
-use Symfony\Component\Routing\Router;
 
 class RouteSubscriber implements EventSubscriber
 {
@@ -19,7 +18,7 @@ class RouteSubscriber implements EventSubscriber
      */
     private $router;
     
-    public function __construct(Router $router)
+    public function __construct(RouterInterface $router)
     {
         $this->router = $router;
     }
@@ -33,6 +32,10 @@ class RouteSubscriber implements EventSubscriber
     
     public function onFlush(OnFlushEventArgs $eventArgs)
     {
+        if (!method_exists($this->router, 'getOption')) {
+            return;
+        }
+
         $em           = $eventArgs->getEntityManager();
         $uow          = $em->getUnitOfWork();
         $warmUpQueued = false;

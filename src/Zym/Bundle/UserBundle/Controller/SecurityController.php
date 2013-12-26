@@ -74,26 +74,11 @@ class SecurityController extends Controller
             ? $this->container->get('form.csrf_provider')->generateCsrfToken('authenticate')
             : null;
 
-        return $this->renderLogin(array(
+        return array(
             'last_username' => $lastUsername,
             'error'         => $error,
             'csrf_token' => $csrfToken,
-        ));
-    }
-
-    /**
-     * Renders the login template with the given parameters. Overwrite this function in
-     * an extended controller to provide additional data for the login template.
-     *
-     * @param array $data
-     *
-     * @return \Symfony\Component\HttpFoundation\Response
-     */
-    protected function renderLogin(array $data)
-    {
-        $template = sprintf('FOSUserBundle:Security:login.html.%s', $this->container->getParameter('fos_user.template.engine'));
-
-        return $this->container->get('templating')->renderResponse($template, $data);
+        );
     }
 
     public function checkAction()
@@ -105,51 +90,4 @@ class SecurityController extends Controller
     {
         throw new \RuntimeException('You must activate the logout in your security firewall configuration.');
     }
-
-    /**
-     * @Route(
-     *     "/add.{_format}",
-     *     name="zym_user_users_add",
-     *     defaults={
-     *         "_format" = "html"
-     *     }
-     * )
-     * @Route(
-     *     "",
-     *     name="zym_user_users_post_add",
-     *     methods={"POST"}
-     * )
-     * @View()
-     */
-    public function addAction()
-    {
-        $securityContext = $this->get('security.context');
-
-        // check for edit access
-        if (!$securityContext->isGranted('CREATE', new ObjectIdentity('class', 'Zym\Bundle\UserBundle\Entity\User'))) {
-            //   throw new \Symfony\Component\Security\Core\Exception\AccessDeniedException();
-        }
-
-        $user = new Entity\User();
-        $form = $this->createForm(new Form\UserType(), $user, array('csrf_protection' => false));
-
-        $request = $this->getRequest();
-        $form->handleRequest($request);
-
-        if ($form->isValid()) {
-            /* @var $userManager \Zym\Bundle\UserBundle\Entity\UserManager */
-            $userManager = $this->get('fos_user.user_manager');
-
-            $user->setConfirmationToken(null);
-            $user->setEnabled(true);
-            $userManager->addUser($user);
-
-            return $this->redirect($this->generateUrl('zym_user_users'));
-        }
-
-        return array(
-            'form' => $form
-        );
-    }
-
 }

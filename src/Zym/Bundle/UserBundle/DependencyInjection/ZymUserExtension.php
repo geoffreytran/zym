@@ -51,5 +51,6 @@ class ZymUserExtension extends Extension
         }
         $loader->load(sprintf('%s.xml', $config['db_driver']));
         $loader->load('security_listeners.xml');
+        $loader->load('services.xml');
     }
 }

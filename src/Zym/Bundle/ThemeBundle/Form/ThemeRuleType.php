@@ -16,12 +16,12 @@ class ThemeRuleType extends AbstractType
     {
 
         $builder->add('path', 'text', array(
-            'help_inline' => 'Regular expression path to match.'
+            'help_block' => 'Regular expression path to match.'
         ));
 
         $builder->add('host', 'text', array(
             'required' => false,
-            'help_inline' => 'Regular expression host to match.'
+            'help_block' => 'Regular expression host to match.'
         ));
 
         $builder->add('theme', 'text', array(

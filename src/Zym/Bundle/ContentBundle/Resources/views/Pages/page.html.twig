@@ -1,0 +1,47 @@
+{% extends "ZymContentBundle::layout.html.twig" %}
+
+{% block title %}{{ cmfMainContent.title }}{% endblock %}
+
+{% block headLinks %}
+    {{ parent() }}
+
+    {% if is_granted('EDIT', cmfMainContent) %}
+    {% include "CmfCreateBundle::includecssfiles.html.twig" %}
+    {% endif %}
+{% endblock %}
+
+{% block content %}
+    {% createphp cmfMainContent as="rdf" noautotag %}
+    <div {{ createphp_attributes(rdf) }}>
+        {% if is_granted('EDIT', cmfMainContent) %}
+            <div class="page-header">
+                <h1 {{ createphp_attributes(rdf.title) }}>{{ createphp_content(rdf.title) }}</h1>
+            </div>
+        {% elseif createphp_content(rdf.title)|length %}
+            <div class="page-header">
+                <h1 {{ createphp_attributes(rdf.title) }}>{{ createphp_content(rdf.title) }}</h1>
+            </div>
+        {% endif %}
+
+        <div {{ createphp_attributes(rdf.body) }}>
+            {% if is_granted('EDIT', cmfMainContent) %}
+                {{ createphp_content(rdf.body)  }}
+            {% else %}
+                {{ createphp_content(rdf.body) |cmf_embed_blocks }}
+            {% endif %}
+        </div>
+    </div>
+    {% endcreatephp %}
+{% endblock %}
+
+{% block inlineScripts %}
+    {{ parent() }}
+
+    {% if is_granted('EDIT', cmfMainContent) %}
+    {% render(controller("cmf_create.jsloader.controller:includeJSFilesAction", { "editor": "ckeditor", "_locale": app.request.locale })) %}
+    <script type="text/javascript">
+        window.CKEDITOR.plugins.addExternal('sourcedialog', '/sourcedialog/','plugin.js');
+        window.CKEDITOR.config.extraPlugins = 'sourcedialog';
+    </script>
+    {% endif %}
+{% endblock %}

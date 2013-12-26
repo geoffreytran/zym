@@ -47,6 +47,7 @@ class TemplatePathsCacheWarmer extends BaseTemplatePathsCacheWarmer
 
         $curTheme  = $this->themeManager->getActiveTheme();
         $templates = array();
+
         foreach ($this->themeManager->getThemes() as $theme) {
             $this->themeManager->setActiveTheme($theme);
 

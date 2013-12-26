@@ -38,14 +38,14 @@ class MediaType extends AbstractType
         )));
 
         $builder->add('name', 'text', array(
-            'help_inline' => 'Name to call this item.',
+            'help_block' => 'Name to call this item.',
             'attr' => array(
                 'class' => 'input-block-level'
             )
         ));
 
         $builder->add('description', 'textarea', array(
-            'help_inline' => 'A short description of the item.',
+            'help_block' => 'A short description of the item.',
             'attr' => array(
                 'class' => 'input-block-level'
             ),
