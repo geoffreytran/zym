@@ -1,5 +1,5 @@
 <?php
-namespace Zym\Bundle\SecurityBundle\Acl\Domain;
+namespace Zym\Security\Acl\Domain;
 
 use Symfony\Component\Security\Acl\Domain\ObjectIdentityRetrievalStrategy as BaseObjectIdentityRetrievalStrategy;
 use Symfony\Component\Security\Acl\Domain\ObjectIdentity;

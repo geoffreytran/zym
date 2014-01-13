@@ -18,16 +18,16 @@ class TemplateResourcesPass implements CompilerPassInterface
         $engines = $container->getParameter('templating.engines');
 
         // Bundle and kernel resources
-        $bundles        = $container->getParameter('kernel.bundles');
-        $asseticBundles = $container->getParameterBag()->resolveValue($container->getParameter('assetic.bundles'));
-
-        foreach ($asseticBundles as $bundleName) {
-            $rc = new \ReflectionClass($bundles[$bundleName]);
-
-            foreach ($engines as $engine) {
-                $this->setBundleDirectoryResources($container, $engine, dirname($rc->getFileName()), $bundleName);
-            }
-        }
+//        $bundles        = $container->getParameter('kernel.bundles');
+//        $asseticBundles = $container->getParameterBag()->resolveValue($container->getParameter('assetic.bundles'));
+//
+//        foreach ($asseticBundles as $bundleName) {
+//            $rc = new \ReflectionClass($bundles[$bundleName]);
+//
+//            foreach ($engines as $engine) {
+//                $this->setBundleDirectoryResources($container, $engine, dirname($rc->getFileName()), $bundleName);
+//            }
+//        }
 
         foreach ($engines as $engine) {
             $this->setAppDirectoryResources($container, $engine);
@@ -47,8 +47,7 @@ class TemplateResourcesPass implements CompilerPassInterface
                 $bundleName,
                 $engine,
                 array(
-                    $container->getParameter('kernel.root_dir') . '/Resources/' . $bundleName . '/themes/' . $theme,
-                    $bundleDirName . '/Resources/themes/' . $theme,
+                    $bundleDirName . '/Resources/themes/' . $theme
                 )
             );
         }

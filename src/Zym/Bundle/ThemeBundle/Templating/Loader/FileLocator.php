@@ -26,16 +26,16 @@ class FileLocator extends BaseFileLocator
      * Constructor.
      *
      * @param KernelInterface $kernel A KernelInterface instance
-     * @param string $path The path the global resource directory
+     * @param string          $path   The path the global resource directory
      *
      * @throws \InvalidArgumentException if the active theme is not in the themes list
      */
     public function __construct(KernelInterface $kernel, ThemeManager $themeManager, $path = null, array $paths = array())
     {
-        $this->kernel = $kernel;
+        $this->kernel       = $kernel;
         $this->themeManager = $themeManager;
-        $this->path = $path;
-        $this->basePaths = $paths;
+        $this->path         = $path;
+        $this->basePaths    = $paths;
 
         $this->setCurrentTheme($this->themeManager->getActiveTheme());
     }
@@ -64,7 +64,7 @@ class FileLocator extends BaseFileLocator
      *
      * The resource name must follow the following pattern:
      *
-     *     @BundleName/path/to/a/file.something
+     * @BundleName/path/to/a/file.something
      *
      * where BundleName is the name of the bundle
      * and the remaining part is the relative path in the bundle.
@@ -106,7 +106,8 @@ class FileLocator extends BaseFileLocator
      *
      * @param string $name
      * @param string $dir
-     * @param bool $first
+     * @param bool   $first
+     *
      * @return string
      */
     public function locateBundleResource($name, $dir = null, $first = true)
@@ -116,7 +117,7 @@ class FileLocator extends BaseFileLocator
         }
 
         $bundleName = substr($name, 1);
-        $path = '';
+        $path       = '';
         if (false !== strpos($bundleName, '/')) {
             list($bundleName, $path) = explode('/', $bundleName, 2);
         }
@@ -125,20 +126,18 @@ class FileLocator extends BaseFileLocator
             throw new \RuntimeException('Template files have to be in Resources.');
         }
 
-        $overridePath = substr($path, 9);
-        $subPath = substr($path, 15);
+        $overridePath   = substr($path, 9);
+        $subPath        = substr($path, 15);
         $resourceBundle = null;
-        $bundles = $this->kernel->getBundle($bundleName, false);
-        $files = array();
+        $bundles        = $this->kernel->getBundle($bundleName, false);
+        $files          = array();
 
         foreach ($bundles as $bundle) {
             $checkPaths = array();
             if ($dir) {
-                $checkPaths[] = $dir.'/themes/'.$this->lastTheme.'/'.$bundle->getName().$subPath;
-                $checkPaths[] = $dir.'/'.$bundle->getName().$overridePath;
+                $checkPaths[] = $dir . '/' . $bundle->getName() . $overridePath;
+                $checkPaths[] = $dir . '/themes/' . $this->lastTheme . '/' . $bundle->getName() . $subPath;
             }
-
-            $checkPaths[] = $bundle->getPath().'/Resources/themes/'.$this->lastTheme.$subPath;
 
             foreach ($checkPaths as $checkPath) {
                 if (file_exists($checkPath)) {
@@ -157,12 +156,12 @@ class FileLocator extends BaseFileLocator
                 }
             }
 
-            $file = $bundle->getPath().'/'.$path;
+            $file = $bundle->getPath() . '/' . $path;
             if (file_exists($file)) {
                 if ($first) {
                     return $file;
                 }
-                $files[] = $file;
+                $files[]        = $file;
                 $resourceBundle = $bundle->getName();
             }
         }
@@ -179,7 +178,8 @@ class FileLocator extends BaseFileLocator
      *
      * @param string $name
      * @param string $dir
-     * @param bool $first
+     * @param bool   $first
+     *
      * @return string|array
      */
     public function locateAppResource($name, $dir = null, $first = true)
@@ -190,7 +190,7 @@ class FileLocator extends BaseFileLocator
 
         $files = array();
 
-        $file = $dir.'/themes/'.$this->lastTheme.'/'.substr($name, 6);
+        $file = $dir . '/themes/' . $this->lastTheme . '/' . substr($name, 6);
         if (file_exists($file)) {
             if ($first) {
                 return $file;
@@ -198,7 +198,7 @@ class FileLocator extends BaseFileLocator
             $files[] = $file;
         }
 
-        $file = $dir.'/'.$name;
+        $file = $dir . '/' . $name;
         if (file_exists($file)) {
             if ($first) {
                 return $file;

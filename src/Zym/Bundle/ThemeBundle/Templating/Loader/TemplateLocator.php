@@ -48,7 +48,7 @@ class TemplateLocator extends BaseTemplateLocator
         $name = $template->getLogicalName();
 
         if ($this->themeManager->getActiveTheme()) {
-            $name.= '|'.$this->themeManager->getActiveTheme();
+            $name .= '|' . $this->themeManager->getActiveTheme();
         }
 
         return $name;

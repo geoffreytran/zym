@@ -1,0 +1,109 @@
+{% extends "ZymContentBundle::layout.html.twig" %}
+
+{% block title %}{{ 'Pages' | trans({}, 'ZymContentBundle') }}{% endblock %}
+
+{% block content %}
+    <div class="row">
+        <div class="col-md-12">
+            <div class="page-header">
+                <h1>
+                    {{ 'Pages' | trans({}, 'ZymContentBundle') }}
+                    <small>{{ 'Manage pages' | trans({}, 'ZymContentBundle') }}</small>
+                </h1>
+            </div>
+        </div>
+    </div>
+
+    <div class="navbar navbar-default">
+        <div class="navbar-collapse">
+            <div class="btn-toolbar">
+                <div class="btn-group">
+                    {# if is_granted('CREATE', ['class', 'Zym\\Bundle\\PageBundle\\Entity\\Page']) %}
+                        <a class="btn btn-primary navbar-btn" href="{{ path('zym_content_pages_add') }}">
+                            <span class="glyphicon glyphicon-plus"></span>
+                            {{ 'Add Page' | trans({}, 'ZymContentBundle') }}
+                        </a>
+                    {% endif #}
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="table-responsive">
+        <table class="table table-stripe table-hover">
+            <thead>
+            <tr>
+                <th>Path</th>
+                <th>Title</th>
+                <th>Publishable</th>
+                <th class="visible-md visible-lg">Publish Start Date</th>
+                <th class="visible-md visible-lg">Publish End Date</th>
+                <th class="visible-md visible-lg">Created Date</th>
+                <th>{{ 'Actions' | trans({}, 'ZymContentBundle') }}</th>
+            </tr>
+            </thead>
+
+            <tbody>
+            {% for page in pages %}
+                <tr>
+                    <td>{{ page.path  }}</td>
+                    <td><a href="{{ path('zym_content_pages_show', { 'id': page.id }) }}">{{ page.title |e }}</a></td>
+                    <td>{{ page.publishable ? 'Yes' : 'No' | trans({}, 'ZymContentBundle') }}</td>
+                    <td class="visible-md visible-lg">
+                        {% if page.publishStartDate %}
+                        <abbr title="{{ page.publishStartDate.format(constant('DateTime::ISO8601')) }}">
+                            {{ page.publishStartDate |date('M j, Y', app.user.timeZone) }}
+                        </abbr>
+                        {% else %}
+                        {{ 'Always' | trans({}, 'ZymContentBundle') }}
+                        {% endif %}
+                    </td>
+                    <td class="visible-md visible-lg">
+                        {% if page.publishEndDate %}
+                            <abbr title="{{ page.publishEndDate |date(constant('DateTime::ISO8601')) }}">
+                                {{ page.publishEndDate |date('M j, Y') }}
+                            </abbr>
+                        {% else %}
+                            {{ 'Never' | trans({}, 'ZymContentBundle') }}
+                        {% endif %}
+                    </td>
+                    <td class="visible-md visible-lg">
+                        <abbr title="{{ page.createDate |date(constant('DateTime::ISO8601')) }}">
+                            {{ page.createDate |date('M j, Y') }}
+                        </abbr>
+                    </td>
+                    <td>
+                        <div class="btn-group">
+                            {% if is_granted('VIEW', page) %}
+                                <a class="btn btn-default" href="{{ path('zym_content_pages_show', { 'id': page.id }) }}">
+                                    <span class="glyphicon glyphicon-share"></span>
+                                    {{ 'View' | trans({}, 'ZymContentBundle') }}
+                                </a>
+                            {% endif %}
+
+                            {% if is_granted('EDIT', page) %}
+                                <a class="btn btn-default" href="{{ path('zym_content_pages_edit', { 'id': page.id }) }}">
+                                    <span class="glyphicon glyphicon-edit"></span>
+                                    {{ 'Edit' | trans({}, 'ZymContentBundle') }}
+                                </a>
+                            {% endif %}
+
+                            {% if is_granted('DELETE', page) %}
+                                <a class="btn btn-default" href="{{ path('zym_content_pages_delete', { "id": page.id }) }}" data-toggle="ajax-modal">
+                                    <span class="glyphicon glyphicon-remove"></span>
+                                    {{ 'Delete' | trans({}, 'ZymContentBundle') }}
+                                </a>
+                            {% endif %}
+                        </div>
+                    </td>
+                </tr>
+            {% endfor %}
+            </tbody>
+        </table>
+    </div>
+
+
+    <div class="text-center">
+        {{ knp_pagination_render(pages) }}
+    </div>
+{% endblock %}

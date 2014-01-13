@@ -30,7 +30,7 @@ class MenuItemType extends AbstractType
         $builder
             ->add('name', 'text', array(
                 'label'       => 'Name',
-                'help_inline' => 'Name must be unique to the menu.'
+                'help_block' => 'Name must be unique to the menu.'
             ))
             ->add('label', 'text', array('label' => 'Label'))
             ->add('description', 'text', array('label' => 'Description'))

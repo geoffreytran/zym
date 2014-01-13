@@ -22,6 +22,7 @@ use Symfony\Bridge\Doctrine\Validator\Constraints\UniqueEntity;
 
 use FOS\UserBundle\Model\User as BaseUser;
 use Doctrine\ORM\Mapping as ORM;
+use Zym\Bundle\UserBundle\Model\TimeZoneInterface;
 
 /**
  * User Entity
@@ -39,7 +40,8 @@ use Doctrine\ORM\Mapping as ORM;
  * @UniqueEntity(fields="username", message="This username is already exists.")
  * @UniqueEntity(fields="email",    message="This email is already exists.")
  */
-class User extends BaseUser
+class User extends    BaseUser
+           implements TimeZoneInterface
 {
     /**
      * @ORM\Id

@@ -1,0 +1,61 @@
+{% extends "ZymContentBundle::layout.html.twig" %}
+
+{% block title %}{{ 'New Page' | trans({}, 'ZymContentBundle') }}{% endblock %}
+
+{% block content %}
+    <div class="page-header">
+        <h1>
+            {{ 'New Page' | trans({}, 'ZymContentBundle') }}
+            <small>{{ 'Create a new page' | trans({}, 'ZymContentBundle') }}</small>
+        </h1>
+    </div>
+
+    {{ form_start(form, { 'attr': { 'class': 'form-horizontal', 'role': 'form' }}) }}
+        {{ form_errors(form) }}
+
+        <div class="row">
+            <div class="col-md-8">
+                <div class="panel panel-primary">
+                    <div class="panel-heading">
+                        <h2 class="panel-title">Location</h2>
+                    </div>
+
+                    <div class="panel-body">
+                        {{ form_row(form.parent) }}
+                        {{ form_row(form.name) }}
+                    </div>
+                </div>
+
+                <div class="panel panel-primary">
+                    <div class="panel-heading">
+                        <h2 class="panel-title">Content</h2>
+                    </div>
+
+                    <div class="panel-body">
+                        {{ form_row(form.title) }}
+                        {{ form_row(form.label) }}
+
+                        {{ form_row(form.body) }}
+                    </div>
+                </div>
+            </div>
+
+            <div class="col-md-4">
+                <div class="panel form-vertical">
+                    <div class="panel-body">
+                        <button class="btn btn-block btn-primary" type="submit"><span class="glyphicon glyphicon-file"></span> {{ 'Create' | trans({}, 'ZymContentBundle') }}</button>
+                        <button class="btn btn-block btn-default" type="button" onclick="history.back();">{{ 'Cancel' | trans({}, 'ZymContentBundle') }}</button>
+                    </div>
+
+                    <div class="panel-footer">
+                        {{ form_row(form.publishable, { 'horizontal_label_class': 'col-lg-12','horizontal_input_wrapper_class': 'col-lg-12' }) }}
+                        {{ form_row(form.publishStartDate, { 'horizontal_label_class': 'col-lg-12','horizontal_input_wrapper_class': 'col-lg-12' }) }}
+                        {{ form_row(form.publishEndDate, { 'horizontal_label_class': 'col-lg-12','horizontal_input_wrapper_class': 'col-lg-12' }) }}
+                        {{ form_row(form.createDate, { 'horizontal_label_class': 'col-lg-12','horizontal_input_wrapper_class': 'col-lg-12' }) }}
+                    </div>
+                </div>
+            </div>
+        </div>
+    {{ form_end(form) }}
+
+{% endblock %}
