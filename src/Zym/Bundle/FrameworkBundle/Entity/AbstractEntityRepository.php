@@ -113,7 +113,7 @@ abstract class AbstractEntityRepository extends EntityRepository
     {
         if ($criteria) {
             foreach ($criteria as $key => $value) {
-                $paramName = 'qo_' . $key;
+                $paramName = 'qo_' . str_replace('.', '_', $key);
                 $x         = $qb->getRootAlias() . '.' . $key;
 
                 if (is_array($value) && isset($value['value'])) {
