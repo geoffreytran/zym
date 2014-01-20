@@ -1,14 +1,13 @@
 <?php
+
 /**
- * Zym
+ * Zym Framework
  *
- * LICENSE
+ * This file is part of the Zym package.
  *
- * This file is intellectual property of Zym and may not
- * be used without permission.
- *
- * @category  Zym
- * @copyright Copyright (c) 2011 Zym. (http://www.zym.com/)
+ * @link      https://github.com/geoffreytran/zym for the canonical source repository
+ * @copyright Copyright (c) 2014 Geoffrey Tran <geoffrey.tran@gmail.com>
+ * @license   http://opensource.org/licenses/BSD-3-Clause BSD-3 License
  */
 
 namespace Zym\Bundle\UserBundle\Controller;
@@ -32,12 +31,11 @@ use Sensio\Bundle\FrameworkExtraBundle\Configuration\ParamConverter;
 
 use FOS\RestBundle\Controller\Annotations\View;
 
-
 /**
- * Security Controller
+ * Class SecurityController
  *
- * @author    Geoffrey Tran
- * @copyright Copyright (c) 2011 Zym. (http://www.zym.com/)
+ * @package Zym\Bundle\UserBundle\Controller
+ * @author  Geoffrey Tran <geoffrey.tran@gmail.com>
  */
 class SecurityController extends Controller
 {

@@ -1,15 +1,15 @@
 <?php
+
 /**
- * RAPP
+ * Zym Framework
  *
- * LICENSE
+ * This file is part of the Zym package.
  *
- * This file is intellectual property of RAPP and may not
- * be used without permission.
- *
- * @category  RAPP
- * @copyright Copyright (c) 2011 RAPP. (http://www.rapp.com/)
+ * @link      https://github.com/geoffreytran/zym for the canonical source repository
+ * @copyright Copyright (c) 2014 Geoffrey Tran <geoffrey.tran@gmail.com>
+ * @license   http://opensource.org/licenses/BSD-3-Clause BSD-3 License
  */
+
 namespace Zym\Bundle\UserBundle\Form;
 
 use Zym\Bundle\UserBundle\Model;
@@ -18,13 +18,17 @@ use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\FormBuilderInterface;
 
 /**
- * User Form
+ * Class UserType
  *
- * @author    Geoffrey Tran
- * @copyright Copyright (c) 2011 RAPP. (http://www.rapp.com/)
+ * @package Zym\Bundle\UserBundle\Form
+ * @author  Geoffrey Tran <geoffrey.tran@gmail.com>
  */
 class UserType extends AbstractType
 {
+    /**
+     * @param FormBuilderInterface $builder
+     * @param array                $options
+     */
     public function buildForm(FormBuilderInterface $builder, array $options)
     {
         if ($options['data'] instanceof Model\SplitNameInterface) {
@@ -69,12 +73,20 @@ class UserType extends AbstractType
                     'placeholder' => 'Choose your groups.'
                 )
             ))
-            ->add('timeZone', 'timezone', array(
-                'label'       => 'Time Zone',
-                'empty_value' => 'Choose your time zone.',
-                'empty_data'  => null,
-                'required'    => false
-            ))
+        ;
+
+        if ($options['data'] instanceof Model\TimeZoneInterface) {
+            $builder
+                ->add('timeZone', 'timezone', array(
+                    'label'       => 'Time Zone',
+                    'empty_value' => 'Choose your time zone.',
+                    'empty_data'  => null,
+                    'required'    => false
+                ))
+            ;
+        }
+
+        $builder
             ->add('enabled', 'checkbox', array(
                 'label'       => 'Enabled',
                 'help_block'  => 'Whether user is enabled.',

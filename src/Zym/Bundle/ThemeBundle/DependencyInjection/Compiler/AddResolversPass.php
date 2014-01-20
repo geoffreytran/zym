@@ -1,5 +1,15 @@
 <?php
 
+/**
+ * Zym Framework
+ *
+ * This file is part of the Zym package.
+ *
+ * @link      https://github.com/geoffreytran/zym for the canonical source repository
+ * @copyright Copyright (c) 2014 Geoffrey Tran <geoffrey.tran@gmail.com>
+ * @license   http://opensource.org/licenses/BSD-3-Clause BSD-3 License
+ */
+
 namespace Zym\Bundle\ThemeBundle\DependencyInjection\Compiler;
 
 use Symfony\Component\DependencyInjection\ContainerBuilder;
@@ -9,6 +19,7 @@ use Symfony\Component\DependencyInjection\Reference;
 /**
  * This compiler pass registers the renderers in the RendererProvider.
  *
+ * @package Zym\Bundle\ThemeBundle\DependencyInjection\Compiler
  * @author Christophe Coevoet <stof@notk.org>
  */
 class AddResolversPass implements CompilerPassInterface

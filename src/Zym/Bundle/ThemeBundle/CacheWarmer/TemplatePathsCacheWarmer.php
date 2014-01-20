@@ -1,5 +1,15 @@
 <?php
 
+/**
+ * Zym Framework
+ *
+ * This file is part of the Zym package.
+ *
+ * @link      https://github.com/geoffreytran/zym for the canonical source repository
+ * @copyright Copyright (c) 2014 Geoffrey Tran <geoffrey.tran@gmail.com>
+ * @license   http://opensource.org/licenses/BSD-3-Clause BSD-3 License
+ */
+
 namespace Zym\Bundle\ThemeBundle\CacheWarmer;
 
 use Zym\Bundle\ThemeBundle\ThemeManager;
@@ -8,6 +18,12 @@ use Symfony\Component\HttpKernel\CacheWarmer\CacheWarmer;
 use Symfony\Bundle\FrameworkBundle\Templating\Loader\TemplateLocator;
 use Symfony\Bundle\FrameworkBundle\CacheWarmer\TemplateFinderInterface;
 
+/**
+ * Class TemplatePathsCacheWarmer
+ *
+ * @package Zym\Bundle\ThemeBundle\CacheWarmer
+ * @author  Geoffrey Tran <geoffrey.tran@gmail.com>
+ */
 class TemplatePathsCacheWarmer extends BaseTemplatePathsCacheWarmer
 {
     /**

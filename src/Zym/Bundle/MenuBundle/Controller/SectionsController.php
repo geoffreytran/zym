@@ -1,15 +1,15 @@
 <?php
+
 /**
- * RAPP
+ * Zym Framework
  *
- * LICENSE
+ * This file is part of the Zym package.
  *
- * This file is intellectual property of RAPP and may not
- * be used without permission.
- *
- * @category  RAPP
- * @copyright Copyright (c) 2011 RAPP. (http://www.rapp.com/)
+ * @link      https://github.com/geoffreytran/zym for the canonical source repository
+ * @copyright Copyright (c) 2014 Geoffrey Tran <geoffrey.tran@gmail.com>
+ * @license   http://opensource.org/licenses/BSD-3-Clause BSD-3 License
  */
+
 namespace Zym\Bundle\MenuBundle\Controller;
 
 use Zym\Bundle\MenuBundle\Form;
@@ -26,12 +26,11 @@ use Sensio\Bundle\FrameworkExtraBundle\Configuration\Cache;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Template;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\ParamConverter;
 
-
 /**
- * Menus Controller
+ * Class SectionsController
  *
- * @author    Geoffrey Tran
- * @copyright Copyright (c) 2011 RAPP. (http://www.rapp.com/)
+ * @package Zym\Bundle\MenuBundle\Controller
+ * @author  Geoffrey Tran <geoffrey.tran@gmail.com>
  */
 class SectionsController extends Controller
 {

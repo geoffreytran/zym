@@ -1,17 +1,34 @@
 <?php
 
+/**
+ * Zym Framework
+ *
+ * This file is part of the Zym package.
+ *
+ * @link      https://github.com/geoffreytran/zym for the canonical source repository
+ * @copyright Copyright (c) 2014 Geoffrey Tran <geoffrey.tran@gmail.com>
+ * @license   http://opensource.org/licenses/BSD-3-Clause BSD-3 License
+ */
+
 namespace Zym\HttpKernel;
 
 // if you don't want to setup permissions the proper way, just uncomment the following PHP line
 // read http://symfony.com/doc/current/book/installation.html#configuration-and-setup for more information
 umask(0000);
 
+// Xdebug issues with Symfony2 nesting levels
 ini_set('xdebug.max_nesting_level', 200);
 
 use Symfony\Component\HttpKernel\Kernel as BaseKernel;
 use Symfony\Component\Config\Loader\LoaderInterface;
 use Symfony\Component\Debug\Debug;
 
+/**
+ * Class Kernel
+ *
+ * @package Zym\HttpKernel
+ * @author  Geoffrey Tran <geoffrey.tran@gmail.com>
+ */
 abstract class Kernel extends BaseKernel
 {
     /**
@@ -50,6 +67,8 @@ abstract class Kernel extends BaseKernel
      *
      * @param string  $environment
      * @param boolean $debug
+     *
+     * @return void
      */
     public function __construct($environment, $debug = null)
     {

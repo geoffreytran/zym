@@ -1,4 +1,15 @@
 <?php
+
+/**
+ * Zym Framework
+ *
+ * This file is part of the Zym package.
+ *
+ * @link      https://github.com/geoffreytran/zym for the canonical source repository
+ * @copyright Copyright (c) 2014 Geoffrey Tran <geoffrey.tran@gmail.com>
+ * @license   http://opensource.org/licenses/BSD-3-Clause BSD-3 License
+ */
+
 namespace Zym\Bundle\ContentBundle\DataFixtures\ORM;
 
 use Doctrine\Common\Persistence\ObjectManager;
@@ -14,6 +25,12 @@ use Symfony\Component\Security\Acl\Model\AclProviderInterface;
 use Symfony\Component\Security\Acl\Permission\MaskBuilder;
 use Symfony\Component\Security\Acl\Exception\AclAlreadyExistsException;
 
+/**
+ * Class LoadAclData
+ *
+ * @package Zym\Bundle\ContentBundle\DataFixtures\ORM
+ * @author  Geoffrey Tran <geoffrey.tran@gmail.com>
+ */
 class LoadAclData extends AbstractFixture
                   implements ContainerAwareInterface, OrderedFixtureInterface
 {

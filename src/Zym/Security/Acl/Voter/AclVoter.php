@@ -1,4 +1,15 @@
 <?php
+
+/**
+ * Zym Framework
+ *
+ * This file is part of the Zym package.
+ *
+ * @link      https://github.com/geoffreytran/zym for the canonical source repository
+ * @copyright Copyright (c) 2014 Geoffrey Tran <geoffrey.tran@gmail.com>
+ * @license   http://opensource.org/licenses/BSD-3-Clause BSD-3 License
+ */
+
 namespace Zym\Security\Acl\Voter;
 
 use Psr\Log\LoggerInterface;
@@ -14,9 +25,24 @@ use Symfony\Component\Security\Core\Authentication\Token\TokenInterface;
 use Symfony\Component\Security\Core\Authorization\Voter\VoterInterface;
 use Symfony\Component\Security\Core\Util\ClassUtils;
 
+/**
+ * Class AclVoter
+ *
+ * @package Zym\Security\Acl\Voter
+ * @author  Geoffrey Tran <geoffrey.tran@gmail.com>
+ */
 class AclVoter implements VoterInterface
 {
-
+    /**
+     * Construct
+     *
+     * @param AclProviderInterface                       $aclProvider
+     * @param ObjectIdentityRetrievalStrategyInterface   $oidRetrievalStrategy
+     * @param SecurityIdentityRetrievalStrategyInterface $sidRetrievalStrategy
+     * @param PermissionMapInterface                     $permissionMap
+     * @param LoggerInterface                            $logger
+     * @param bool                                       $allowIfObjectIdentityUnavailable
+     */
     public function __construct(AclProviderInterface $aclProvider, ObjectIdentityRetrievalStrategyInterface $oidRetrievalStrategy, SecurityIdentityRetrievalStrategyInterface $sidRetrievalStrategy, PermissionMapInterface $permissionMap, LoggerInterface $logger = null, $allowIfObjectIdentityUnavailable = true)
     {
         $this->aclProvider = $aclProvider;
@@ -27,11 +53,27 @@ class AclVoter implements VoterInterface
         $this->allowIfObjectIdentityUnavailable = $allowIfObjectIdentityUnavailable;
     }
 
+    /**
+     * Whether voter supports attribute.
+     *
+     * @param string $attribute
+     *
+     * @return bool
+     */
     public function supportsAttribute($attribute)
     {
         return $this->permissionMap->contains($attribute);
     }
 
+    /**
+     * Vote
+     *
+     * @param TokenInterface $token
+     * @param object         $object
+     * @param array          $attributes
+     *
+     * @return int
+     */
     public function vote(TokenInterface $token, $object, array $attributes)
     {
         foreach ($attributes as $attribute) {

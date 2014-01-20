@@ -1,11 +1,27 @@
 <?php
 
+/**
+ * Zym Framework
+ *
+ * This file is part of the Zym package.
+ *
+ * @link      https://github.com/geoffreytran/zym for the canonical source repository
+ * @copyright Copyright (c) 2014 Geoffrey Tran <geoffrey.tran@gmail.com>
+ * @license   http://opensource.org/licenses/BSD-3-Clause BSD-3 License
+ */
+
 namespace Zym\Bundle\MediaBundle\CDN;
 
 use Symfony\Component\DependencyInjection\ContainerInterface;
 use \CF_Container as RackspaceContainer;
 use Symfony\Component\HttpFoundation\Request;
 
+/**
+ * Class RackspaceCloudfiles
+ *
+ * @package Zym\Bundle\MediaBundle\CDN
+ * @author  Geoffrey Tran <geoffrey.tran@gmail.com>
+ */
 class RackspaceCloudfiles implements CDNInterface
 {
     /**

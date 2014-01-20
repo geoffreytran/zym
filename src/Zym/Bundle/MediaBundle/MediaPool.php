@@ -1,10 +1,26 @@
 <?php
 
+/**
+ * Zym Framework
+ *
+ * This file is part of the Zym package.
+ *
+ * @link      https://github.com/geoffreytran/zym for the canonical source repository
+ * @copyright Copyright (c) 2014 Geoffrey Tran <geoffrey.tran@gmail.com>
+ * @license   http://opensource.org/licenses/BSD-3-Clause BSD-3 License
+ */
+
 namespace Zym\Bundle\MediaBundle;
 
 use Zym\Bundle\MediaBundle\Model\MediaInterface;
 use Zym\Bundle\MediaBundle\Provider\MediaProviderInterface;
 
+/**
+ * Class MediaPool
+ *
+ * @package Zym\Bundle\MediaBundle
+ * @author  Geoffrey Tran <geoffrey.tran@gmail.com>
+ */
 class MediaPool
 {
     /**

@@ -1,5 +1,15 @@
 <?php
 
+/**
+ * Zym Framework
+ *
+ * This file is part of the Zym package.
+ *
+ * @link      https://github.com/geoffreytran/zym for the canonical source repository
+ * @copyright Copyright (c) 2014 Geoffrey Tran <geoffrey.tran@gmail.com>
+ * @license   http://opensource.org/licenses/BSD-3-Clause BSD-3 License
+ */
+
 namespace Zym\Orm\Query\Ast\Functions;
 
 use Doctrine\ORM\Query\AST\Functions\FunctionNode;
@@ -7,9 +17,15 @@ use Doctrine\ORM\Query\Lexer;
 use Doctrine\ORM\Query\Parser;
 use Doctrine\ORM\Query\SqlWalker;
 
-class Radians extends FunctionNode
+/**
+ * Class CosFunction
+ *
+ * @package Zym\Orm\Query\Ast\Functions
+ * @author  Geoffrey Tran <geoffrey.tran@gmail.com>
+ */
+class CosFunction extends FunctionNode
 {
-    protected $arithmeticExpression;
+    public $arithmeticExpression;
 
     /**
      * Parse
@@ -18,6 +34,7 @@ class Radians extends FunctionNode
      */
     public function parse(Parser $parser)
     {
+
         $parser->match(Lexer::T_IDENTIFIER);
         $parser->match(Lexer::T_OPEN_PARENTHESIS);
 
@@ -34,8 +51,9 @@ class Radians extends FunctionNode
      */
     public function getSql(SqlWalker $sqlWalker)
     {
-        return 'RADIANS(' . $sqlWalker->walkSimpleArithmeticExpression(
+        return 'COS(' . $sqlWalker->walkSimpleArithmeticExpression(
                 $this->arithmeticExpression
         ) . ')';
     }
+
 }

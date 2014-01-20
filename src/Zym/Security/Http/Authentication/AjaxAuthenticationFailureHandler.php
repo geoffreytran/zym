@@ -1,5 +1,15 @@
 <?php
 
+/**
+ * Zym Framework
+ *
+ * This file is part of the Zym package.
+ *
+ * @link      https://github.com/geoffreytran/zym for the canonical source repository
+ * @copyright Copyright (c) 2014 Geoffrey Tran <geoffrey.tran@gmail.com>
+ * @license   http://opensource.org/licenses/BSD-3-Clause BSD-3 License
+ */
+
 namespace Zym\Security\Http\Authentication;
 
 use Psr\Log\LoggerInterface;
@@ -9,9 +19,19 @@ use Symfony\Component\HttpKernel\HttpKernelInterface;
 use Symfony\Component\Security\Core\Exception\AuthenticationException;
 use Symfony\Component\Security\Http\Authentication\DefaultAuthenticationFailureHandler;
 use Symfony\Component\Security\Http\HttpUtils;
+use Symfony\Component\Translation\TranslatorInterface;
 
+/**
+ * Class AjaxAuthenticationFailureHandler
+ *
+ * @package Zym\Security\Http\Authentication
+ * @author Geoffrey Tran <geoffrey.tran@gmail.com>
+ */
 class AjaxAuthenticationFailureHandler extends DefaultAuthenticationFailureHandler
 {
+    /**
+     * @var TranslatorInterface
+     */
     private $translator;
 
     /**
@@ -19,7 +39,7 @@ class AjaxAuthenticationFailureHandler extends DefaultAuthenticationFailureHandl
      * @param \Symfony\Component\Security\Http\HttpUtils        $httpUtils
      * @param array                                             $options
      * @param \Psr\Log\LoggerInterface                          $logger
-     * @param type                                              $translator
+     * @param TranslatorInterface                                              $translator
      */
     public function __construct(HttpKernelInterface $httpKernel, HttpUtils $httpUtils, array $options, LoggerInterface $logger = null, $translator = null)
     {

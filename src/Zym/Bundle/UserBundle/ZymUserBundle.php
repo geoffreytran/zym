@@ -1,14 +1,13 @@
 <?php
+
 /**
- * Zym
+ * Zym Framework
  *
- * LICENSE
+ * This file is part of the Zym package.
  *
- * This file is intellectual property of Zym and may not
- * be used without permission.
- *
- * @category  Zym
- * @copyright Copyright (c) 2011 Zym. (http://www.zym.com/)
+ * @link      https://github.com/geoffreytran/zym for the canonical source repository
+ * @copyright Copyright (c) 2014 Geoffrey Tran <geoffrey.tran@gmail.com>
+ * @license   http://opensource.org/licenses/BSD-3-Clause BSD-3 License
  */
 
 namespace Zym\Bundle\UserBundle;
@@ -16,10 +15,10 @@ namespace Zym\Bundle\UserBundle;
 use Symfony\Component\HttpKernel\Bundle\Bundle;
 
 /**
- * Zym User Bundle
+ * Class ZymUserBundle
  *
- * @author    Geoffrey Tran
- * @copyright Copyright (c) 2011 Zym. (http://www.zym.com/)
+ * @package Zym\Bundle\UserBundle
+ * @author  Geoffrey Tran <geoffrey.tran@gmail.com>
  */
 class ZymUserBundle extends Bundle
 {

@@ -1,4 +1,15 @@
 <?php
+
+/**
+ * Zym Framework
+ *
+ * This file is part of the Zym package.
+ *
+ * @link      https://github.com/geoffreytran/zym for the canonical source repository
+ * @copyright Copyright (c) 2014 Geoffrey Tran <geoffrey.tran@gmail.com>
+ * @license   http://opensource.org/licenses/BSD-3-Clause BSD-3 License
+ */
+
 namespace Zym\Bundle\RouterBundle\Entity;
 
 use Symfony\Component\Routing\Route as BaseRoute;
@@ -8,10 +19,10 @@ use Doctrine\ORM\Mapping as ORM;
 use Symfony\Component\Security\Acl\Model\DomainObjectInterface;
 
 /**
- * Route
+ * Class Route
  *
- * @author    Geoffrey Tran
- * @copyright Copyright (c) 2011 Zym. (http://www.rapp.com/)
+ * @package Zym\Bundle\RouterBundle\Entity
+ * @author  Geoffrey Tran <geoffrey.tran@gmail.com>
  *
  * @ORM\Entity(repositoryClass="Zym\Bundle\RouterBundle\Entity\RouteRepository")
  * @ORM\Table(

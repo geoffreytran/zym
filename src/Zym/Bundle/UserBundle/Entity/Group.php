@@ -1,28 +1,30 @@
 <?php
+
 /**
- * Zym
+ * Zym Framework
  *
- * LICENSE
+ * This file is part of the Zym package.
  *
- * This file is intellectual property of Zym and may not
- * be used without permission.
- *
- * @category  Zym
- * @copyright Copyright (c) 2011 Zym. (http://www.zym.com/)
+ * @link      https://github.com/geoffreytran/zym for the canonical source repository
+ * @copyright Copyright (c) 2014 Geoffrey Tran <geoffrey.tran@gmail.com>
+ * @license   http://opensource.org/licenses/BSD-3-Clause BSD-3 License
  */
 
 namespace Zym\Bundle\UserBundle\Entity;
 
-use Symfony\Component\HttpKernel\Bundle\Bundle,
-    Symfony\Component\DependencyInjection\ContainerBuilder,
-    FOS\UserBundle\Entity\Group as BaseGroup,
-    Doctrine\ORM\Mapping as ORM;
+use Symfony\Component\HttpKernel\Bundle\Bundle;
+use Symfony\Component\DependencyInjection\ContainerBuilder;
+use FOS\UserBundle\Entity\Group as BaseGroup;
+use Doctrine\ORM\Mapping as ORM;
+
 
 /**
- * User Group Entity
+ * Class Group
  *
- * @author    Geoffrey Tran
- * @copyright Copyright (c) 2011 Zym. (http://www.zym.com/)
+ * User group entity.
+ *
+ * @package Zym\Bundle\UserBundle\Entity
+ * @author  Geoffrey Tran <geoffrey.tran@gmail.com>
  *
  * @ORM\Entity(repositoryClass="GroupRepository")
  * @ORM\Table(name="groups")

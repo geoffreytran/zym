@@ -1,14 +1,13 @@
 <?php
+
 /**
- * RAPP
+ * Zym Framework
  *
- * LICENSE
+ * This file is part of the Zym package.
  *
- * This file is intellectual property of RAPP and may not
- * be used without permission.
- *
- * @category  RAPP
- * @copyright Copyright (c) 2011 RAPP. (http://www.rapp.com/)
+ * @link      https://github.com/geoffreytran/zym for the canonical source repository
+ * @copyright Copyright (c) 2014 Geoffrey Tran <geoffrey.tran@gmail.com>
+ * @license   http://opensource.org/licenses/BSD-3-Clause BSD-3 License
  */
 
 namespace Zym\Bundle\MenuBundle\Entity\MenuItem;
@@ -29,7 +28,7 @@ use Symfony\Bridge\Doctrine\Validator\Constraints\UniqueEntity;
  * Section Menu Item
  *
  * @author    Geoffrey Tran
- * @copyright Copyright (c) 2011 RAPP. (http://www.rapp.com/)
+ * @copyright Copyright (c) 2014 Geoffrey Tran <geoffrey.tran@gmail.com>
  *
  * @Gedmo\Tree(type="nested")
  *

@@ -1,23 +1,24 @@
 <?php
+
 /**
- * Zym
+ * Zym Framework
  *
- * LICENSE
+ * This file is part of the Zym package.
  *
- * This file is intellectual property of Zym and may not
- * be used without permission.
- *
- * @category  Zym
- * @copyright Copyright (c) 2011 Zym. (http://www.zym.com/)
+ * @link      https://github.com/geoffreytran/zym for the canonical source repository
+ * @copyright Copyright (c) 2014 Geoffrey Tran <geoffrey.tran@gmail.com>
+ * @license   http://opensource.org/licenses/BSD-3-Clause BSD-3 License
  */
 
 namespace Zym\Bundle\UserBundle\Model;
 
 /**
- * Timezone interface
+ * Interface TimeZoneInterface
  *
- * @author    Geoffrey Tran
- * @copyright Copyright (c) 2011 Zym. (http://www.zym.com/)
+ * For users that implement the ability to get/set their timezone.
+ *
+ * @package Zym\Bundle\UserBundle\Model
+ * @author  Geoffrey Tran <geoffrey.tran@gmail.com>
  */
 interface TimeZoneInterface
 {

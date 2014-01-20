@@ -1,14 +1,13 @@
 <?php
+
 /**
- * Zym
+ * Zym Framework
  *
- * LICENSE
+ * This file is part of the Zym package.
  *
- * This file is intellectual property of Zym and may not
- * be used without permission.
- *
- * @category  Zym
- * @copyright Copyright (c) 2011 Zym. (http://www.rapp.com/)
+ * @link      https://github.com/geoffreytran/zym for the canonical source repository
+ * @copyright Copyright (c) 2014 Geoffrey Tran <geoffrey.tran@gmail.com>
+ * @license   http://opensource.org/licenses/BSD-3-Clause BSD-3 License
  */
 
 namespace Zym\Bundle\UserBundle\Entity;
@@ -36,10 +35,10 @@ use FOS\UserBundle\Model\UserInterface;
 use FOS\UserBundle\Util\CanonicalizerInterface;
 
 /**
- * User Manager
+ * Class UserManager
  *
- * @author    Geoffrey Tran
- * @copyright Copyright (c) 2011 Zym. (http://www.rapp.com/)
+ * @package Zym\Bundle\UserBundle\Entity
+ * @author  Geoffrey Tran <geoffrey.tran@gmail.com>
  */
 class UserManager extends AbstractUserManager
 {

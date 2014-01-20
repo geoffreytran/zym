@@ -1,4 +1,15 @@
 <?php
+
+/**
+ * Zym Framework
+ *
+ * This file is part of the Zym package.
+ *
+ * @link      https://github.com/geoffreytran/zym for the canonical source repository
+ * @copyright Copyright (c) 2014 Geoffrey Tran <geoffrey.tran@gmail.com>
+ * @license   http://opensource.org/licenses/BSD-3-Clause BSD-3 License
+ */
+
 namespace Zym\Bundle\SecurityBundle\Entity;
 
 use Zym\Bundle\SecurityBundle\Http\AccessRuleInterface;
@@ -13,7 +24,7 @@ use Doctrine\Common\Collections\ArrayCollection;
  * Access Control Rules
  *
  * @author    Geoffrey Tran
- * @copyright Copyright (c) 2011 RAPP. (http://www.rapp.com/)
+ * @copyright Copyright (c) 2014 Geoffrey Tran <geoffrey.tran@gmail.com>
  *
  * @ORM\Entity(repositoryClass="AccessRuleRepository")
  * @ORM\Table(

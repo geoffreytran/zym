@@ -1,5 +1,15 @@
 <?php
 
+/**
+ * Zym Framework
+ *
+ * This file is part of the Zym package.
+ *
+ * @link      https://github.com/geoffreytran/zym for the canonical source repository
+ * @copyright Copyright (c) 2014 Geoffrey Tran <geoffrey.tran@gmail.com>
+ * @license   http://opensource.org/licenses/BSD-3-Clause BSD-3 License
+ */
+
 namespace Zym\Bundle\ThemeBundle\EventListener;
 
 use Zym\Bundle\ThemeBundle\ThemeManager;
@@ -7,6 +17,12 @@ use Symfony\Component\HttpKernel\Event\GetResponseEvent;
 use Symfony\Component\HttpKernel\Event\FilterResponseEvent;
 use Symfony\Component\HttpKernel\HttpKernelInterface;
 
+/**
+ * Class ThemeListener
+ *
+ * @package Zym\Bundle\ThemeBundle\EventListener
+ * @author  Geoffrey Tran <geoffrey.tran@gmail.com>
+ */
 class ThemeListener
 {
     /**
