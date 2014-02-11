@@ -186,10 +186,6 @@ abstract class Kernel extends BaseKernel
         } else if ($debug === null) {
             $debug = false;
         }
-        
-        if ($debug === true) {
-            Debug::enable();
-        }
 
         return $debug;
     }

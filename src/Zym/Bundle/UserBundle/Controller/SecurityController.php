@@ -75,7 +75,7 @@ class SecurityController extends Controller
         return array(
             'last_username' => $lastUsername,
             'error'         => $error,
-            'csrf_token' => $csrfToken,
+            'csrf_token'    => $csrfToken,
         );
     }
 
