@@ -38,6 +38,16 @@ class ZymFrameworkExtension extends Extension
      */
     public function load(array $configs, ContainerBuilder $container)
     {
+        $configuration = new Configuration();
+        $config = $this->processConfiguration($configuration, $configs);
+
+        $container->setParameter('zym_framework.form.rest_csrf.cookie.name',   $config['form']['rest_csrf']['cookie']['name']);
+        $container->setParameter('zym_framework.form.rest_csrf.cookie.expire', $config['form']['rest_csrf']['cookie']['expire']);
+        $container->setParameter('zym_framework.form.rest_csrf.cookie.path',   $config['form']['rest_csrf']['cookie']['path']);
+        $container->setParameter('zym_framework.form.rest_csrf.cookie.domain', $config['form']['rest_csrf']['cookie']['domain']);
+        $container->setParameter('zym_framework.form.rest_csrf.cookie.secure', $config['form']['rest_csrf']['cookie']['secure']);
+        $container->setParameter('zym_framework.form.rest_csrf.header.name',   $config['form']['rest_csrf']['header']['name']);
+
         $loader = new XmlFileLoader($container, new FileLocator(__DIR__.'/../Resources/config'));
         $loader->load('orm.xml');
         $loader->load('form_csrf.xml');

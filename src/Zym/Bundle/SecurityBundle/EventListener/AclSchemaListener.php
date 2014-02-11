@@ -13,6 +13,7 @@ namespace Zym\Bundle\SecurityBundle\EventListener;
 
 use Symfony\Bundle\SecurityBundle\EventListener\AclSchemaListener as BaseAclSchemaListener;
 use Symfony\Component\DependencyInjection\ContainerInterface;
+use Symfony\Component\Security\Acl\Dbal\Schema;
 use Doctrine\ORM\Tools\Event\GenerateSchemaEventArgs;
 use Doctrine\ORM\Tools\Event\GenerateSchemaTableEventArgs;
 
@@ -23,13 +24,13 @@ use Doctrine\ORM\Tools\Event\GenerateSchemaTableEventArgs;
  */
 class AclSchemaListener extends BaseAclSchemaListener
 {
-    private $container;
+    private $schema;
 
-    public function __construct(ContainerInterface $container)
+    public function __construct(Schema $schema)
     {
-        parent::__construct($container);
+        parent::__construct($schema);
 
-        $this->container = $container;
+        $this->schema = $schema;
     }
 
     public function postGenerateSchemaTable(GenerateSchemaTableEventArgs $args)

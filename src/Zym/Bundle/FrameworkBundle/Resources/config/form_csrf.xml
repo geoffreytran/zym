@@ -4,12 +4,24 @@
            xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
            xsi:schemaLocation="http://symfony.com/schema/dic/services http://symfony.com/schema/dic/services/services-1.0.xsd">
 
-    <!--
     <parameters>
+        <parameter key="zym_framework.rest_form_csrf_subscriber.class">Zym\Bundle\FrameworkBundle\EventListener\RestFormCsrfSubscriber</parameter>
     </parameters>
-    -->
 
     <services>
+        <service id="zym_framework.rest_form_csrf_subscriber" class="%zym_framework.rest_form_csrf_subscriber.class%">
+            <argument type="service" id="security.csrf.token_manager" />
+
+            <argument>%zym_framework.form.rest_csrf.header.name%</argument>
+            <argument>%zym_framework.form.rest_csrf.cookie.name%</argument>
+            <argument>%zym_framework.form.rest_csrf.cookie.expire%</argument>
+            <argument>%zym_framework.form.rest_csrf.cookie.path%</argument>
+            <argument>%zym_framework.form.rest_csrf.cookie.domain%</argument>
+            <argument>%zym_framework.form.rest_csrf.cookie.secure%</argument>
+
+            <tag name="kernel.event_subscriber" />
+        </service>
+
         <service id="form.type_extension.csrf" class="Zym\Bundle\FrameworkBundle\Form\Extension\Csrf\Type\RestFormTypeCsrfExtension">
             <tag name="form.type_extension" alias="form" />
 

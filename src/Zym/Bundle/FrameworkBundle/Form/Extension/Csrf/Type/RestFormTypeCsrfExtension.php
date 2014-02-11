@@ -23,11 +23,6 @@ use Symfony\Component\Translation\TranslatorInterface;
 class RestFormTypeCsrfExtension extends FormTypeCsrfExtension
 {
     /**
-     * @var Request
-     */
-    private $request;
-
-    /**
      * Construct
      *
      * @param CsrfProviderInterface $defaultCsrfProvider
@@ -39,7 +34,9 @@ class RestFormTypeCsrfExtension extends FormTypeCsrfExtension
      */
     public function __construct(CsrfProviderInterface $defaultCsrfProvider, $defaultEnabled = true, $defaultFieldName = '_token', TranslatorInterface $translator = null, $translationDomain = null, Request $request = null)
     {
-        if ($request->isXmlHttpRequest() || $request->getRequestFormat() !== 'html') {
+        // Check if we have a valid CSRF Token from RestFormCsrfSubscriber, if so turn off CSRF protection by default
+        // This allows controllers to force their own CSRF protection for forms that require extra security.
+        if ($request->attributes->has('_rest_csrf_valid') && $request->attributes->get('_rest_csrf_valid') == true) {
             $defaultEnabled = false;
         }
 
