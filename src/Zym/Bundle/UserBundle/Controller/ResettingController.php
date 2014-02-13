@@ -62,7 +62,8 @@ class ResettingController extends Controller
      *     defaults={
      *         "_format" = "html"
      *     },
-     *     methods={"GET", "POST"}
+     *     methods={"GET", "POST"},
+     *     options={"expose" = true}
      * )
      *  @Route(
      *     ".{_format}",
@@ -70,7 +71,8 @@ class ResettingController extends Controller
      *     defaults={
      *         "_format" = "html"
      *     },
-     *     methods={"GET", "POST"}
+     *     methods={"GET", "POST"},
+     *     options={"expose" = true}
      * )
      * @View()
      * @ApiDoc(
@@ -140,7 +142,8 @@ class ResettingController extends Controller
      *     defaults={
      *         "_format" = "html"
      *     },
-     *     methods={"POST"}
+     *     methods={"POST"},
+     *     options={"expose" = true}
      * )
      * @View()
      * @ApiDoc(
@@ -189,7 +192,8 @@ class ResettingController extends Controller
      *     defaults={
      *         "_format" = "html"
      *     },
-     *     methods={"GET"}
+     *     methods={"GET"},
+     *     options={"expose" = true}
      * )
      * @Route(
      *     "check-email.{_format}",
@@ -197,7 +201,8 @@ class ResettingController extends Controller
      *     defaults={
      *         "_format" = "html"
      *     },
-     *     methods={"GET"}
+     *     methods={"GET"},
+     *     options={"expose" = true}
      * )
      * @View()
      */
@@ -226,7 +231,8 @@ class ResettingController extends Controller
      *     defaults={
      *         "_format" = "html"
      *     },
-     *     methods={"GET", "POST"}
+     *     methods={"GET", "POST"},
+     *     options={"expose" = true}
      * )
      * @Route(
      *     "reset/{token}.{_format}",
@@ -234,7 +240,8 @@ class ResettingController extends Controller
      *     defaults={
      *         "_format" = "html"
      *     },
-     *     methods={"GET", "POST"}
+     *     methods={"GET", "POST"},
+     *     options={"expose" = true}
      * )
      * @View()
      * @ApiDoc(
