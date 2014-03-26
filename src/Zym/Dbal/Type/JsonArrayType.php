@@ -41,9 +41,9 @@ class JsonArrayType extends Types\JsonArrayType
         $value = (is_resource($value)) ? stream_get_contents($value) : $value;
     
         $return = json_decode($value, true);
-        
+
         // Determine if this field has PHP serialized data instead
-        if (json_last_error() === JSON_ERROR_SYNTAX && $this->isSerialized($value)) {
+        if (json_last_error() === \JSON_ERROR_SYNTAX && $this->isSerialized($value)) {
             return unserialize($value);
         }
         

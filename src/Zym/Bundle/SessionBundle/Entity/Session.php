@@ -17,7 +17,7 @@ use Doctrine\ORM\Mapping as ORM;
 /**
  * Zym\Bundle\SessionBundle\Entity\Session
  *
- * @ORM\Table(name="sessions")
+ * @ORM\Table(name="sessions", indexes={ @ORM\Index(name="time_idx", columns={"time"}) })
  * @ORM\Entity(repositoryClass="SessionRepository")
  */
 class Session
