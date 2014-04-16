@@ -47,7 +47,7 @@ class WorkerCommand extends ContainerAwareCommand
             'APP_INCLUDE'   => $this->getContainer()->getParameter('zym_resque.resque.vendor_dir') . '/autoload.php',
             'VVERBOSE'      => $input->getOption('verbose'),
             'QUEUE'         => $input->getArgument('queues'),
-            'INTERVAL'      => $input->getOption('interval'),
+            'INTERVAL'      => (int)$input->getOption('interval'),
             'REDIS_BACKEND' => sprintf(
                 '%s:%s',
                 $container->getParameter('zym_resque.resque.redis.host'),
