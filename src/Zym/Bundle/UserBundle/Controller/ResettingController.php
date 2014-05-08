@@ -180,6 +180,9 @@ class ResettingController extends Controller
         $user->setPasswordRequestedAt(new \DateTime());
         $this->container->get('fos_user.user_manager')->updateUser($user);
 
+        // Issue with session not being saved completely before the redirect happens.
+        $this->container->get('session')->save();
+
         return new RedirectResponse($this->container->get('router')->generate('fos_user_resetting_check_email'));
     }
 
