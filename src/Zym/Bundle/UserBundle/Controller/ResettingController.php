@@ -127,6 +127,10 @@ class ResettingController extends Controller
 
             $user->setPasswordRequestedAt(new \DateTime());
             $userManager->updateUser($user);
+
+            // Issue with session not being saved completely before the redirect happens.
+            $this->container->get('session')->save();
+            
             return ViewResponse::createRouteRedirect('zym_user_resetting_check_email', array('_format' => $request->getRequestFormat()));
         }
 
