@@ -36,7 +36,7 @@ class RestFormTypeCsrfExtension extends FormTypeCsrfExtension
     {
         // Check if we have a valid CSRF Token from RestFormCsrfSubscriber, if so turn off CSRF protection by default
         // This allows controllers to force their own CSRF protection for forms that require extra security.
-        if ($request->attributes->has('_rest_csrf_valid') && $request->attributes->get('_rest_csrf_valid') == true) {
+        if ($request->getMethod() != 'GET' && $request->attributes->has('_rest_csrf_valid') && $request->attributes->get('_rest_csrf_valid') == true) {
             $defaultEnabled = false;
         }
 
