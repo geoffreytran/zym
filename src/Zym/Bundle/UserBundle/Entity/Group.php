@@ -12,11 +12,12 @@
 
 namespace Zym\Bundle\UserBundle\Entity;
 
+use Doctrine\Common\Collections\ArrayCollection;
 use Symfony\Component\HttpKernel\Bundle\Bundle;
 use Symfony\Component\DependencyInjection\ContainerBuilder;
 use FOS\UserBundle\Entity\Group as BaseGroup;
 use Doctrine\ORM\Mapping as ORM;
-
+use Symfony\Component\Security\Core\User\UserInterface;
 
 /**
  * Class Group
@@ -39,6 +40,15 @@ class Group extends BaseGroup
     protected $id;
 
     /**
+     * @ORM\ManyToMany(targetEntity="Zym\Bundle\UserBundle\Entity\User", cascade={"all"}, mappedBy="groups")
+     * @ORM\JoinTable(name="user_groups",
+     *      joinColumns={@ORM\JoinColumn(name="group_id", referencedColumnName="id", onDelete="CASCADE")},
+     *      inverseJoinColumns={@ORM\JoinColumn(name="user_id", referencedColumnName="id", onDelete="CASCADE")}
+     * )
+     */
+    protected $users;
+
+    /**
      * Construct
      *
      * @param string $name
@@ -48,5 +58,39 @@ class Group extends BaseGroup
     {
         $this->name = $name;
         $this->roles = $roles;
+
+        $this->users = new ArrayCollection();
+    }
+
+    /**
+     * @param mixed $users
+     */
+    public function setUsers($users)
+    {
+        $this->users = $users;
+    }
+
+    /**
+     * @return mixed
+     */
+    public function getUsers()
+    {
+        return $this->users;
+    }
+
+    /**
+     * @param UserInterface $user
+     */
+    public function addUser(UserInterface $user)
+    {
+        $this->users->add($user);
+    }
+
+    /**
+     * @param UserInterface $user
+     */
+    public function removeUser(UserInterface $user)
+    {
+        $this->users->removeElement($user);
     }
 }

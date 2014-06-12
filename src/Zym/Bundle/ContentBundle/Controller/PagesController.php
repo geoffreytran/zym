@@ -198,7 +198,7 @@ class PagesController extends Controller
      *     section="Pages"
      * )
      */
-    public function showAction(Entity\Page $page)
+    public function showAction(Page $page)
     {
         return array('page' => $page);
     }
@@ -259,7 +259,7 @@ class PagesController extends Controller
      *     }
      * )
      */
-    public function editAction(Entity\Page $page)
+    public function editAction(Page $page)
     {
         $request = $this->getRequest();
 
@@ -325,7 +325,7 @@ class PagesController extends Controller
      *     section="Pages"
      * )
      */
-    public function deleteAction(Entity\Page $page)
+    public function deleteAction(Page $page)
     {
         $request = $this->getRequest();
 

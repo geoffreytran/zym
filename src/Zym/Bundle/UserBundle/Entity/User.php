@@ -83,7 +83,7 @@ class User extends    BaseUser
     protected $email;
 
     /**
-     * @ORM\ManyToMany(targetEntity="Zym\Bundle\UserBundle\Entity\Group")
+     * @ORM\ManyToMany(targetEntity="Zym\Bundle\UserBundle\Entity\Group", cascade={"all"}, inversedBy="users")
      * @ORM\JoinTable(name="user_groups",
      *      joinColumns={@ORM\JoinColumn(name="user_id", referencedColumnName="id", onDelete="CASCADE")},
      *      inverseJoinColumns={@ORM\JoinColumn(name="group_id", referencedColumnName="id", onDelete="CASCADE")}
