@@ -17,7 +17,10 @@ use Doctrine\ORM\Mapping as ORM;
 /**
  * Zym\Bundle\SessionBundle\Entity\Session
  *
- * @ORM\Table(name="sessions", indexes={ @ORM\Index(name="time_idx", columns={"time"}) })
+ * @ORM\Table(name="sessions", indexes={
+ *    @ORM\Index(name="time_idx", columns={"time"}),
+ *    @ORM\Index(name="lifetime_idx", columns={"lifetime"})
+ * })
  * @ORM\Entity(repositoryClass="SessionRepository")
  */
 class Session
@@ -43,6 +46,13 @@ class Session
      * @ORM\Column(name="time", type="integer")
      */
     protected $time;
+
+    /**
+     * @var integer $lifetime
+     *
+     * @ORM\Column(name="lifetime", type="integer")
+     */
+    protected $lifetime;
 
     /**
      * Get id
@@ -96,5 +106,21 @@ class Session
     public function getTime()
     {
         return $this->time;
+    }
+
+    /**
+     * @return int
+     */
+    public function getLifetime()
+    {
+        return $this->lifetime;
+    }
+
+    /**
+     * @param int $lifetime
+     */
+    public function setLifetime($lifetime)
+    {
+        $this->lifetime = $lifetime;
     }
 }

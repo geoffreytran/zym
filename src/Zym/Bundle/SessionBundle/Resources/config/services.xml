@@ -11,6 +11,7 @@
             <parameter key="db_id_col">id</parameter>
             <parameter key="db_data_col">value</parameter>
             <parameter key="db_time_col">time</parameter>
+            <parameter key="db_lifetime_col">lifetime</parameter>
         </parameter>
         
         <parameter key="zym_session.storage.handler.pdo.params" type="collection">
